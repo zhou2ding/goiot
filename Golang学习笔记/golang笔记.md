@@ -1465,6 +1465,8 @@ func main() {
 
 ## 原子操作 atomic包
 
+> 作用于基本数据类型，进行一些并发安全的操作
+
 - 读取`Load`：Int32、64，UInt32、64，UIntPtr、Pointer，**接收的是指针**
 - 写入`Store`：同上
 - 修改`Add`：同上
@@ -1472,6 +1474,27 @@ func main() {
 - 比较并交换`CompareAndSwap`：同上
 
 # day05
+
+## HTTP
+
+![1618305867034](D:\资料\Go\src\studygo\Golang学习笔记\golang笔记.assets\1618305867034.png)
+
+```go
+func homeHandlerfunc(w http.ResponseWriter, r *http.Request) {
+	str := `<h1 style="color:red">Hello DQ!<h1>`
+	w.Write([]byte(str))
+}
+
+func main() {
+	http.HandleFunc("/home", homeHandlerfunc)
+    // 0.0.0.0表示全网都可以访问
+	err := http.ListenAndServe("0.0.0.0:9090", nil)
+	if err != nil {
+		fmt.Printf("start http server failed, error:%v", err)
+		return
+	}
+}
+```
 
 ## 单元测试
 
