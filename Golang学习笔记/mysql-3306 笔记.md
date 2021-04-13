@@ -1,0 +1,973 @@
+# 前言
+
+## 连接错误解决办法
+
+**1. 查看用户信息**
+
+select host,user,plugin,authentication_string from mysql.user;
+
+![img](https://img-blog.csdn.net/20180609145407985?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTI2MDQ3NDU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+
+**备注：**host为 % 表示不限制ip  localhost表示本机使用  plugin非mysql_native_password 则需要修改密码
+
+**2. 修改用户密码**
+
+ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '123456';
+
+更新user为root，host为% 的密码为123456
+
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '123456';
+更新user为root，host为localhost 的密码为123456
+
+## 修改root密码
+
+**方法1： 用ALTER USER命令** 
+
+ `ALTER USER 'root'@'localhost' IDENTIFIED BY '你的新密码'; `
+
+**方法2：如果忘记密码,强行修改:**
+
+1. 停止Mysql服务 `sudo /usr/local/mysql/support-files/mysql.server stop`
+
+2. 进入终端输入：`cd /usr/local/mysql/bin/ `回车后;
+   登录管理员权限`sudo su `回车后;
+   输入以下命令来禁止mysql验证功能 `./mysqld_safe --skip-grant-tables &  回车`后mysql会自动重启（偏好设置中mysql的状态会变成running）
+
+3. 输入命令` ./mysql` 回车后，输入命令`FLUSH PRIVILEGES`;
+
+   回车后，输入命令 `LTER USER 'root'@'localhost' IDENTIFIED BY '你的新密码';`
+   
+4. 密码`564710`
+## sql语句执行顺序
+
+1. from
+2. join
+3. on
+4. where
+5. group by (开始使用select中的别名，后面的语句中都可以使用)
+6. 分组函数
+7. having
+8. select as
+9. distinct
+10. order by
+11. limit
+
+# day01
+
+## 命令行启停
+
+`net start 服务名称`
+
+`net stop 服务名称`
+
+## 语句分类
+
+DQL：select
+
+DML：insert delete update
+
+DDL：create drop alter
+
+TCL：commit rollback
+
+DCL：grant revoke
+
+## 常用命令
+
+`mysql -uroot -p5023152` 登录
+
+`exit` 退出
+
+`show databases;` 显示数据库
+
+`crate database bjpowernode；` 创建数据库
+
+`use bjpowernode;` 使用数据库
+
+`source D:\learn\bjpowernode.sql;` 导入数据
+
+`show tables;` 显示表
+
+`select * from dept;` 查看表的全部内容
+
+`desc dept；` 查看表结构
+
+`select version()` 查看mysql版本
+
+`select database()` 查看当前的数据库
+
+`system cls` 清屏
+
+`source xxx.sql（绝对路径）;` 批量执行sql语句，xxx.sql是sql脚本文件
+
+`show create table 表名;` 查看建表语句
+
+## 注意
+
+对于SQL语句来说，是通用的；
+
+不区分大小写；
+
+所有的SQL语句都是以分号结尾；
+
+数据库中，NULL和任何值数学运算结果都为null
+
+## 查询(DQL)
+
+### 简单查询
+
+`select 字段名 from 表名;`
+
+`select 字段1,字段2 from 表名`
+
+`select * from 表名` -- 效率低，可读性差，在代码中不写。想查询所有字段，可以把所有字段写上。
+
+`select 字段1 as A,字段2 as B from 表名` 起别名，只是将查询的结果的列名显示为别名，不影响原名；
+
+1. 备注：
+   - as可以省略
+   - 可以用单引号或双引号把别名括起来。
+   - 在所用数据库中，字符串统一用单引号括起来，在Oracle中双引号用不了
+
+2. 字段可以用数据表达式
+3. 别名是中文，需要用单引号括起来
+
+### 条件查询
+
+``` mysql
+select
+	字段1,字段2,字段3...
+from
+	表名
+where
+	条件;
+```
+
+符号：
+
+| 等于 | 不等于 | 小于 | 大于 | 小于等于 | 大于等于 |
+| :--: | :----: | :--: | :--: | :------: | :------: |
+|  =   | <>或!= |  <   |  >   |    <=    |    >=    |
+
+|           之间           |                   为null                    |  不为null   | 并且 | 或者 |        多个或        | 取非        |
+| :----------------------: | :-----------------------------------------: | :---------: | :--: | :--: | :------------------: | ----------- |
+|     >= ... and <=...     |                   is null                   | is not null | and  |  or  |      in(a,b,c)       | not in      |
+|   between ... and ...    |                =null是不行的                |  0不是null  |      |      | 等价于or a or b or c | is not null |
+| 必须左小又大，且是闭区间 | 数据库中null代表空，不是一个值，不能用=比较 |             |      |      |                      |             |
+
+1. and和or同时出现，先执行and，不确定优先级，加小括号
+   
+2. 模糊查询：like
+   * %代表任意多个字符
+   * _代表任意一个字符
+   * \可以转义特殊字符
+   
+### 例外
+
+   select 字面值 from table;
+
+   得到的结果是一列内容全是字面值的查询结果。
+
+   
+
+## 排序
+
+``` mysql
+mysql> select
+    -> ename,sal
+    -> from
+    -> emp
+    -> order by
+    -> sal desc;
+```
+
+- desc：降序
+
+- asc：升序
+
+- 省略：默认升序
+
+- order by后可以跟多个字段，用`,`隔开（第一个字段主导，当第一个字段值相等时，再启用第二个字段）
+- order by 必须在wher后面
+
+## 单行处理函数（数据处理函数）
+
+**1. 特点：**一个输入对应一个输出；
+
+**2. 常用的单行处理函数：**
+
+   - `lower`转换成小写
+   
+   - `upper`转换成大写
+   
+   - `substr`截取字符串（`substr（字段名，起始位置，长度)`)，起始位置从1开始，没有0
+   
+   - `concat`拼接字符串（`concat(字段1，字段2)`）
+   
+   - `length`字符串长度
+   
+   - `trim`去除前后空白
+   
+   - `rouond`四舍五入（`round(数字，保留几位小数)`，0为个位，-1为十位）
+   
+   - `rand`小于1的随机数
+   
+   - `ifnull`处理null（`ifnull(字段，值)`，字段为null时，把它当做值）
+   
+   - `format(数字,'格式')` 数字格式化：`select ename,format(sal,'$999,999') from emp;`
+   
+   - `case...when...then...when...then...else...end`
+   
+     ```mysql
+     // 当job是manager时，sal*1.1；
+     // 当job是salesman时，sal*1.5;
+     // 其他情况sal不变
+     select
+     	ename,job,sal as oldsal,
+     (case job
+     when 'manager' then sal*1.1 when 'salesman' then sal*1.5 else sal end)
+     as newsal
+     from
+     	emp;
+     	
+     +--------+-----------+---------+---------+
+     | ename  | job       | oldsal  | newsal  |
+     +--------+-----------+---------+---------+
+     | SMITH  | CLERK     |  800.00 |  800.00 |
+     | ALLEN  | SALESMAN  | 1600.00 | 2400.00 |
+     | WARD   | SALESMAN  | 1250.00 | 1875.00 |
+     | JONES  | MANAGER   | 2975.00 | 3272.50 |
+     | MARTIN | SALESMAN  | 1250.00 | 1875.00 |
+     | BLAKE  | MANAGER   | 2850.00 | 3135.00 |
+     | CLARK  | MANAGER   | 2450.00 | 2695.00 |
+     | SCOTT  | ANALYST   | 3000.00 | 3000.00 |
+     | KING   | PRESIDENT | 5000.00 | 5000.00 |
+     | TURNER | SALESMAN  | 1500.00 | 2250.00 |
+     | ADAMS  | CLERK     | 1100.00 | 1100.00 |
+     | JAMES  | CLERK     |  950.00 |  950.00 |
+     | FORD   | ANALYST   | 3000.00 | 3000.00 |
+     | MILLER | CLERK     | 1300.00 | 1300.00 |
+     +--------+-----------+---------+---------+
+     ```
+     
+
+## 分组函数（多行处理函数）
+
+**1. 特点：**多个输入对应一个输出。
+
+**2. 注意：**
+
+   - 分组函数在使用的时候必须先进行分组，然后才能使用。
+
+   - 如果没有对数据分组，整张表默认为一组。
+   - 分组函数自动忽略null。
+   - 分组函数不能直接使用在where字句中（group by执行顺序在where之后，而分组函数执行又必须先分组）。
+   - 所有的分组函数可以组合起来一起用。
+
+**3. 常用分组函数：**
+
+   - `count` 计数
+     - `count(字段)`：统计该字段下所有不为null的元素的总数
+     - `count(*)`：统计表中的总行数（因为一行中所有元素都为null的数据不存在）
+   - `sum` 求和
+   - `avg` 求平均
+   - `max` 求最大值
+   - `min` 求最小值
+
+## 分组查询
+
+**场景：**先对数据分组，再对每一组数据进行操作。
+
+   ```mysql
+   select
+   	...
+   from
+   	...
+   group by
+	...
+   order by
+	...
+   ```
+
+**重点结论：**
+
+在一条select语句中，如果有group by语句的话，select后面只能跟参加分组的字段，以及分组函数，其他都不能跟。
+
+**tags：**
+
+每个、不同 ≈ group by的字段
+
+**having子句**：
+
+分组之后再筛选，避免了where写在group by之后和在where之后出现分组函数的情况。
+
+但是执行效率较低，可以先筛选（根据不同字段筛选而不是分组函数），再分组；优先where，再having，where用不了的情况下再having，比如筛选的条件是要用分组函数操作的。
+
+eg：`select deptno, max(sal) from emp where sal > 3000 group by deptno;`
+
+# day02-1
+
+## 数据去重
+
+`select distinct 字段1,字段2 from table`
+
+- distinct只能出现在字段之前
+- 出现在多个字段之前则是字段联合起来后去重
+
+## 连接查询（跨表查询）
+
+### 注意点
+
+#### 连接查询的分类
+
+   - 按年代分类：
+     - SQL92
+     - SQL99
+   - 按连接方式分类：
+     - 内连接
+       - 等值连接
+       - 非等值连接
+       - 自连接
+     - 外连接
+       - 左外连接（左连接）
+       - 右外连接（右连接）
+       - 全连接（很少用）
+
+#### 笛卡尔积现象
+
+   - 现象：当两张表进行连接查询，没有任何条件限制的时候，最终查询结果的条数，是两张表条数的乘积
+
+     `select ename,dname from emp,dept;`
+
+   - 避免：连接查询时加条件，满足这个条件的记录再筛选出来
+
+     `select ename,dname frome emp,dept where emp.deptno = dept.deptno;`
+
+   - 提高效率：
+
+        - 如上方法匹配次数和不做限制相比并没有减少，要给表起别名后用`别名.字段`来查询   
+        
+       ```mysql
+       select
+       	e.ename,d.dname
+       from
+       	emp e, dept d
+       where
+       	e.deptno = d.deptno
+       ```
+     - 尽量避免表的连接次数（连接次数=表A条数 \* 表B次 * 表c次数）
+     
+### 内连接
+
+#### 注意点
+
+两张表没有主次关系
+
+#### 等值连接
+
+- SQL92语法
+
+  ```mysql
+  #缺点：结构不清晰，表的连接条件和后期进一步筛选的条件，都放到了where后面。
+  select
+  	e.ename,d.dname
+  from
+  	emp e, dept d
+  where
+  	e.deptno = d.deptno;
+  ```
+
+- SQL99语法
+
+  ```mysql
+  #优点：表连接的条件是独立的，连接之后若需进一步筛选，再往后继续添加where。
+  #查询每个员工的部门名称
+  select
+  	e.name,d.name
+  from
+  	emp e
+  inner join #inner可省略，带着inner可读性更好，一眼能看出来是内连接
+  	dept d
+  on
+  	e.deptno = d.deptno;  #条件是等量关系，所以被称为等值连接
+  ```
+
+#### 非等值连接
+
+```mysql
+#查询每个员工的工资等级
+select
+	e.ename,e.sal,s.grade
+from
+	emp e
+inner join
+	salgrade s
+on
+	e.sal between s.losal and s.hisal; #条件不是一个等量关系，称为非等值连接
+```
+
+#### 自连接
+
+```mysql
+#查询每个员工上级领导的名字
+select
+	a.ename as '员工名',b.ename as '领导名'
+from
+	emp a
+inner join
+	emp b
+on
+a.mgr = b.empno; #技巧：自连接，一张表看成两张表
+```
+
+### 外连接
+
+#### 注意点：
+
+- 两张表存在着主次关系
+
+- 将join关键字左边 / 右边这张表看成主表，主要是为了将这张表的数据全部查询出来，捎带着连接查询右边 / 左边的表
+
+- 任何一个右连接 / 左连接都有左连接 / 右连接的写法
+
+- 外连接的结果条数必定 >= 内连接的结果条数
+
+#### 右外连接
+
+right join，右表是主表
+
+```mysql
+select
+	e.ename,d.dname
+from
+	emp e
+right outer join #outer可以省略，带着可读性强
+	dept d
+on
+	e.deptno = d.deptno
+```
+
+#### 左外连接
+
+  left join，左表是主小
+
+  ```mysql
+  select
+  	e.ename,d.dname
+  from
+  	dept d
+  left outer join #outer可以省略，带着可读性强
+  	emp e
+  on
+  	e.deptno = d.deptno
+  ```
+
+### 多表连接
+
+```mysql
+select
+	...
+from
+	a
+join
+	b
+on
+	a和b的连接条件
+left join
+	c
+on
+	a和c的连接条件
+```
+
+- 案例1
+
+  ```mysql
+  # 找出每个员工的部门名和薪资等级，要求显示员工名、部门名、薪资、薪资等级
+  select
+  	e.ename,e.sal,d.dname,s.grade
+  from
+  	emp e
+  join
+  	dept d
+  on
+  	e.deptno = d.deptno
+  join
+  	salgrade s
+  on
+  	e.sal between s.losal and hisal;
+  ```
+
+- 案例2
+
+  ```mysql
+  # 找出每个员工的部门名、薪资等级和上级领导，要求显示员工名、领导名、部门名、薪资、薪资等级
+  select
+  	e.ename,e2.ename,e.sal,d.dname,s.grade
+  from
+  	emp e
+  join
+  	dept d
+  on
+  	e.deptno = d.deptno
+  join
+  	salgrade s
+  on
+  	e.sal between s.losal and hisal
+  left join
+  	emp e2
+  on
+  	e.mgr = e2.empno;
+  ```
+
+## 子查询
+
+### 注意点
+
+- select语句中嵌套select语句，被嵌套的select语句被称为子查询
+- 可以出现在select、from、whre后面
+
+### where子句中的子查询
+
+```mysql
+#找出工资比最低工资高的员工，显示员工名和薪资
+select
+	ename,sal
+from
+	emp
+where
+	sal > (select min(sal) from emp);
+```
+
+### from子句中的子查询
+
+```mysql
+#from后面的子查询，可以将子查询的结果当做一张临时表
+#找出每个岗位的平均工资的薪资等级
+select
+	t.*,s.grade
+from
+	(select job,avg(sal) as avgSal from emp group by job) t
+join
+	salgrade s
+on t.avgSal between s.losal and s.hisal;
+```
+
+### select子句中的子查询（了解，不掌握）
+
+```mysql
+#找出每个员工的部门名称，要求显示员工名，部门名
+#缺陷：对于select后面的子查询，这个子查询只能一次返回一条结果，多于一条及报错
+select
+	e.ename,(select d.dname from dept d where e.deptno = d.deptno) as dname
+from
+	emp;
+```
+## 查询收尾
+
+### union
+
+- 效率高一些：
+  - join：对于表连接来说，每连接一次新表，则匹配的次数满足笛卡尔积现象，成倍的翻；
+  - union：但是union可以减少匹配的次数。在减少次数的情况下，还能完成两个结果集的拼接。
+  - eg：a 连接 b 连接 c，a、b、c均10条记录
+    - 连接查询的匹配次数是1000次
+    - a连接b，100次，a连接c100次，union之后200次
+
+- 注意事项：
+
+  - 合并的时候，被合并结果集的列数必须相同
+  - 结果集的列的数据类型也必须相同（mysql不报错，Oracle会报错）
+
+  ```mysql
+  #简单案例
+  select ename,job from emp where job = 'manager'
+  union
+  select ename,job from emp where job = 'salesman'
+  ```
+
+  
+
+### limit
+
+- 概述：将查询结果的一部分取出来，通常使用在分页查询当当中。
+- 使用：
+  - 完整用法：`limit startIndex, lengh`，startIndex是起始下标，从0开始；length是长度
+  - 缺省用法：`limit n`，取前n条
+- 注意：limit在order by之后执行
+
+### 分页
+
+- 每页显示pageSize条记录，第pageNo页：`limit (pagaNo - 1) * pageSize, pageSize`
+
+# day02-2
+
+## 表的创建(DDL)
+
+### 概述
+
+- 语法格式：`crate table 表名(字段名1 数据类型, 自动名2 数据类型, 自动名3 数据类型);`
+  - 表名：以`t_`开始或`tbl_`开始
+  - 字段名：见名知意
+  - 建表的时候可以指定默认值，在数据类型后跟`default xxx`
+- 数据类型：
+  - varchar：可变长度字符串，会根据实际的数据长度动态地分配空间，但速度慢（最长255）
+  - char：定长字符串，分配固定长度的空间去存储数据，速度快，但可能会造成空间浪费（255）
+  - int：整形（最长11位）
+  - bigint：长整形
+  - double：双精度浮点型
+  - float：单精度浮点型
+  - date：短日期
+  - datetime：长日期
+  - clob：字符大对象，最多可以存4G的字符串（超过255个字符的都要采用存储clob）
+  - blob：二进制大对象
+    - 专门用来存储图片、声音、视频等流媒体数据
+    - 往blog类型的字段上插入数据需要使用IO流
+
+```mysql
+#案例
+create table t_student(
+	no int,
+    name varchar(32),
+    sex char(1) default 'm',
+    age int(3),
+    email varchar(255)
+);
+```
+
+### 插入数据（DML）
+
+#### 插入日期
+
+- 语法格式：`insert into 表名(字段1,字段2,字段3) values(值1,值2,值3)`
+- 注意
+  - 字段名要和值一一对应（数量、数据类型要对应）
+  - insert语句但凡执行成功，必然会多一条记录，没有给其他字段指定值的话，默认值是NULL或建表时给的默认值
+  - **省略字段名的话等于都写上了，所以值都得写上**
+- 操作日期的单行处理函数
+  - `str_to_date('日期字符串','日期格式')`
+    - 将字符串varchar转换成date，通常在插入时使用
+    - 如果提供的字符串是`'%Y-%m-%d'`，则可以不用此函数
+  - `date _format(date类型数据,'日期格式')`
+    - 将date转换成具有特定格式的varchar，通常在查询时使用
+    - 不使用时，mysql会默认进行格式化，采用默认格式（`%Y-%m-%d`）
+  - 日期格式
+    - %Y 年
+    - %m 月
+    - %d 日
+    - %h 时
+    - %i 分
+    - %s 秒
+  - 日期默认格式
+    - 短日期：`%Y-%m-%d`，按长日期格式插入时，会省略时分秒
+    - 长日期：`%Y-%m-%d %h:Hi:%s`
+
+#### 插入多条数据
+
+`insert into 表名(字段1,字段2,字段3) values(值1,值2,值3),(值1,值2,值3),(值1,值2,值3)`
+
+### 修改数据
+
+- 语法格式：`update 表名 set 字段1=值1,字段2=值2 where 条件`
+- 注意：没有条件会使所有数据都被改了
+
+### 删除数据
+
+- 语法格式：`delete from 表名 where 条件`
+- 注意：没有条件，整张表的数据都会被删除
+
+## 表的删除
+
+建议命令：`drop table if exists 表名`
+
+## DDL顺序
+
+- 删除表：先子后父
+- 创建表：先父后子
+- 删除数据：先子后父
+- 插入数据：先父后子
+
+## 快速创建表（表的复制）（了解）
+
+- 整张表复制 `create table 表名2 as select * from 表名1`
+- 部分表复制`create table 表名2 as select 语句 from 表名1`
+- `insert into 表名2 select * from 表名1` 把查询结果插入表中（查询结果列数、数据类型必须和表2一样）
+
+## 快速删除表的数据
+
+- `delete from 表名` 
+  - 速度慢，但可以回滚
+  - 删除数据后，存储数据的空间还在
+- `truncate table 表名`
+  - 效率高，表呗一次截断，物理删除
+  - 不支持回滚
+
+## 表结构的增删改（实际开发很少出现）
+
+- 添加字段、删除字段、修改字段
+- 使用alter
+- 了解，一般用工具操作
+
+# day02-3
+
+## 约束constraint
+
+### 概述
+
+- 创建表的时候给字段加约束来保证数据的完整性、有效性
+- 添加在列后面的叫`列级约束`
+- 没有添加在列后面的叫`表级约束`，希望多个字段联合起来添加某个约束时才使用`表级约束`
+- 对于一张表，只要是主键或加了unique约束的字段会自动创建索引
+
+### 分类
+
+- 非空约束：not null
+- 唯一性约束：unique
+- 主键约束：primary key（PK）
+- 检查约束：check（mysql不支持，Orcale支持）
+
+#### 非空约束 not null
+
+- not null约束的字段不能为null
+
+- ```mysql
+  create table t_vip(
+  	id int,
+      name varchar(255) not null
+  );
+  insert into t_vip(id) values(1) #会报错
+  ```
+  
+- **只有列级约束，没有表级约束**
+
+#### 唯一性约束 unique
+
+- unique约束的字段的值不能重复，可以为null（null不是重复值）
+
+- ```mysql
+  create table t_vip(
+  	id int,
+      name varchar(255) unique, #列级约束
+      email varchar(255)
+  );
+  insert into t_vip(id,name,email) values(1,'zhangsan',"zhangsan@123.com")
+  insert into t_vip(id,name,email) values(2,'zhangsan',"lisi@123.com") #会报错
+  ```
+
+- **两个字段联合起来后具有唯一性**
+
+  - 如果在两个字段后分别添加`unique`约束，则是两个字段各自唯一，不符合此需求
+
+  - 应这样做：`unique(字段1,字段2)`
+
+    ```mysql
+    drop table if exists t_vip;
+    create table t_vip(
+    	id int,
+        name varchar(255),
+        emai varchar(255),
+        unique(name,email) #表级约束
+    ```
+
+#### 主键约束 primary key
+
+1. 相关术语
+
+   - 主键约束：一种约束
+   - 主键字段：该字段上添加了主键约束
+   - 主键值：主键字段中的每个值
+
+2. 概念
+
+   - 主键值是每一行记录的**唯一标识**（每一行的身份证号）
+   - 任何一张表都应该有主键，没有主键的表是无效的
+   - **主键的特征：not null + unique（主键值不能为null，也不能重复）**
+   - **一张表，主键约束只能有1个**
+   - 主键值建议使用int，bigint，char等类型，一般是数字、定长，不建议用varchar
+
+3. 分类一
+
+   - 单一主键：一个字段作主键
+
+     ```mysql
+     drop table if exists t_vip;
+     create table t_vip(
+     	id int primary key, #列级约束
+         # primary key(id)， 表级约束
+         name varchar(255),
+         sex int(1)
+     );
+     insert into t_vip(id,name,sex) values(1,'zs',0),(2,'ls',1);
+     insert into t_vip(id,name,sex) values(2,'ww',0); #报错，主键值重复
+     insert into t_vip(name,sex) values('zl',0); #报错，主键值为null
+     ```
+
+   - 复合主键：多个字段联合起来作主键（实际开发不用）
+
+     ```mysql
+     #实际开发中不建议使用复合主键，因为主键的意义就是这行记录的身份证号
+     drop table if exists t_vip;
+     create table t_vip(
+     	id int,
+         name varchar(255),
+         sex int(1),
+         primary key(id,name) #两个字段联合起来作主键，复合主键
+     );
+     ```
+
+4. 分类二
+
+   - 自然主键：主键值是一个自然数，和业务没关系
+   - 业务主键：主键值和业务紧密关联，例如银行卡号
+   - 实际开发中，自然主键用的多，因为主键的作用就是这行记录的唯一标识，不需要有意义；一旦和业务挂钩，当业务变动的时候可能会影响主键值
+
+5. mysql自动维护主键值
+
+   ```mysql
+   drop table if exists t_vip;
+   create table t_vip(
+   	id int primary key auto_increment, #自增，从1开始以1递增
+       name varchar(255)
+   );
+   insert into t_vip(name) values('zhangsan');
+   insert into t_vip(name) values('zhangsan');
+   ```
+
+   
+
+#### 外键约束 foreign key
+
+1. 相关术语
+
+   - 外键约束：一种约束
+   - 外键字段：该字段上添加了外键约束
+   - 外键值：外键字段中的每个值
+
+2. ```mysql
+   drop table if exists t_student; #先删子表
+   drop table if exists t_class; #后删父表
+   create table t_class(
+   	classno int primary key,
+       classname varchar(255)
+   );
+   create table t_student(
+   	id int primary key auto_increment,
+       name varchar(255),
+       cno int,
+       foreign key(cno) references t_class(classno)
+   );
+   insert into t_class(classno,classname) values(100,'高三一班'),(101,'高三二班');
+   ```
+
+3. 概念
+
+   - 父表：被引用为外键的字段所在的表；子表：引用某其他表的字段作为外键的表
+   - 外键值可以为空
+   - **被引用为外键的父表中的字段，不一定是主键，但至少具有`unique`约束**
+
+#### 两个约束联合
+
+- `create table v_vip(id int, name varchar(255) not null unique);`
+- 一个字段被`not null`和`unique`联合约束后，该字段自动变成主键字段（Oracle不会这样）
+
+# day02-4
+
+## 存储引擎（了解）
+
+### 概念
+
+- mysql中特有的术语，Oracle中不叫这个，其他数据库没有
+- 存储引擎是一个表存储/组织数据的方式
+- 给表指定存储引擎
+  - 在`create table 表名()`后跟`ENGINE=`和`CHARSET=`来指定存储引擎和字符集
+  - 默认为`InnoDB`和`utf8`
+  - `engine`和`charset`之间一般跟`default`
+
+### 分类
+
+- `show engines \G`：查看支持哪些存储引擎
+
+- mysql支持九大存储引擎；版本不同，支持情况不同；常用以下三个
+  - MyISAM
+    - 使用三个文件表示每个表
+      - 格式文件：存储表结构的定义`mytable.frm`
+      - 数据文件：存储表行的内容`mytable.MYD`
+      - 索引文件：存储表上的索引（相当于目录）`mytabl.MI`
+    - 特点：可以转换为压缩、只读表来节省空间
+  - InnoDB
+    - mysql默认的存储引擎，也是个重量级的引擎，非常安全，但效率不是很高，不能压缩，不能转换为只读
+    - 支持事务，支持数据库崩溃后自动恢复机制（提供了一组用来记录事务性活动的日志文件）
+    - 在数据库目录内，每个表以表`.frm`文件表示
+    - InnoDB表空间`tablespace`用于存储表的数据和索引
+  - MEMORY
+    - 数据和索引存储在内存中，且行的长度固定，非常快，但不安全、关机后数据消失
+    - 在数据库目录内，每个表以表`.frm`文件表示
+    - 表级锁机制
+    - 不能包含`TEXT`和`BLOB`字段
+  
+# day03
+
+## 事务-transaction
+
+### 概述
+
+- 一个事务就是一个完整的业务逻辑
+- 只有DML语句和事务有关
+- 一个事务本质上是多条DML语句，要么同时成功，要么同时失败！！！
+- InnoDB提供了一组用来`记录事务性活动的日志文件`
+
+```mysql
+事务开启了
+insert
+insert
+delete
+update
+事务结束了
+```
+
+### 提交事务
+
+- 清空`记录事务性活动的日志文件`，将数据全部持久化到数据库表中
+- 提交事务标志着事务的结束，是一种全部成功的结束
+- `commit;`mysql默认是支持自动提交事务的，每执行一条DML语句，就提交一次！
+- `start transaction;`用来关闭msql的事务自动提交机制
+
+### 回滚事务
+
+- 将之前的所有DML操作全部撤销，并且清空`记录事务性活动的日志文件`
+- 回滚事务标志着事务的结束，是一种全部失败的结束
+- `rollback;`只能回滚到上一次的提交点！
+
+### 事务操作
+
+```mysql
+#回滚事务
+start transaction;
+insert into dept_bak values(10, 'sales', 'beijing')
+insert into dept_bak values(10, 'sales', 'beijing')
+commit;
+rollback; #此时回滚没有任何作用，因为事务提交了，已经结束了！
+
+#提交事务
+start transaction;
+insert into dept_bak values(10, 'sales', 'beijing')
+insert into dept_bak values(10, 'sales', 'beijing')
+rollback;
+```
+
+### 事务的特性
+
+A：原子性
+
+- 事务是最小的工作单元，不可再分
+
+C：一致性
+
+- 在同一个事务当中，所有操作必须同时成功，或同时失败，以保证数据的一致性
+
+I：隔离性
+
+- A事务和B事务之间具有一定的隔离
+
+D：持久性
+
+- 事务最终结束的一个保障。事务提交就相当于没有保存到硬盘上的数据保存进硬盘
