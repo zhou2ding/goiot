@@ -1498,7 +1498,182 @@ func main() {
 
 ## 单元测试
 
+> 测试函数覆盖率：100%
+>
+> 测试覆盖率：60%
+
+### 概述
+
+- `go test`、`go test -v`
+- `go test -run=Testxxx/case_x`
+- `go test -cover`、`go test -cover -coverpfofile=cover.out`、`go tool cover -html=cover.out`
+- `go test -bench=xxx`、`go test -bench=xxx -benchmem`
+
+- 文件名`*_test.go`，`go build`不会编译这些文件
+
+### 测试函数
+
+- `func Testxxx(t *testing.T)`
+
+  ```go
+  func (c *T) Error(args ...interface{})
+  func (c *T) Errorf(format string, args ...interface{})
+  func (c *T) Fail()
+  func (c *T) FailNow()
+  func (c *T) Failed() bool
+  func (c *T) Fatal(args ...interface{})
+  func (c *T) Fatalf(format string, args ...interface{})
+  func (c *T) Log(args ...interface{})
+  func (c *T) Logf(format string, args ...interface{})
+  func (c *T) Name() string
+  func (t *T) Parallel()
+  func (t *T) Run(name string, f func(t *T)) bool
+  func (c *T) Skip(args ...interface{})
+  func (c *T) SkipNow()
+  func (c *T) Skipf(format strin
+  ```
+
+- `reflect.DeepEqual()`比较字符串和切片是否相等
+
+- 测试组，子测试`t.Run(name, func(t *testing.T){...})`：
+
+```go
+func TestSplit(t *testing.T) {
+	type testCase struct {
+		s    string
+		sep  string
+		want []string
+	}
+	testGroup := map[string]testCase{
+		"case_1": {s: "babcbef", sep: "b", want: []string{"", "a", "c", "ef"}},
+		"case_2": {s: "a:b:c", sep: ":", want: []string{"a", "b", "c"}},
+		"case_3": {s: "abcef", sep: "bc", want: []string{"a", "ef"}},
+		"case_4": {s: "沙河有沙又有河", sep: "有", want: []string{"沙河", "沙又", "河"}},
+	}
+	for name, tc := range testGroup {
+		t.Run(name, func(t *testing.T) {
+			got := Split(tc.s, tc.sep)
+			if !reflect.DeepEqual(got, tc.want) {
+				t.Fatalf("want:%v, but got:%v\n", tc.want, got)
+			}
+		})
+	}
+}
+```
+
+### 基准函数 
+
+- `Benchmarkxxx(b *testing.B)`
+
+  ```go
+  func BenchmarkSplit(b *testing.B) {
+  	for i := 0; i < b.N; i++ {
+  		Split("a:b:c:d", ":")
+  	}
+  }
+  ```
+
+  - 命令``go test -bench=xxx`、`go test -bench=xxx -benchmem``
+
+  - 用4个进程跑的，测试了6762436次，每次操作154纳秒，64B内存，申请了1次内存
+
+    > goos: windows
+    > goarch: amd64
+    > pkg: go.mod/src/studygo/excercise/unitTest/split_string
+    > BenchmarkSplit-4         6762436         154 ns/op         64 B/op         1 allocs/op
+    > PASS
+    > ok      go.mod/src/studygo/excercise/unitTest/split_string      1.515s
+
+- 性能比较函数`func BenchmarkFib(b *testing.B, n int)`
+
+  ```go
+  func BenchmarkFib(b *testing.B, n int) {
+  	for i := 0; i < b.N; i++ {
+  		Fib(n)
+  	}
+  }
+  
+  func BenchmarkFib20(b *testing.B) {
+  	BenchmarkFib(b, 20)
+  }
+  ```
+
+  - 命令`go test -bench=Fib2`，会把`Fib2`和`Fib20`都跑一下
+  - 跑所有`go test -bench=.`
+  - 默认情况下，每个基准测试至少运行1秒。如果在Benchmark函数返回时没有到1秒，则b.N的值会按1,2,5,10,20,50，…增加，并且函数再次运行 
+  - 强制时间`go test -bench=Fib20 -benchtime=20s`
+
+- 时间重置`b.ResetTimer()`
+
+  >  在这之前的处理不会算到执行时间内，也不会放到输出报告中（准备阶段的耗时可以用这个方法）
+
+- 并行测试` go test -bench=. -cpu 1 `或代码中添加如下
+
+  ```go
+  func BenchmarkSplitParallel(b *testing.B) {
+  	b.SetParallelism(1) // 设置使用的CPU数
+  	b.RunParallel(func(pb *testing.PB) {
+  		for pb.Next() {
+  			Split("沙河有沙又有河", "沙")
+  		}
+  	})
+  }
+  ```
+
+### 示例函数
+
+`func Examplexxx()`
+
 ## pprfo工具
+
+### flag包
+
+- `os.Args`：执行程序命令和后面所跟参数，是一个切片
+
+  > 如：flag.exe a b c
+  >
+  > 则os.Args是[flag.exe a b c]
+
+- `flag.Type()`
+
+  - 接收三个参数，标志位的名字、默认值、帮助信息，返回一个该类型的指针
+
+  - 有 `bool`、`int`、`int64`、`uint`、`uint64`、`float` `float64`、`string`、`duration`
+
+  - 使用命令时，可以后面跟这些参数来设置标志位的值
+
+    ```go
+    func main() {
+        name := flags.String("name", "张三", "请输入名字")
+        age := flags.Int("age", "18", "请输入年龄")
+        flag.Parse()
+    }
+    ```
+
+    ```cmd
+    # 使用命令参数可以多种形式：
+    flag.exe -name=李四 --age 1000 # 变量name被设置为"李四"，变量age被设置为1000
+    ```
+
+- `flag.TypeVar(&name,"name", "张三", "请输入名字")`：和上面方法类似
+
+- `flag.Args()`、`flag.NArg()`、`flag.NFlag()`
+
+### pprof包
+
+`pprof.StartCPUProfile(w *io.Writer)`
+
+`pprof.StopCPUProfile()`
+
+`pprof.WriteHeapProfile(w *io.Writer)`
+
+`go tool pprof cpu.pprof`
+
+`top3`、`list logic`
+
+>  自己写的函数占用CPU太多时，可以让线程休眠一会（如半秒），把CPU让出给其他函数使用
+
+# tags
 
 # tags 
 
