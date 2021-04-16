@@ -1496,6 +1496,9 @@ func main() {
 }
 ```
 
+- 需要频繁发送请求，如每5秒从阿里云同步接口数据：定义一个全局的client，后续发请求的操作都使用这个全局的client
+- 请求次数比较少，如一周两次请求：自定义一个client，禁用`keepAlived`连接
+
 ## 单元测试
 
 > 测试函数覆盖率：100%
@@ -1644,8 +1647,8 @@ func TestSplit(t *testing.T) {
 
     ```go
     func main() {
-        name := flags.String("name", "张三", "请输入名字")
-        age := flags.Int("age", "18", "请输入年龄")
+        nameVal := flags.String("name", "张三", "请输入名字")
+        ageVal := flags.Int("age", "18", "请输入年龄")
         flag.Parse()
     }
     ```
@@ -1655,7 +1658,7 @@ func TestSplit(t *testing.T) {
     flag.exe -name=李四 --age 1000 # 变量name被设置为"李四"，变量age被设置为1000
     ```
 
-- `flag.TypeVar(&name,"name", "张三", "请输入名字")`：和上面方法类似
+- `flag.TypeVar(&nameVal,"name", "张三", "请输入名字")`：和上面方法类似
 
 - `flag.Args()`、`flag.NArg()`、`flag.NFlag()`
 
@@ -1672,8 +1675,6 @@ func TestSplit(t *testing.T) {
 `top3`、`list logic`
 
 >  自己写的函数占用CPU太多时，可以让线程休眠一会（如半秒），把CPU让出给其他函数使用
-
-# tags
 
 # tags 
 
