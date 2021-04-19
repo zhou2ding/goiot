@@ -1685,15 +1685,79 @@ func TestSplit(t *testing.T) {
 
 `set go111module=on`开启`go module`
 
-`go env -w goproxy=https://goproxy.cn,direct`
+`set goproxy=https://goproxy.cn`
 
 `go mod init xxx`初始化项目的`go.mod`
 
 `go get`把项目中的依赖添加到`go.mod`中
 
+`go mod tidy`检查依赖并更新`go.mod`
+
+`go mod download`下载依赖
+
 ## Context
 
+> 暴露内部channel时，用函数封装起来，封成只读/只写
 
+### 概述
+
+- 通知子`goroutine`退出
+- 处理单个请求的多个`goroutine`之间与请求域的数据、取消信号、截止时间等相关操作
+- `WithCancel`、`WithDeadLine`、`WithTimeOut`、`WithValue`，deadline是绝对时间，timeout是相对时间
+  - `WithDeadLine`接收`contex.Contex`和`time.Time`变量，返回类型和`WithCanel`一样，返回的contex过期后，会**自动触发`ctx.Done()`**，但仍要**手动`defer canel()`**
+  - `WithTImeOut`接受的时间是`time.Duration`
+  - `WithValue`把context和key、value绑定起来
+- `Background()`、`TODO()`生成根节点context，background用于main函数，todo是预留的，当前还不知道啥场景使用
+
+### 使用
+
+- `ctx, cancel := context.WithCancel(context.Background())`
+
+  - `context.WithCancel()`接收一个`contex.Contex`类型变量(`parent context`)，可以用`BackGround()`函数生成
+  - 返回`contex.Contex`和`context.CancalFun`类型的变量，`CancalFun`是一个无参无返回值的函数类型，可以直接调用
+
+- 在子`goroutine`的`select`中，`case <-ctx.Done():`
+
+- 需要通知子`goroutine`退出时，直接`cancel()`即可，且子`goroutine`中的子`goroutine`也能退出，且能一级一级传下去
+
+  ```go
+  func f(ctx context.Context) {
+  	go f2(ctx)
+  	defer wg.Done()
+  Loop:
+  	for {
+  		select {
+  		case <-ctx.Done():
+  			break Loop
+  		default:
+  		}
+  		fmt.Println("my context demo")
+  		time.Sleep(time.Millisecond * 500)
+  	}
+  }
+  
+  func f2(ctx context.Context) {
+  	defer wg.Done()
+  Loop:
+  	for {
+  		select {
+  		case <-ctx.Done():
+  			break Loop
+  		default:
+  		}
+  		fmt.Println("my context demo")
+  		time.Sleep(time.Millisecond * 500)
+  	}
+  }
+  func main() {
+  	ctx, cancel := context.WithCancel(context.Background())
+  	wg.Add(1)
+  	go f(ctx)
+  	time.Sleep(time.Second * 5)
+  	cancel()
+  	wg.Wait()
+  }
+  ```
 
 # tags 
 
