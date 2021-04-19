@@ -1759,7 +1759,7 @@ func TestSplit(t *testing.T) {
   }
   ```
 
-# tags 
+# tags
 
 - vscode添加快捷函数：`ctrl+shift+p` -> `snippets`->`go.json`
 
@@ -1779,3 +1779,5 @@ func TestSplit(t *testing.T) {
   ```
 
 - 改字符集：`设置`->`encoding`->`utf-8`
+
+- 查看某个端口是否可访问，telnet IP 端口 或者 telnet 域名 端口，回车
