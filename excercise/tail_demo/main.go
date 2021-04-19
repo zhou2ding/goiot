@@ -63,6 +63,7 @@ func myTail() {
 		fmt.Println("line: ", line)
 	}
 }
+
 func main() {
-	// MySarama()
+
 }
