@@ -412,6 +412,7 @@ Go语言不存在指针操作，只有取地址和取值
 
 - 结构体是值类型
 - 结构体中的元素占连续的内存空间
+- 空结构体不占空间
 
 ### 类型别名和自定义类型
 
@@ -1675,6 +1676,24 @@ func TestSplit(t *testing.T) {
 `top3`、`list logic`
 
 >  自己写的函数占用CPU太多时，可以让线程休眠一会（如半秒），把CPU让出给其他函数使用
+
+# day06
+
+## Go Module
+
+`go env`查看换变量
+
+`set go111module=on`开启`go module`
+
+`go env -w goproxy=https://goproxy.cn,direct`
+
+`go mod init xxx`初始化项目的`go.mod`
+
+`go get`把项目中的依赖添加到`go.mod`中
+
+## Context
+
+
 
 # tags 
 

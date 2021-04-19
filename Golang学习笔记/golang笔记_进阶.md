@@ -148,12 +148,54 @@
 
 ## Redis
 
-> KV数据库
+> KV数据库，支持master/slave模式
 
-## NSQ
+> 场景
 
-> Go开发的轻量级的消息队列
+- cache缓存
+- 计数场景
+- 简单的队列
+- 排行榜
 
-# day07
+> 使用
 
-## Go Module
+```go
+var resisdb *redis.Client
+resisdb = redis.NewClient(&redis.Options{
+    Addr: "xxx",
+    Password: "",
+    DB: 0, //0~15共16个DB
+})
+```
+
+
+
+## 消息队列
+
+常用的消息队列
+
+- RabbitMQ
+- Kafka
+-  ActiveMQ 
+- RocketMQ
+- NSQ
+
+### NSQ
+
+#### 概述
+
+> [NSQ](https://nsq.io/)是Go语言编写的一个开源的实时分布式内存消息队列，其性能十分优异。 NSQ的优势有以下优势：
+>
+> 1. NSQ提倡分布式和分散的拓扑，没有单点故障，支持容错和高可用性，并提供可靠的消息交付保证
+> 2. NSQ支持横向扩展，没有任何集中式代理。
+> 3. NSQ易于配置和部署，并且内置了管理界面。
+
+![1618646437997](D:\资料\Go\src\studygo\Golang学习笔记\golang笔记_进阶.assets\1618646437997.png)
+
+#### 使用
+
+1. 启动NSQ三个组件
+   1. `nsqlookupd.exe`
+   2. `nsqd.exe -broadcast-address=127.0.0.1 -lookupd-tcp-address=127.0.0.1:4160`
+   3. `nsqadmin.exe -lookupd-http-address=127.0.0.1:4161`
+   4. 浏览器输入`http://127.0.0.1:4171`
