@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"encoding/json"
+	"fmt"
+)
 
 func f1() int {
 	x := 5
@@ -30,9 +33,25 @@ func f4() (x int) {
 	}(x)
 	return 5
 }
+
+type person struct {
+	Name string `json:"name"`
+	Age  int    `json:"age"`
+}
+
+func getPerson() (p *person) {
+	data := `{"name":"zhangsan","age":18}`
+	err := json.Unmarshal([]byte(data), &p)
+	if err != nil {
+		fmt.Println("unmarshal failed, error:", err)
+		return
+	}
+	return
+}
 func main() {
-	fmt.Println(f1()) // 5
-	fmt.Println(f2()) // 6
-	fmt.Println(f3()) // 5
-	fmt.Println(f4()) // 5
+	// fmt.Println(f1()) // 5
+	// fmt.Println(f2()) // 6
+	// fmt.Println(f3()) // 5
+	// fmt.Println(f4()) // 5
+	fmt.Printf("%#v\n", getPerson())
 }
