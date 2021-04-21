@@ -1026,6 +1026,7 @@ func assign(a interface{}) {
   - `Sub()`：判断两个`time.Time`对象的之间的时间间隔
   - `Equal()`判断两个时间是否相等，会考虑时区的影响
   - `Before()`、`After()`，判断两个时间谁前谁后
+- 数字可以直接和`time.Duration`运算，但变量不行，变量必须强转
 
 ### 定时器
 
