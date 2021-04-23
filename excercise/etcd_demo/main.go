@@ -42,17 +42,17 @@ func myEtcd() {
 	defer cli.Close()
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	_, err = cli.Put(ctx, "zhangsan", "18") //put操作
+	cancel()
 	if err != nil {
 		fmt.Println("put to etcd failed, error:", err)
 		return
 	}
-	cancel()
 	ctx, cancel = context.WithTimeout(context.Background(), time.Second)
 	resp, err := cli.Get(ctx, "zhangsan") //get操作
+	cancel()
 	if err != nil {
 		fmt.Println("get from etcd failed, error:", err)
 	}
-	cancel()
 	// 从resp的KV中取值
 	for _, ev := range resp.Kvs {
 		fmt.Printf("key:%s, value:%s\n", ev.Key, ev.Value)

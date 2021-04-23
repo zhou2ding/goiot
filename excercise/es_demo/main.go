@@ -27,7 +27,7 @@ func main() {
 	put1, err := client.Index().
 		Index("student").
 		Type("go").
-		BodyJson(p1). // 把Go的变量转换成json字符串
+		BodyJson(p1). // 必须是json或能转成json的数据，如json字符串、map[string]interface{}、结构体
 		Do(context.Background())
 	if err != nil {
 		panic(err)
