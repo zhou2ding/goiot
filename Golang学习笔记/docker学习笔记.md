@@ -100,6 +100,8 @@
 
 - X shell新建会话，输入阿里云的公网Ip地址，连接后密钥文件选前面下载的`.pem`并输入修改后的密码即可
 
+- 修改登录id（root@后面的一串）：`hostnamectl set-hostname xxx`，然后退出登录，重启服务器，重新连接，重新启动docker
+
 - 基本命令
 
   - `uname -r`，查看内核版本，`3.10.0-1062.18.1.el7.x86_64`
@@ -246,7 +248,7 @@ rm -rf /var/lib/docker # 删除资源
 
   - `-P`，随机指定端口
 
-  - `-e`后跟配置参数：
+  - `-e`后跟配置参数：登录密码、端口、es的运行最大内存等配置
 
   - `-rm`，退出容器后自动删除，用完即删（不推荐使用）
 
@@ -297,20 +299,30 @@ rm -rf /var/lib/docker # 删除资源
   - `docker exec -it xxx /bin/bash`：进入容器后开启一个新的终端，可以在里面操作（常用），且用此方法进入容器后再`exit`，不会停止容器
   - `docker attach xxx`：进入容器正在执行的终端，不会启动新的进程，`exit`后会停止容器
 
-- `docker cp xxx:容器内路径 主机的目的路径`：拷贝容器内的文件到主机上
+- `docker cp xxx:容器内路径 主机的目的路径`：拷贝容器内的文件到主机上，也可以颠过来
 
 - `docker stats xxx`：查看xxx容器的占用资源情况
 
-## docker可视化（不推荐用）
+- `docker volume`：查看卷
 
-- `portainer`提供一个后台面板供我们操作
+  - `create`创建一个卷
+  - `inspect xxx`查看卷的详细信息
+  - `ls`列出所有卷
+  - `rm`移除一个或多个卷
+  - `prune`移除所有在使用的卷
 
-- ```shell
-  docker run -d -p 8088:9000 \
-  --restart=always -v /var/run/docker.sock:/var/run/docker.sock --privileged=true portainer/portainer
-  ```
+- `docker history 镜像id`：查看镜像的构建过程
 
-- 然后访问`https://linux的ip:8088`
+>  docker可视化（不推荐用）
+>
+> - `portainer`提供一个后台面板供我们操作
+>
+> - ```shell
+>   docker run -d -p 8088:9000 \
+>   --restart=always -v /var/run/docker.sock:/var/run/docker.sock --privileged=true portainer/portainer
+>   ```
+>
+> - 然后访问`https://linux的ip:8088`
 
 ## 小结
 
@@ -320,15 +332,200 @@ rm -rf /var/lib/docker # 删除资源
 
 ## 概述
 
+> 镜像是一种轻量级、可执行的独立软件包，用来打包软件运行环境和基于运行环境开发的软件，包含运行某个软件所需的素有内容，包括代码、运行时、库、环境变量和配置文件
 
+![image-20210427145001669](D:\资料\Go\src\studygo\Golang学习笔记\docker学习笔记.assets\image-20210427145001669.png)
+
+- 所有的应用，直接打包成docker镜像，就可以直接跑起来
+- 获取镜像方法
+  - 从远程仓库下载
+  - 从别处拷贝
+  - 自己制作`DockerFile`
 
 ## 加载原理
 
+### UFS(联合文件系统)
+
+![image-20210427093301969](D:\资料\Go\src\studygo\Golang学习笔记\docker学习笔记.assets\image-20210427093301969.png)
+
+### docker镜像加载原理
+
+![image-20210427093452844](D:\资料\Go\src\studygo\Golang学习笔记\docker学习笔记.assets\image-20210427093452844.png)
+
+### 分层理解
+
+![image-20210427094658700](D:\资料\Go\src\studygo\Golang学习笔记\docker学习笔记.assets\image-20210427094658700.png)
+
+![image-20210427094751568](D:\资料\Go\src\studygo\Golang学习笔记\docker学习笔记.assets\image-20210427094751568.png)
+
+## 特点
+
+Docker镜像层都是只读的，当容器启动时（docker run xxx），一个新的可写层被加载到镜像的顶部！
+
+这一层就是容器层，容器之下的都叫镜像层
+
+![image-20210427095624983](D:\资料\Go\src\studygo\Golang学习笔记\docker学习笔记.assets\image-20210427095624983.png)
+
+## commit容器
+
+```shell
+docker commit -m="提交的描述信息" -a"作者" 容器id 目标镜像名:TAG（TAG可选）
+```
+
 # 容器数据卷
+
+> 容器的持久化和同步操作：将容器中产生的数据同步到本地（即目录的挂载，将容器内的目录挂载到linux上）
+>
+> 容器间也是可以数据共享的
+>
+> - docker run --name aaa **--volumes-from** xxx imagename
+>
+> - xxx和aaa称为数据卷容器，把父容器（xxx）删了，子容器（aaa）的数据不会消失
+> - 可以用来容器之间配置信息的传递，数据卷容器的生命周期持续到没有容器使用为止
+
+## 使用
+
+- `docker run -v 主机目录:容器目录 xxx`（-v是volume）（是双向同步的）
+- 所有的卷，不指定本机目录时，都存放在`/var/lib/docker/volumes/卷名/_data/`里面
+- 增删改文件，会同步到挂载的目录中，删除容器不会影响本机已经同步的数据
+- 只要容器存在，即使停止了，也能同步数据
+- 在最后跟上`:ro`或`:rw`可以设置容器内目录的权限
+  - `:ro`是只读，只能从宿主机的目录来改数据，容器内的目录改不了
+  - `:rw`是读写
+
+## 挂载方式1
+
+### 指定目录挂载
+
+- 挂载的时候指定了宿主机的目录
+
+### 具名挂载
+
+- 挂载的时候指定了卷名，不指定本机的目录（即没有`/`这个代表路径的符号）
+
+### 匿名挂载
+
+- 挂载的时候不指定本机的目录，也不指定卷名，只写了容器内的目录（最终的卷名是一堆哈希值）
+
+## 挂载方式2（常用）
+
+- 通过dockerfile的命令来挂载
+
+  ```shell
+  FROM centos
+  # 在容器内生成了两个目录，是和宿主机有挂载关系的目录
+  # 且是匿名挂载，宿主机的目录是在/var/lib/docker/volumes/哈希值/_data下
+  VOLUME ["volume1","volume2"]
+  CMD echo -----end------
+  ```
 
 # DockerFile
 
-# Docker网络原理
+## 概述
+
+- dockerfile是用来构建docker镜像的构建文件，是一个命令脚本！
+- 镜像是一层一层的，所以脚本也是一条一条命令（命令都是大写的），每条命令是一层
+
+## 使用
+
+> 编写好DockerFile后，通过它构建生成镜像，发布后run这个镜像得到容器，容器提供最终的服务
+
+### 常用命令
+
+- `FROM`：基础镜像，如centos、ubuntu等
+
+- `MAINTAINER`：镜像是谁写的，留`name<email>`
+
+- `RUN`：镜像构建的时候需要运行的命令，一般用来安装其他软件，可以用`&&`连接起来，这样安装时就只有一层镜像
+
+- `ADD`：需要的其他环境，一般是压缩包，构建时会自动解压（可添加解压后的目录）
+
+- `WORKDIR`：镜像的工作目录
+
+- `VOLUME`：挂载的目录（容器内的目录）
+
+- `EXPOSE`：指定暴露的端口
+
+- `CMD`：指定这个容器启动时要运行的命令（即跟在`docker run`后面的东西）
+
+  - 命令可以用`[]`括起来：`CMD ["ls","-a"]`（推荐）
+  - 也可以直接跟命令名字：`CMD ls`
+  - 只有最后一个CMD会生效，用CMD打印的东西不受影响
+  - 手动`docker run`时，后面跟的命令，也会替换掉dockerfile中的CMD命令
+
+  ```shell
+  CMD shell命令
+  # 推荐如下格式
+  CMD ["可执行文件或命令","param1","param2",...] 
+  CMD ["param1","<param2",...]  # 该写法是为 ENTRYPOINT 指令指定的程序提供默认参数
+  ```
+
+- `ENTRYPOINT`：指定这个容器启动时要运行的命令，可以**追加命令**
+
+  ```shell
+  ENTRYPOINT ["可执行文件或命令","param1","param2",...]
+  ```
+
+- `ONBUILD`：触发指令，当构建一个继承此镜像的镜像时，就会触发这个命令（延迟构建）
+
+- `COPY`：类似ADD，将文件拷贝到镜像中
+
+- `ENV`：构建的时候设置环境变量，可以是`key value`或`key=value`的格式
+
+### 构建
+
+`docker build -f dockerfile文件路径 -t 目标镜像名:版本号 .`
+
+- 使用dockerfile来构建目标镜像，构建的结果是在当前目录下，版本号是可选的
+- dockerfile的国际通用命名`Dockerfile`，按这个命名的话就不需要`-f`参数了
+
+```shell
+FROM centos
+MAINTAINER zhou2ding<458405826@qq.com>
+
+COPY readme.txt /usr/local/readme.txt
+
+ADD jdk-8u11-linux-x64.tar.gz /usr/local/
+ADD apache-tomcat-9.0.22.tar.gz /usr/local/
+
+RUN yum -y install vim
+RUN yum -y install net-tools
+
+ENV MYPATH /usr/local
+WORKDIR $MYPATH
+
+ENV JAVA_HOME /usr/local/jdk1.8.0_11
+ENV CLASSPATH $JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+ENV CATALINA_HOME /usr/local/apache-tomcat-9.0.22
+ENV CATALINA_BASH /usr/local/apache-tomcat-9.0.22
+ENV PATH $PATH:$JAVA_HOME/bin:$CATALINA_HOME/lib:$CATALINA_HOME/bin
+
+EXPOSE 8080
+CMD echo $MYPATH
+CMD echo "-----end-----"
+CMD /bin/bash
+```
+
+### 发布
+
+1. `docker login -u username -p password`
+2. `docker tag 镜像ID tag`
+3. `docker push 镜像名:tag`（不手动加tag的话，tag就是`latest`）
+
+> 发布到阿里云
+>
+> 1. 找到“容器镜像服务”
+> 2. 创建命名空间
+> 3. 创建镜像仓库，类型选私有，下一步，选择“本地仓库”
+> 4. 推送到阿里云的镜像仓库，[方法](https://cr.console.aliyun.com/repository/cn-shenzhen/zhou2ding/docker-study/details)
+
+# Docker流程总结
+
+![image-20210427170953776](D:\资料\Go\src\studygo\Golang学习笔记\docker学习笔记.assets\image-20210427170953776.png)
+
+# Docker网络
+
+
 
 # IDEA整合Docker
 
