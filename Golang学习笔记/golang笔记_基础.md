@@ -878,11 +878,11 @@ func assign(a interface{}) {
 
 - 执行顺序
 
-  ![1616591545897](C:\Users\ZhouDing\Desktop\Golang学习笔记\golang笔记.assets\1616591545897.png)
+  ![1616591545897](D:\资料\Go\src\studygo\Golang学习笔记\golang笔记_基础.assets\1616591545897.png)
 
   
 
-  ![1616591517045](C:\Users\ZhouDing\Desktop\Golang学习笔记\golang笔记.assets\1616591517045.png)
+  ![1616591517045](D:\资料\Go\src\studygo\Golang学习笔记\golang笔记_基础.assets\1616591517045.png)
 
 ## 文件操作
 
@@ -1633,9 +1633,7 @@ func TestSplit(t *testing.T) {
 
 `func Examplexxx()`
 
-## pprfo工具
-
-### flag包
+## flag包
 
 - `os.Args`：执行程序命令和后面所跟参数，是一个切片
 
@@ -1668,7 +1666,7 @@ func TestSplit(t *testing.T) {
 
 - `flag.Args()`、`flag.NArg()`、`flag.NFlag()`
 
-### pprof包
+## pprof包
 
 `pprof.StartCPUProfile(w *io.Writer)`
 
