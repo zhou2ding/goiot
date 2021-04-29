@@ -77,7 +77,7 @@
 
   docker镜像好比一个模板，可以通过这个模板来创建容器（通过镜像可以创建多个容器，最终服务/项目就是在容器中运行）
 
-  > Tomcat镜像===> run ===> tomcat01容器（真正提供服务的）
+  > Tomcat镜像\===> run \==\=> tomcat01容器（真正提供服务的）
 
 - 容器（container）
   - docker利用容器技术，独立运行一个或一组应用，它是通过镜像来创建的
@@ -91,10 +91,10 @@
 
 ## 阿里云服务器
 
-- 控制台====>云服务器ECS====>实例
-  - 更多====>密码/密钥====>修改远程连接密码
-  - 安全组====>创建安全组====>添加3306/6379/22/80/443端口
-  - 密钥对====>创建密钥对====>输入名称、选择自动创建====>下载`.pem`密钥文件====>绑定密钥对
+- 控制台\=\=\==>云服务器ECS====>实例
+  - 更多\=\=\==>密码/密钥====>修改远程连接密码
+  - 安全组\=\=\==>创建安全组====>添加3306/6379/22/80/443端口
+  - 密钥对\=\=\==>创建密钥对\=\=\==>输入名称、选择自动创建\=\=\==>下载`.pem`密钥文件====>绑定密钥对
   
 - 重启服务器
 
@@ -315,14 +315,32 @@ rm -rf /var/lib/docker # 删除资源
 
 >  docker可视化（不推荐用）
 >
-> - `portainer`提供一个后台面板供我们操作
+>  - `portainer`提供一个后台面板供我们操作
 >
-> - ```shell
+>  - ```shell
 >   docker run -d -p 8088:9000 \
 >   --restart=always -v /var/run/docker.sock:/var/run/docker.sock --privileged=true portainer/portainer
 >   ```
+>   ```
+>  
+>   ```
 >
-> - 然后访问`https://linux的ip:8088`
+>   ```
+>  
+>   ```
+>
+>   ```
+>  
+>  - 然后访问`https://linux的ip:8088`
+>   ```
+>
+>   ```
+>  
+>   ```
+>
+>   ```
+>  
+>   ```
 
 ## 小结
 
@@ -525,7 +543,72 @@ CMD /bin/bash
 
 # Docker网络
 
+## Docker0
 
+### 概述
+
+- `ip addr`
+
+![image-20210429170025017](D:\资料\Go\src\studygo\Golang学习笔记\docker学习笔记.assets\image-20210429170025017.png)
+
+- `docker run`时追加`ip addr`命令，得到的就是本机地址和docker内部地址
+
+- `docker network inspect 容器id`可以查看容器网络的详细信息
+
+- 每启动一个docker容器，docker就会给容器分配一个ip，只要安装了docker，就会有一个网卡docker0（桥接模式，使用veth-pair技术）
+
+### veth-pair
+
+  ==直接查看ip==：linux上的Ip对
+
+![image-20210429172945934](D:\资料\Go\src\studygo\Golang学习笔记\docker学习笔记.assets\image-20210429172945934.png)
+
+==查看容器的ip==：容器内部的ip对，和linux上的ip对是一致的
+
+![image-20210429173027541](D:\资料\Go\src\studygo\Golang学习笔记\docker学习笔记.assets\image-20210429173027541.png)
+
+> veth-pair技术：一对的虚拟设备接口，都是成对出现的，一段连着协议，一段彼此相连
+>
+> veth-pair来充当桥梁，容器之间可以互相ping同，linux服务器可以ping同它创建的容器
+
+![image-20210429174300557](D:\资料\Go\src\studygo\Golang学习笔记\docker学习笔记.assets\image-20210429174300557.png)
+
+## 容器互联
+
+- run docker的时候添加`--link`连通另一个容器，就可以通过容器名字来ping通，A link B的话，A能ping通B，但是反向不行
+
+- 真实开发中已经不建议使用`--link`了，一般自定义网络
+
+  > 原理：`/etc/host中配置了连接容器的IP地址
+
+
+==自定义网络==（网卡）
+
+  ![image-20210429203047263](D:\资料\Go\src\studygo\Golang学习笔记\docker学习笔记.assets\image-20210429203047263.png)
+
+- 网络模式
+  - bridge：桥接，在docker上搭桥（多个容器把docker0当做桥）（自定义网络用此模式）
+  - none：不配置网络
+  - host：和宿主机共享网络
+  - container：容器内网络连通（局限性大，用得少）
+- 前置知识点
+  - `docker run`的时候默认添加了`--net bridge`命令，即默认连通了`docker0`（bridge就是docker0的NAME）
+  - `docker0`特点：默认，不能通过名称或id访问，需要`--link`
+- 自定义网络
+  - `docker network create --driver bridge --subnet 192.168.0.0/16 --gateway 192.168.0.1 mynet`
+    - `--driver bridge`可省略，默认就是bridge
+    - `--subnet`是子网掩码，可以给容器分配的ip地址从`192.168.0.2~192.168.255.255`（docker run --net的时候分配）
+    - `--gateway`是网关，`mynet`是网络名字
+    - 自定义网络的名字要避开`bridge`
+  - 自定义网络完成后，可以在`docker run`的时候手动`--net mynet`，`mynet`就会根据子网掩码分配`ip`
+  - 启动两个容器都通过`mynet`启动的话，两个容器之间就能通过容器名字或容器id来连通了
+
+## 连接容器到另外的自定义网络
+
+> 容器A通过自定义网络mynet1启动，容器B通过自定义网络mynet2启动，容器A和B是无法连通的
+
+- `docker network mynet1 containerB`
+  - 连通之后，直接把`containerB`放到`mynet1`下，`docker network inspect mynet1`可以看到``containerB`的信息
 
 # IDEA整合Docker
 

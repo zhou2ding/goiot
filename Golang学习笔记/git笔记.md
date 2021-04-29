@@ -6,6 +6,8 @@
   - `user.name xxx`
   - `user.email xxx`
   - `http.sslVerify false`
+- 在C盘用户目录`.ssh/`里面通过`ssh-keygen -t rsa`生成公钥（`.pub`文件）（官方推荐用RSA算法），把公钥信息添加到仓库
+- `git push origin HEAD:/refs/for/master`：推送到`gerrit`
 
 # Git基本理论
 
@@ -32,7 +34,15 @@
 
 # 撤销修改
 
+- `git reset HEAD`：撤销add的
+
+  >  也就是把上一次commit的记录拿来覆盖`stage`区的）（上一次的commit即最新的commit，HEAD指向的是这个commit
+
+- 
+
 # IDEA集成git
+
+`.git`文件夹内容直接复制到IDEA的项目目录下
 
 # 分支
 

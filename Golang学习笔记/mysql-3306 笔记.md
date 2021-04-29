@@ -54,7 +54,7 @@ ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '123456';
 
 # day01
 
-## 命令行启停
+## 命令行启停服务
 
 `net start 服务名称`
 
@@ -104,13 +104,14 @@ DCL：grant revoke
 
 ## 注意
 
-对于SQL语句来说，是通用的；
+- 对于SQL语句来说，是通用的；
 
-不区分大小写；
+- 不区分大小写；
 
-所有的SQL语句都是以分号结尾；
+- 所有的SQL语句都是以分号结尾；
 
-数据库中，NULL和任何值数学运算结果都为null
+- 数据库中，`NULL`和任何值数学运算结果都为`null`
+- 增删改查称为`CRUD`，没人说增删改查（Create、Retrieve、Update、Delete）
 
 ## 查询(DQL)
 
@@ -219,9 +220,10 @@ mysql> select
    - `case...when...then...when...then...else...end`
    
      ```mysql
-     // 当job是manager时，sal*1.1；
-     // 当job是salesman时，sal*1.5;
-     // 其他情况sal不变
+     # 涨薪
+     # 当job是manager时，sal*1.1；
+     # 当job是salesman时，sal*1.5;
+     # 其他情况sal不变
      select
      	ename,job,sal as oldsal,
      (case job
@@ -383,7 +385,7 @@ eg：`select deptno, max(sal) from emp where sal > 3000 group by deptno;`
   #优点：表连接的条件是独立的，连接之后若需进一步筛选，再往后继续添加where。
   #查询每个员工的部门名称
   select
-  	e.name,d.name
+  	e.ename,d.dname
   from
   	emp e
   inner join #inner可省略，带着inner可读性更好，一眼能看出来是内连接
@@ -585,11 +587,10 @@ from
   select ename,job from emp where job = 'salesman'
   ```
 
-  
 
 ### limit
 
-- 概述：将查询结果的一部分取出来，通常使用在分页查询当当中。
+- 概述：将查询结果的一部分取出来，通常使用在分页查询当中。
 - 使用：
   - 完整用法：`limit startIndex, lengh`，startIndex是起始下标，从0开始；length是长度
   - 缺省用法：`limit n`，取前n条
@@ -605,7 +606,7 @@ from
 
 ### 概述
 
-- 语法格式：`crate table 表名(字段名1 数据类型, 自动名2 数据类型, 自动名3 数据类型);`
+- 语法格式：`crate table 表名(字段名1 数据类型, 字段名2 数据类型, 字段名3 数据类型);`
   - 表名：以`t_`开始或`tbl_`开始
   - 字段名：见名知意
   - 建表的时候可以指定默认值，在数据类型后跟`default xxx`
@@ -634,9 +635,9 @@ create table t_student(
 );
 ```
 
-### 插入数据（DML）
+## 插入数据（DML）
 
-#### 插入日期
+### 插入日期
 
 - 语法格式：`insert into 表名(字段1,字段2,字段3) values(值1,值2,值3)`
 - 注意
@@ -661,16 +662,16 @@ create table t_student(
     - 短日期：`%Y-%m-%d`，按长日期格式插入时，会省略时分秒
     - 长日期：`%Y-%m-%d %h:Hi:%s`
 
-#### 插入多条数据
+### 插入多条数据
 
 `insert into 表名(字段1,字段2,字段3) values(值1,值2,值3),(值1,值2,值3),(值1,值2,值3)`
 
-### 修改数据
+## 修改数据
 
 - 语法格式：`update 表名 set 字段1=值1,字段2=值2 where 条件`
 - 注意：没有条件会使所有数据都被改了
 
-### 删除数据
+## 删除数据
 
 - 语法格式：`delete from 表名 where 条件`
 - 注意：没有条件，整张表的数据都会被删除
@@ -765,7 +766,7 @@ create table t_student(
     	id int,
         name varchar(255),
         emai varchar(255),
-        unique(name,email) #表级约束
+        unique(name,email)); #表级约束
     ```
 
 #### 主键约束 primary key
@@ -832,7 +833,6 @@ create table t_student(
    insert into t_vip(name) values('zhangsan');
    ```
 
-   
 
 #### 外键约束 foreign key
 
@@ -840,7 +840,7 @@ create table t_student(
 
    - 外键约束：一种约束
    - 外键字段：该字段上添加了外键约束
-   - 外键值：外键字段中的每个值
+   - 外键值：外键字段中的每个值，该字段的值必须来自于主表的关联列的值
 
 2. ```mysql
    drop table if exists t_student; #先删子表
@@ -956,18 +956,202 @@ rollback;
 
 ### 事务的特性
 
-A：原子性
+`A`：原子性
 
 - 事务是最小的工作单元，不可再分
 
-C：一致性
+`C`：一致性
 
 - 在同一个事务当中，所有操作必须同时成功，或同时失败，以保证数据的一致性
 
-I：隔离性
+`I`：隔离性
 
 - A事务和B事务之间具有一定的隔离
 
-D：持久性
+`D`：持久性
 
 - 事务最终结束的一个保障。事务提交就相当于没有保存到硬盘上的数据保存进硬盘
+
+### 事务的隔离级别
+
+#### 等级
+
+- 读未提交：`read uncommited`（最低的隔离级别）《没提交就读到了》
+
+  > 事务A可以读到事务B还没提交的数据，是理论上的，存在脏读现象（Dirty Read），称为读到了脏数据
+
+- 读已提交：`read commited`（大多数事务从这级别起步）《提交之后才能读到》
+
+  > 事务A只能读到事务B提交之后的数据，解决了脏读，但不可重复读取数据
+  >
+  > 即事务A结束之前，如果有多个事务修改了数据，则A每次从表中读取到的数据不一致
+  >
+  > 读到的数据比较真实，Oracle的默认级别
+
+- 可重复度：`repeatable read`《提交之后也读不到，每次都是读取事务刚开启时的数据》
+
+  > 事务A开启之后，不管多久，每次A从表中读到的数据都是一致的，即使B对表中数据已经修改并提交，A读到的数据仍不变
+  >
+  > 可能存在幻影读，即读到的数据不一定真实，mysql的默认级别
+  >
+  > 比如：银行查询总账，开始了事务A进行select，执行的时间比较长；期间有人存取款，每次存取款都是一次事务，存取款的事务提交后，事务A查询到的总账不变
+
+- 序列号/串行化：`serializable`（最高的隔离级别）
+
+  > 效率最低，表示事务排队，不能并发
+
+#### 事务隔离级别SQL语句
+
+- 查看当前隔离级别
+
+  - `select @@transaction_isolation;`
+  - `select @@global.transaction_isolation;`：
+
+- 修改隔离级别，重启mysql后生效
+
+  - `set transaction_isolation READ-UNCOMMITTED;`
+  - `set session transaction_isolation READ-UNCOMMITTED;`
+  - `set global transaction_isolation READ-UNCOMMITTED`
+
+- 验证`read uncommited`：先修改全局隔离级别，再重启mysql
+
+  | 事务A                | 事务B                                 | 结果                             |
+  | -------------------- | ------------------------------------- | -------------------------------- |
+  | start transaction    | start transaction                     | 都ok                             |
+  | select * from t_user |                                       | 查询结果为空                     |
+  |                      | insert into t_user values('zhangsan') | 插入ok                           |
+  | select * from t_user |                                       | 事务B未提交，但事务A能查询到数据 |
+  |                      | rollback                              | 回滚事务ok                       |
+  | select * from t_user |                                       | 查询结果为空                     |
+
+- 验证`read commited`：先修改全局隔离级别，再重启mysql
+
+  | 事务A                | 事务B                                       | 结果                         |
+  | -------------------- | ------------------------------------------- | ---------------------------- |
+  | start transaction    | start transaction                           | 都ok                         |
+  | select * from t_user |                                             | 查询结果为空                 |
+  |                      | insert into t_user values('zhangsan')       | 插入ok                       |
+  | select * from t_user |                                             | 事务B未提交，事务A查不到数据 |
+  |                      | commit                                      | 提交事务ok                   |
+  | select * from t_user |                                             | 此时事务A才能查到            |
+  |                      | insert into t_user values('lisi')<br>commit | 插入ok，提交ok               |
+  | select * from t_user |                                             | 事务A能查到事务B新插入的数据 |
+
+- 验证`repeatable read`：先修改全局隔离级别，再重启mysql
+
+  | 事务A                | 事务B                                 | 结果                                       |
+  | -------------------- | ------------------------------------- | ------------------------------------------ |
+  | start transaction    | start transaction                     | 都ok                                       |
+  | select * from t_user |                                       | 查询结果为空                               |
+  |                      | insert into t_user values('zhangsan') | 插入ok                                     |
+  |                      | insert into t_user values('lisi')     | 插入ok                                     |
+  | select * from t_user |                                       | 查询结果为空                               |
+  |                      | commit                                | 提交事务ok                                 |
+  | select * from t_user |                                       | 仍为空，查到的始终是事务A开启时表中的数据  |
+  |                      | delete from t_user                    | 删除数据成功                               |
+  | select * from t_user |                                       | 只要A不提交，查到的永远是事务A开启时的数据 |
+
+- 验证`serializable`：先修改全局隔离级别，再重启mysql
+
+  | 事务A                                 | 事务B                | 结果                             |
+  | ------------------------------------- | -------------------- | -------------------------------- |
+  | start transaction                     | start transaction    | 都ok                             |
+  | select * from t_user                  |                      | 查询结果为空                     |
+  | insert into t_user values('zhangsan') |                      | 插入ok                           |
+  |                                       | select * from t_user | 查询会卡住（排队中）             |
+  | commit                                |                      | 事务A提交ok，事务B的查询自动完成 |
+
+## 索引（理解）
+
+- 概述
+
+  - 是在表的字段上添加的，相当于目录，为了缩小扫描范围，提高查询效率而存在
+  - 可以单个字段添加索引，也可以多个字段联合起来添加索引
+  - 索引是需要排序的，是`B+Tree`的数据结构，底层是一个自平衡的二叉树，遵循左小右大的原则存放，采用中序遍历方式存取数据
+  - mysql在查询方面主要两种方式：全表扫描（有where语句时只扫描where的字段），根据索引检索
+
+- 注意点
+
+  - 任何数据库的主键字段都会自动添加索引对象；mysql的`unique`约束字段也会自动添加索引对象
+  - 任何数据库，任何一张表的任何一条记录都在硬盘上有一个物理存储编号
+  - mysql中索引是一个单独的对象，`MyISAM`引擎把索引存储在`.MYI`文件中，`InnoDB`存储在`tablespace`中，`MEMORY`存储在内存中。但不管索引存储在哪，都是一个树的形式存在（自平衡二叉树：`B+Tree`）
+
+- 实现原理
+
+  > 根据左小右大的存储原则，搜索时按这个原则搜，找到后直接根据物理编号拿到整条记录
+
+  ![image-20210428121414649](D:\资料\Go\src\studygo\Golang学习笔记\mysql-3306 笔记.assets\image-20210428121414649.png)
+
+
+- 索引的使用
+
+  - 使用条件：数据量庞大，具体还要看硬件环境，需要测试；改字段经常出现在`where`后面，即该字段总是被扫描；该字段有很少的DML操作（因为DML之后索引需要重新排序）
+  - 不要随便添加索引，索引多了系统性能反而会降低；建议通过主键或unique约束的字段来查询
+  - `create emp_ename_index on emp(ename);`在ename字段上创建索引
+  - `drop index emp_ename_index on emp;`删除ename对象上的索引
+  - `explain select * from emp where ename='KING';`查看一个SQL语句是否使用了索引进行检索，如果输出的结果中`type`是`ALL`的话，就没有使用索引；是`ref`的话就是用了索引
+
+- 索引的失效
+
+  - 模糊查询的时候以`%`开头
+  - 使用`or`，除非`or`两边的字段都有索引
+  - 使用复合索引（多个字段联合起来添加索引）的时候，没有使用左侧的列查询
+  - 在where当中索引列参加了数学运算或使用了函数或使用了类型转换
+  
+- 索引的分类
+
+  > 单一索引、复合索引、主键索引、唯一性索引
+
+## mysql优化
+
+  - 使用索引（优先考虑）
+  - 尽量少用or，可以用union
+  - 模糊查询尽量不要以%开头
+
+## 视图
+
+> view：站在不同的角度去看待同一份数据，也是以文件的形式存在的
+>
+> 只有DQL语句才能以view的形式创建（as后面必须是DQL）
+
+- `create view emp_view as select * from emp;`
+- `drop view emp_view`
+- 面向视图对象进行增删改查，对视图对象的增删改查会导致原表被操作
+- 连接查询的结果也可以用来创建视图对象
+- 视图是用来简化SQL语句的（特别长的查询语句，且会在不同的位置上反复使用，可以创建一个视图对象，后续直接使用此视图对象）
+
+## DBA常用命令
+
+- `create user xxx identified by 'password'`
+- `grant/revoke`：授权/撤销权限
+- 重点掌握：数据的导入和导出
+  - 导出，在CMD中而非登入mysql：`mysqldump 数据库名>D:\xxx.sql -uroot -p123`
+    - 数据库名之后跟`空格和表名`，可以导出指定表
+  - 导入，先创建数据库并使用数据库之后，再导入：`source D:\xxx.sql`
+
+## 数据库设计三范式（面试常问）
+
+> 数据库表的设计依据，教你怎么进行设计数据库的表
+>
+> “多对多，三张表，关系表两个外键”
+>
+> “一对多，两张表，多的表加外键”
+>
+> “一对一，外键唯一”（子表的外键字段要额外添加unique约束）（如登录信息和用户信息拆开来，用户信息表添加一个登录id字段作为外键）
+
+- 第一范式：任何表必须有主键，每一个字段都是原子性不可再分
+
+  > 比如联系方式这个字段，用邮箱和电话来作为值，则不符合此范式，拆成两个字段后才是原子性不可再分了
+
+- 第二范式：在第一范式的基础上，所有非主键字段必须完全依赖主键，不能部分依赖（即尽量不要有复合主键）
+
+  > 字段间有多对多关系的，三张表，关系表两个外键（第三张表专门用来存关系）
+
+- 第三范式：在第二范式的基础上，所有非主键字段必须直接依赖主键，不能传递依赖
+
+  > 字段间有一对多关系的，两张表；一对多的关系中，多所属的表加外键
+
+- 面试问到了除了回答三范式，还要说：只是理论，最终是为了满足客户的需求，有时会拿冗余换执行速度，因为表的连接次数越多，效率越低（笛卡尔积），对于开发人员来说，编写SQL语句的难度也会降低。
+
+
+
