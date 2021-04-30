@@ -1,0 +1,325 @@
+# 安装配置
+
+- 安装后，在安装路径的data目录下新建db文件夹
+- `mongod.cfg`中设置相关配置
+
+# 基本概念
+
+> 基于分布式文件存储的数据库，C++编写，用来处理大量的文档。是介于关系型数据库和非关系型数据库中间的产品
+
+- 数据库
+- 集合
+- 文档
+- 属性：值可以是数组，可以是文档对象（JSON），称为内嵌文档
+
+# 命令
+
+> <>括中的内容代表可替换成其他内容，[]代表可选内容
+>
+> 集合命名时一般用复数
+
+- 基本命令
+  - `show dbs`：查看所有数据库
+  - `show collections`：查看所有集合
+  - `db`：查看当前使用的数据库
+  - `use xxx`：切换到xxx数据库，没有的话新建一个xxx
+  - `db.dropDatabaes()`删除数据库
+  - `ObjectId()`：手动生成`_id`字段（或称为数据域）
+    - 是MongoDB自动根据时间戳和机器码计算生成的，文档的唯一标识
+    - 此属性可以自己指定，但最好不这样做
+  
+- 插入
+  - `db.createCollection("xxxx")`
+  
+  - `db.<collection>.insert(json)`
+  
+    - 第二个参数`ordered: <boolean>`，是否按顺序写入，默认 true，按顺序写入
+  
+  - `db.<collection>.insert([json1,json2])`
+  
+  - `db.<collection>.insertOne()`插入单个文档，语义上更明确
+  
+  - `db.<collection>.insertMany()`查询多个文档，语义上更明确
+  
+  - 循环插入
+  
+    ```javascript
+    # 不要循环insert，而要循环push后再insert
+    var arr = []
+    for (var i =1;i<=20000;i++) {
+        arr.push({"number":i})
+    }
+    db.numbers.insert(arr)
+    ```
+  
+- 查询
+  - `db.<collection>.find()`或`db.<collection>.find({})`：查询所有文档
+  - `db.<collection>.find({<field>:"<value>"})`
+    - 查询所有符合此条件的文档，有多个条件时用逗号隔开
+    - 返回的是一个数组，可以根据数组下标获取数组中的文档
+  - `db.<collection>.findOne({<field>:"<value>"})`
+    - 查询符合此条件的第一个文档，返回的是一个文档对象
+    - 可以直接用`.`操作符调用此文档对象的属性
+  - `db.<collection>.find().couont()`或`db.<collection>.find().length()`返回查询结果的数量，一般用`count()`
+  
+- 修改
+  
+  - `db.<collection>.update(查询条件,新对象)`
+  
+    - 默认情况下会使用新对象来完全替换旧对象
+  
+    - 修改指定的属性，用修改操作符`$set`、`$unset`
+  
+    - 对于用`$set`修改的属性，如果集合中不存在，会新增；用`$unset`修改的属性，不管给的值是什么，都会删掉这个属性
+  
+    - 其他操作符：`$push`，在数组中新增值；`$addToSet`，在数组中新增不重复的值
+  
+    - 默认情况下只改符合条件的一个文档，还可以传第三个参数来修改多个
+  
+      ```javascript
+      db.<collection>.update(<query>,
+                             <update>,
+                             {
+                             upsert:<boolean>,
+                             multi:<boolean>, # true则支持修改多个
+                             writeConcern:<document>,
+                             collation:<document>,
+      						}
+      )
+      ```
+  
+  - `db.<collection>.updateMany(查询条件,新对象)`：同时修改符合条件的多个文档
+  
+  - `db.<collection>.updateOne(查询条件,新对象)`：同时修改符合条件的一个文档
+  
+  - `db.<collection>.replaceOne(查询条件,新对象)`：替换符合条件的一个文档（没有replaceMany）
+  
+- 删除
+  
+  - `db.<collection>.drop()`：直接删除集合（数据库中没有集合时，数据库也没了）
+  
+  - `db.<collection>.remove<query>)`
+  
+    - 根据条件删除文档，默认支持删除符合条件的所有文档
+  
+    - 传第二个参数，可以只删一个
+  
+      ```javascript
+      db.<collection>.remove(<query>,<boolean>)
+      ```
+  
+    - remove必须传参，如果传的是`{}`，则删除所有文档，删完后集合还在（性能略差，建议用drop）
+  
+  - `db.<collection>.deleteOne(<query>)`：类似update
+  
+  - `db.<collection>.deleteMany(<query>)`：类似update
+  
+- 实际业务的删除
+
+  > 一般设置一个isDel的标志位，查询时只把isDel为0的结果呈现出来
+
+- 内嵌文档
+
+  - 属性的值也是个文档对象，MongoDB支持通过内嵌文档来查找，但必须用`''`或`""`括起来，否则报错
+
+  - 查找时，查找的条件不一定是`=`关系，也可能是包含关系
+
+    > 比如属性a的值是个文档对象b，b的值是个数组，查找时也可以通过条件查找出来
+
+- 分页
+
+  > MongoDB会自动调整skip和limit调用的顺序，这两个的前后顺序不影响结果
+
+  - `limit(n)`：只显示n条
+  - `skip(n)`：跳过前n条
+  - 显示k条数据：`db.<collections>.find().skip((pagenumber-1)*pagesize).limin(pagesize)`
+
+- 排序
+
+  > skip、limit、sort可以以任意顺序调用
+
+  - MongoDB默认按照`_id`属性排序
+  - `sort({<field:1>})`：按照field的升序排序，降序是`-1`
+  - 可以指定多个字段，和mysql一样，第一个字段相等时，再根据第二个字段排序
+
+- 操作符
+
+  > 使用操作符时必须用`{}`括起来
+  >
+  > 且的关系，用逗号连接两个条件；或的关系，用`$or`操作符，后跟数组，数组里是两个条件，分别用`{}`括起来
+
+  - `$set`
+  - `$unset`
+  - `$push`
+  - `$addToSet`
+  - `$gt`
+  - `$lt`
+  - `$eq`：判断等于时一般直接find
+  - `$gte`
+  - `$lte`
+  - `$ne`
+  - `$inc:n`值自增（自减时`$inc:-n`)
+
+# 其他知识点
+
+- 文档之间的关系
+
+  - 一对一
+
+    - MongoDB中通过内嵌文档的方式来体现（一个属性的值是一个非数组的文档对象，此文档和它内嵌的文档就是一对一）
+    - 实际开发中场景不多
+
+  - 一对多/多对一：使用场景最多
+
+    - 方式一：通过内嵌文档，内嵌一个数组文档对象
+
+    - 方式二：“多”这个集合中设置一个属性来标识“一”这个集合，类似mysql的”一对多，两张表，多的表加外键“
+
+      > 查找时用findOne找到“一”这个集合中满足条件的文档，再通过`.`得到此文档的标识属性，再把这个结果定义成变量，再从“多”这个集合中根据这个变量去查找
+
+  - 多对多
+
+    - 类似一对多的方式二，只不过把那个用来标识的属性换成数组
+
+- 投影
+
+  > 查询的结果中想显示的字段
+
+  - `find({},{<field1>:1,<field2>:1})`：只想显示field1和field2的信息
+  - 默认`_id`会显示出来，不想看的话强制设为0
+
+- 索引
+
+  > 底层是B-Tree结构，mysql是B+Tree
+
+  复制别人的博客
+
+  ```shell
+  4.1 概述
+  索引支持在 MongoDB 中高效地执行查询.如果没有索引, MongoDB 必须执行全集合扫描, 即扫描集合中的每个文档, 以选择与查询语句 匹配的文档.这种扫描全集合的查询效率是非常低的, 特别在处理大量的数据时, 查询可以要花费几十秒甚至几分钟, 这对网站的性能是非常致命的.
+  
+  如果查询存在适当的索引, MongoDB 可以使用该索引限制必须检查的文档数.
+  
+  索引是特殊的数据结构, 它以易于遍历的形式存储集合数据集的一小部分.索引存储特定字段或一组字段的值, 按字段值排序.索引项的排 序支持有效的相等匹配和基于范围的查询操作.此外, MongoDB 还可以使用索引中的排序返回排序结果.
+  
+  MongoDB 使用的是 B Tree, MySQL 使用的是 B+ Tree
+  
+  // create index
+  db.<collection_name>.createIndex({ userid : 1, username : -1 })
+  
+  // retrieve indexes
+  db.<collection_name>.getIndexes()
+  
+  // remove indexes
+  db.<collection_name>.dropIndex(index)
+  
+  // there are 2 ways to remove indexes:
+  // 1. removed based on the index name
+  // 2. removed based on the fields
+  
+  db.<collection_name>.dropIndex( "userid_1_username_-1" )
+  db.<collection_name>.dropIndex({ userid : 1, username : -1 })
+  
+  // remove all the indexes, will only remove non_id indexes
+  db.<collection_name>.dropIndexes()
+  4.2 索引的类型
+  4.2.1 单字段索引
+  MongoDB 支持在文档的单个字段上创建用户定义的升序/降序索引, 称为单字段索引 Single Field Index
+  
+  对于单个字段索引和排序操作, 索引键的排序顺序（即升序或降序）并不重要, 因为 MongoDB 可以在任何方向上遍历索引.
+  
+  
+  
+  4.2.2 复合索引
+  MongoDB 还支持多个字段的用户定义索引, 即复合索引 Compound Index
+  
+  复合索引中列出的字段顺序具有重要意义.例如, 如果复合索引由 { userid: 1, score: -1 } 组成, 则索引首先按 userid 正序排序, 然后 在每个 userid 的值内, 再在按 score 倒序排序.
+  
+  
+  
+  4.2.3 其他索引
+  地理空间索引 Geospatial Index
+  文本索引 Text Indexes
+  哈希索引 Hashed Indexes
+  地理空间索引（Geospatial Index）
+  为了支持对地理空间坐标数据的有效查询, MongoDB 提供了两种特殊的索引: 返回结果时使用平面几何的二维索引和返回结果时使用球面几何的二维球面索引.
+  
+  文本索引（Text Indexes）
+  MongoDB 提供了一种文本索引类型, 支持在集合中搜索字符串内容.这些文本索引不存储特定于语言的停止词（例如 “the”, “a”, “or”）, 而将集合中的词作为词干, 只存储根词.
+  
+  哈希索引（Hashed Indexes）
+  为了支持基于散列的分片, MongoDB 提供了散列索引类型, 它对字段值的散列进行索引.这些索引在其范围内的值分布更加随机, 但只支持相等匹配, 不支持基于范围的查询.
+  
+  4.3 索引的管理操作
+  4.3.1 索引的查看
+  语法
+  
+  db.collection.getIndexes()
+  默认 _id 索引： MongoDB 在创建集合的过程中, 在 _id 字段上创建一个唯一的索引, 默认名字为 _id , 该索引可防止客户端插入两个具有相同值的文 档, 不能在 _id 字段上删除此索引.
+  
+  注意：该索引是唯一索引, 因此值不能重复, 即 _id 值不能重复的.
+  
+  在分片集群中, 通常使用 _id 作为片键.
+  
+  4.3.2 索引的创建
+  语法
+  
+  db.collection.createIndex(keys, options)
+  options（更多选项）列表：放在后面了
+  
+  举个🌰
+  
+  $  db.comment.createIndex({userid:1})
+  
+  $ db.comment.createIndex({userid:1,nickname:-1})
+  ...
+  
+  4.3.3 索引的删除
+  语法
+  
+  # 删除某一个索引
+  $ db.collection.dropIndex(index)
+  
+  # 删除全部索引
+  $ db.collection.dropIndexes()
+  提示:
+  
+  _id 的字段的索引是无法删除的, 只能删除非 _id 字段的索引
+  
+  示例
+  
+  # 删除 comment 集合中 userid 字段上的升序索引
+  $ db.comment.dropIndex({userid:1})
+  4.4 索引使用
+  4.4.1 执行计划
+  分析查询性能 (Analyze Query Performance) 通常使用执行计划 (解释计划 - Explain Plan) 来查看查询的情况
+  
+  $ db.<collection_name>.find( query, options ).explain(options)
+  比如: 查看根据 user_id 查询数据的情况
+  
+  未添加索引之前
+  
+  "stage" : "COLLSCAN", 表示全集合扫描
+  
+  
+  添加索引之后
+  
+  "stage" : "IXSCAN", 基于索引的扫描
+  
+  4.4.2 涵盖的查询
+  当查询条件和查询的投影仅包含索引字段是, MongoDB 直接从索引返回结果, 而不扫描任何文档或将 带入内存, 这些覆盖的查询十分有效
+  
+  https://docs.mongodb.com/manual/core/query-optimization/#covered-query
+  ```
+
+  | Parameter              | Type          | Description                                                  |
+  | :--------------------- | :------------ | :----------------------------------------------------------- |
+  | background             | Boolean       | 建索引过程会阻塞其它数据库操作，background可指定以后台方式创建索引，即增加 "background" 可选参数。 "background" 默认值为**false**。 |
+  | **unique**（比较重要） | **Boolean**   | **建立的索引是否唯一。指定为true创建唯一索引。默认值为false.** |
+  | name                   | string        | 索引的名称。如果未指定，MongoDB的通过连接索引的字段名和排序顺序生成一个索引名称。 |
+  | sparse                 | Boolean       | 对文档中不存在的字段数据不启用索引；这个参数需要特别注意，如果设置为true的话，在索引字段中不会查询出不包含对应字段的文档.。默认值为 **false**. |
+  | expireAfterSeconds     | integer       | 指定一个以秒为单位的数值，完成 TTL设定，设定集合的生存时间。 |
+  | v                      | index version | 索引的版本号。默认的索引版本取决于mongod创建索引时运行的版本。 |
+  | weights                | document      | 索引权重值，数值在 1 到 99,999 之间，表示该索引相对于其他索引字段的得分权重。 |
+  | default_language       | string        | 对于文本索引，该参数决定了停用词及词干和词器的规则的列表。 默认为英语 |
+  | language_override      | string        | 对于文本索引，该参数指定了包含在文档中的字段名，语言覆盖默认的language，默认值为 language. |
