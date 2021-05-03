@@ -34,11 +34,15 @@
 
 # 撤销修改
 
-- `git reset HEAD`：撤销add的
+- `git checkout`：撤销`ctrl+s`保存的
 
-  >  也就是把上一次commit的记录拿来覆盖`stage`区的）（上一次的commit即最新的commit，HEAD指向的是这个commit
+- `git reset HEAD`：撤销add的（和`--mixed`等效）（如果是HEAD~的话则是先移动HEAD，再把HEAD指向的commit同步到index）
 
-- 
+  >  也就是把上一次commit的记录拿来覆盖`stage`区的（上一次的commit即最新的commit，HEAD指向的是这个commit)，不会覆盖工作区
+
+- `git reset --soft HEAD~`：把本地仓库的`HEAD`指向最新提交的上一次，（即修改`HEAD`指向的位置）
+
+- `git reset --hard HEAD~`：把本地仓库的内容直接覆盖本地所有，连工作区也覆盖了
 
 # IDEA集成git
 
@@ -64,13 +68,24 @@
 
 - 一般的开发过程如下
 
+  > Git merge 和rebase的作用是一样的，都是将多个分支合并成一个。
+  >
+  > merge后两个分支的commit历史不变，而rebase后会把commit的历史也合并进去
+  >
+  > 本地开发分支拉取远程开发分支用rebase，开发分支合并主干分支的时候用rebase(就是题主说的这些)，最后主干分支合并开发分支用merge，最后推送各分支。
+
   ```shell
   git checkout master #切到master分支
   git pull #拉取最新的master分支
   git checkout local #切换到local分支
+  
   #修改代码，如果修改的时间很长，可以改完之后再pull最新的master
   #修改完了， 就正常提交代码-------git commit
-  git rebase -i HEAD~2  //合并提交 --- 2表示合并两个 #如果有多次local分支的提交，就合并，只有一次可以不合并
+  
+  #1. 如果有多次local分支的提交，就合并，只有一次可以不合并
+  #2. 然后我们开始输入i进入编辑页面开始修改，把需要压缩的提交，前面pick关键字改成squash，注意，git squash 只支持依次修改，必须保留最上面的pick关键字不变，否则会报错，无法squash成功
+  #3. 最后，我们第一次 esc，:wq保存 会进入到如下图commit message 的编辑界面，继续输入i进行压缩后提交信息命名的修改，然后第二次 esc，:wq保存，最后看到successfully的字样就说明成功了
+  git rebase -i HEAD~2  //合并提交 --- 2表示合并两个
   git rebase master---->解决冲突--->git rebase --continue #将master的最新内容合并到local
   git checkout master #再次切换到master或其他目标分支
   git merge local #将local的所有修改合并到master
