@@ -247,6 +247,8 @@
 
 # 配置（redis.config）
 
+> 修改配置后，重启redis生效
+
 - `unit`单位对大小写不敏感
 
 - `INCLUDES`可以包含其他配置文件，可以把多个`redis.config`组合成一个
@@ -265,7 +267,7 @@
 - `SNAPSHOTTING`快照（rdb的配置）
 
   ```bash
-  save 900 1					#如果900s内，至少有一个key进行了修改，则进行持久化操作
+  save 900 1					#如果900s内，至少有一个key进行了修改，则900s后进行持久化操作
   save 300 10					#同上
   save 60 10000				#同上
   stop-writes-on-bgsave-error	#持久化出错后，redis是否继续工作
@@ -274,7 +276,10 @@
   dir							#rdb保存的目录
   ```
 
-- `REPLICATION`：主从复制
+- `REPLICATION`主从复制，只用配置从机的这部分内容
+
+  - `replicaof <masterip> <masterport>`，主机的ip和端口
+  - `masterauto <password>`主机的密码，可不配
 
 - `SECURITY`
 
@@ -306,6 +311,7 @@
   - `appendonly`是否开启`AOF`模式，默认不开启而使用`rdb`。一般场景rdb完全够用
   - `appendfilename`aof的文件名
   - `appendfsync`同步的时间，每次修改都同步 / 每秒都同步 / 不同步
+  - `no-appendfsync-on-rewrite`、`auto-aof-rewrite-percentage 100`、`auto-aof-rewrite-min-size 64mb`重写aof文件的三个配置项
 
 # 持久化
 
@@ -334,7 +340,15 @@
 
 ![image-20210503162343047](D:\资料\Go\src\studygo\Golang学习笔记\redis笔记.assets\image-20210503162343047.png)
 
-## AOF
+## AOF（Append Only File）
+
+> 把所有命令都记录下来，当做history，恢复的时候就把这个文件中的命令全部执行一遍
+
+- 只记录写操作，不记录读操作
+- 只追加文件不改写文件，redis启动时会读取此文件来重新构建数据库
+- 手动修改`appendonly.aof`的话，启动redis会失败，可以运行`redis-check-aof --fix`来修复
+
+![image-20210503214656330](D:\资料\Go\src\studygo\Golang学习笔记\redis笔记.assets\image-20210503214656330.png)
 
 # 事务
 
@@ -366,16 +380,60 @@
 > - `watch <key>`事务开启之前监视某个key，事务执行之前其他线程操作了这个key，则执行事务时会失败，返回nil
 > - 执行失败的话说明有人更新过值，先`unwacth`再重新`watch <key>`
 
-# 订阅发布实现
+# 发布订阅
+
+- 三个角色：消息发送者，频道，消息接收者
+- 命令：`subscribe <chann>`订阅频道，`publish <channel> <msg>`向频道发送消息，`unsubscribe <chann>`取消订阅频道
+
+![image-20210503221505925](D:\资料\Go\src\studygo\Golang学习笔记\redis笔记.assets\image-20210503221505925.png)
 
 # 主从复制
 
+## 概念
+
+> 将一台redis服务器的数据，复制到其他redis的服务器。前者为主节点（master/leader)，后者为从节点（slave/follower）
+>
+> 数据的复制是单向的，只能由主节点到从节点，==master以写为主，slave以读为主==，读写分离可以减轻服务器压力
+>
+> ==默认情况下每台redis服务器都是主节点，最低配是一主二从，一般单台redis的最大内存不应超20G==
+
+**作用**
+
+- 数据冗余：实现了数据的热备份，是持久化之外的一种数据冗余方式
+- 故障恢复：主节点有问题时可由从节点提供服务，实现快速的故障恢复，实际上是一种服务的冗余
+- 负载均衡：读写分离，提高redis服务器的并发量
+- 高可用基石：主从复制是哨兵和集群能够实施的基础
+
+## 配置
+
+- 复制出三个配置文件，一主二从，分别为79、80、81
+
+- 改端口、pid文件名、log文件名、dump.rdb文件名（按79、80、81改）
+
+- 以配置文件启动三个`redis-server`
+
+- 只配置从库，不配置主库
+
+  - 一主（79）二从（80、81），主机写，从机读，从机写的时候会报错
+  - 链路，79主，80是79的节点，81是80的从节点，但80仍然无法写操作
+    - 此模式下，主机断开后，80可自己当主机，即使79重新连接，也没用，必须手动重新配
+
+  ```bash
+  #主机断开连接后，从机仍然连着，但是无法写操作；重启后，从机可继续获取主机的信息
+  #从机断开连接重启后，如果配置文件配置了主机信息，可继续获取主机信息；如果是命令行配置的，就不会，因为默认是主机
+  slaveof <ip> <port>	#认老大
+  info replication	#查看当前库的主从信息
+  slaveof no one		#从机自己当主机
+  ```
+
+- 实际开发不用命令配置，而是修改配置文件中`REPLICATION`部分的配置项
+
+![image-20210503232030687](D:\资料\Go\src\studygo\Golang学习笔记\redis笔记.assets\image-20210503232030687.png)
+
 # 哨兵模式
 
-# 缓存问题
+> 自动选举主机的模式
 
-# 缓存穿透及解决方案
 
-# 缓存击穿及解决方案
 
-# 缓存雪崩及解决方案
+# 缓存穿透和雪崩
