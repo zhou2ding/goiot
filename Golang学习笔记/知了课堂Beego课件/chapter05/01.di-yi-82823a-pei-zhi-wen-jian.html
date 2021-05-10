@@ -1,0 +1,1212 @@
+<!DOCTYPE HTML>
+<html lang="en" >
+    
+    <head>
+        
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>第一节:配置文件 | 知了课堂Beego Web框架课程</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 2.6.7">
+        
+        
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+        <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+        
+    <link rel="stylesheet" href="../gitbook/style.css">
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
+        
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-search/search.css">
+        
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
+    
+
+        
+    
+    
+    <link rel="next" href="../chapter05/02.di-er-82823a-lu-you-pei-zhi.html" />
+    
+    
+    <link rel="prev" href="../chapter05/00.beego的controller模块.html" />
+    
+
+        
+    </head>
+    <body>
+        
+        
+    <div class="book"
+        data-level="7.1"
+        data-chapter-title="第一节:配置文件"
+        data-filepath="chapter05/01.di-yi-82823a-pei-zhi-wen-jian.md"
+        data-basepath=".."
+        data-revision="Sat May 09 2020 14:50:17 GMT+0800 (中国标准时间)"
+        data-innerlanguage="">
+    
+
+<div class="book-summary">
+    <nav role="navigation">
+        <ul class="summary">
+            
+            
+            
+            
+
+            
+
+            
+    
+        <li class="chapter " data-level="0" data-path="index.html">
+            
+                
+                    <a href="../index.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                        Introduction
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1" data-path="chapter01/00.README.html">
+            
+                
+                    <a href="../chapter01/00.README.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.</b>
+                        
+                        知了课堂go web框架课程
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2" data-path="chapter01/01.go-webkuang-jia-jie-shao.html">
+            
+                
+                    <a href="../chapter01/01.go-webkuang-jia-jie-shao.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.</b>
+                        
+                        go-web框架介绍
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3" data-path="chapter01/02.web介绍.html">
+            
+                
+                    <a href="../chapter01/02.web介绍.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.</b>
+                        
+                        第一章.WEB介绍
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4" data-path="chapter02/00.beegokuang-jia.html">
+            
+                
+                    <a href="../chapter02/00.beegokuang-jia.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.</b>
+                        
+                        第二章.beego框架介绍
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.1" data-path="chapter02/01.di-yi-82823a.html">
+            
+                
+                    <a href="../chapter02/01.di-yi-82823a.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.1.</b>
+                        
+                        第一节:环境准备
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5" data-path="chapter03/00.beegochu-ti-yan.html">
+            
+                
+                    <a href="../chapter03/00.beegochu-ti-yan.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.</b>
+                        
+                        第三章:beego初体验
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.1" data-path="chapter03/01.di-yi-82823a-di-yi-ge-xiang-mu.html">
+            
+                
+                    <a href="../chapter03/01.di-yi-82823a-di-yi-ge-xiang-mu.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.1.</b>
+                        
+                        第一节:第一个项目
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="chapter03/02.di-er-82823a-yun-xing-luo-ji-jie-shao.html">
+            
+                
+                    <a href="../chapter03/02.di-er-82823a-yun-xing-luo-ji-jie-shao.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.2.</b>
+                        
+                        第二节:运行逻辑介绍
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3" data-path="chapter03/03.di-san-82823a-controller-yun-xing-yuan-li.html">
+            
+                
+                    <a href="../chapter03/03.di-san-82823a-controller-yun-xing-yuan-li.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.3.</b>
+                        
+                        第三节:controller运行原理
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4" data-path="chapter03/04.di-si-82823a-jie-gou-ti-xiang-jie.html">
+            
+                
+                    <a href="../chapter03/04.di-si-82823a-jie-gou-ti-xiang-jie.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.4.</b>
+                        
+                        第四节:结构体详解
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="6" data-path="chapter04/00.shu-ju-jiao-hu.html">
+            
+                
+                    <a href="../chapter04/00.shu-ju-jiao-hu.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.</b>
+                        
+                        第四章:beego数据交互
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="6.1" data-path="chapter04/01.di-yi-82823a-zi-fu-chuan-xuan-ran.html">
+            
+                
+                    <a href="../chapter04/01.di-yi-82823a-zi-fu-chuan-xuan-ran.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.1.</b>
+                        
+                        第一节:字符串渲染
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.2" data-path="chapter04/02.di-yi-82823a-mo-ban-xuan-ran-jian-jie.html">
+            
+                
+                    <a href="../chapter04/02.di-yi-82823a-mo-ban-xuan-ran-jian-jie.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.2.</b>
+                        
+                        第二节:模板渲染简介
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.3" data-path="chapter04/03.di-er-82823a-qi-ta-shu-ju-lei-xing-de-mo-ban-xuan-ran.html">
+            
+                
+                    <a href="../chapter04/03.di-er-82823a-qi-ta-shu-ju-lei-xing-de-mo-ban-xuan-ran.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.3.</b>
+                        
+                        第三节:其他数据类型的模板渲染
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.4" data-path="chapter04/04.di-san-82823a-jing-tai-wen-jian-de-shi-yong.html">
+            
+                
+                    <a href="../chapter04/04.di-san-82823a-jing-tai-wen-jian-de-shi-yong.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.4.</b>
+                        
+                        第四节:.静态文件的使用
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.5" data-path="chapter04/05.di-si-82823a-huo-qu-qing-qiu-shu-ju.html">
+            
+                
+                    <a href="../chapter04/05.di-si-82823a-huo-qu-qing-qiu-shu-ju.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.5.</b>
+                        
+                        第五节:获取请求数据
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.6" data-path="chapter04/06.di-wu-82823a-huo-qu-body-zhong-de-shu-636e28-ajax.html">
+            
+                
+                    <a href="../chapter04/06.di-wu-82823a-huo-qu-body-zhong-de-shu-636e28-ajax.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.6.</b>
+                        
+                        第六节:获取body中的数据\(ajax\)
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.7" data-path="chapter04/07.di-liu-82823a-jiang-huo-qu-de-shu-ju-jie-xi-dao-jie-gou-4f5328-struct.html">
+            
+                
+                    <a href="../chapter04/07.di-liu-82823a-jiang-huo-qu-de-shu-ju-jie-xi-dao-jie-gou-4f5328-struct.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.7.</b>
+                        
+                        第七节:form表单数据解析到结构体\(struct\)
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.8" data-path="chapter04/08.di-qi-82823a-duo-zhong-ge-shi-shu-ju-shu-chu.html">
+            
+                
+                    <a href="../chapter04/08.di-qi-82823a-duo-zhong-ge-shi-shu-ju-shu-chu.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.8.</b>
+                        
+                        第八节:多种格式数据输出
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.9" data-path="chapter04/09.di-ba-82823a-flash-shu-ju-chuan-di.html">
+            
+                
+                    <a href="../chapter04/09.di-ba-82823a-flash-shu-ju-chuan-di.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.9.</b>
+                        
+                        第九节:flash数据传递
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="7" data-path="chapter05/00.beego的controller模块.html">
+            
+                
+                    <a href="../chapter05/00.beego的controller模块.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.</b>
+                        
+                        第五章:beego的controller模块
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="7.1" data-path="chapter05/01.di-yi-82823a-pei-zhi-wen-jian.html">
+            
+                
+                    <a href="../chapter05/01.di-yi-82823a-pei-zhi-wen-jian.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.1.</b>
+                        
+                        第一节:配置文件
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.2" data-path="chapter05/02.di-er-82823a-lu-you-pei-zhi.html">
+            
+                
+                    <a href="../chapter05/02.di-er-82823a-lu-you-pei-zhi.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.2.</b>
+                        
+                        第二节:路由配置
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.3" data-path="chapter05/03.di-san-82823a-controller-fang-fa.html">
+            
+                
+                    <a href="../chapter05/03.di-san-82823a-controller-fang-fa.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.3.</b>
+                        
+                        第三节:controller方法
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.4" data-path="chapter05/04.di-si-82823a-kua-zhan-qing-qiu-wei-902028-xsrf.html">
+            
+                
+                    <a href="../chapter05/04.di-si-82823a-kua-zhan-qing-qiu-wei-902028-xsrf.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.4.</b>
+                        
+                        第四节:跨站请求伪造\(XSRF\)
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.5" data-path="chapter05/05.di-wu-82823a-wen-jian-shang-chuan.html">
+            
+                
+                    <a href="../chapter05/05.di-wu-82823a-wen-jian-shang-chuan.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.5.</b>
+                        
+                        第五节:文件上传之form表单
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.6" data-path="chapter05/06.di-liu-82823a-wen-jian-shang-chuan-zhi-ajax.html">
+            
+                
+                    <a href="../chapter05/06.di-liu-82823a-wen-jian-shang-chuan-zhi-ajax.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.6.</b>
+                        
+                        第六节:文件上传之ajax
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.7" data-path="chapter05/07.di-liu-82823a-session.html">
+            
+                
+                    <a href="../chapter05/07.di-liu-82823a-session.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.7.</b>
+                        
+                        第七节:session
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.8" data-path="chapter05/08.di-qi-82823a-zi-ding-yi-guo-lv-qi.html">
+            
+                
+                    <a href="../chapter05/08.di-qi-82823a-zi-ding-yi-guo-lv-qi.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.8.</b>
+                        
+                        第八节:自定义过滤器
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.9" data-path="chapter05/09.di-ba-82823a-urlfor-shi-xian-lu-you-fan-zhuan.html">
+            
+                
+                    <a href="../chapter05/09.di-ba-82823a-urlfor-shi-xian-lu-you-fan-zhuan.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.9.</b>
+                        
+                        第九节:UrlFor实现路由反转
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.10" data-path="chapter05/10.di-jiu-82823a-biao-dan-shu-ju-yan-zheng.html">
+            
+                
+                    <a href="../chapter05/10.di-jiu-82823a-biao-dan-shu-ju-yan-zheng.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.10.</b>
+                        
+                        第十节:表单数据验证
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.11" data-path="chapter05/11.di-shi-82823a-biao-dan-yan-zheng-de-fang-fa.html">
+            
+                
+                    <a href="../chapter05/11.di-shi-82823a-biao-dan-yan-zheng-de-fang-fa.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.11.</b>
+                        
+                        第十一节:表单验证的方法
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.12" data-path="chapter05/12.di-shi-er-82823a-cuo-wu-chu-li.html">
+            
+                
+                    <a href="../chapter05/12.di-shi-er-82823a-cuo-wu-chu-li.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.12.</b>
+                        
+                        第十二节:错误处理
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="8" data-path="chapter06/00.37viewmo-kuai.html">
+            
+                
+                    <a href="../chapter06/00.37viewmo-kuai.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.</b>
+                        
+                        第六章:beego的view模块
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="8.1" data-path="chapter06/01.di-yi-82823a-mo-ban-yu-fa-yi.html">
+            
+                
+                    <a href="../chapter06/01.di-yi-82823a-mo-ban-yu-fa-yi.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.1.</b>
+                        
+                        第一节:模板语法一
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.2" data-path="chapter06/02.di-er-82823a-mo-ban-yu-fa-er.html">
+            
+                
+                    <a href="../chapter06/02.di-er-82823a-mo-ban-yu-fa-er.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.2.</b>
+                        
+                        第二节:模板语法二
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.3" data-path="chapter06/03.di-er-82823a-mo-ban-chu-li.html">
+            
+                
+                    <a href="../chapter06/03.di-er-82823a-mo-ban-chu-li.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.3.</b>
+                        
+                        第三节:模板中的基本函数
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.4" data-path="chapter06/04.di-si-82823a-nei-zhi-mo-ban-han-shu.html">
+            
+                
+                    <a href="../chapter06/04.di-si-82823a-nei-zhi-mo-ban-han-shu.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.4.</b>
+                        
+                        第四节:内置模板函数
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.5" data-path="chapter06/05.di-liu-82823a-zi-ding-yi-mo-ban-han-shu.html">
+            
+                
+                    <a href="../chapter06/05.di-liu-82823a-zi-ding-yi-mo-ban-han-shu.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.5.</b>
+                        
+                        第五节:自定义模板函数
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.6" data-path="chapter06/06.di-san-82823a-mo-ban-chu-li.html">
+            
+                
+                    <a href="../chapter06/06.di-san-82823a-mo-ban-chu-li.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.6.</b>
+                        
+                        第六节:模板处理
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.7" data-path="chapter06/07.di-wu-82823a.html">
+            
+                
+                    <a href="../chapter06/07.di-wu-82823a.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.7.</b>
+                        
+                        第七节:模板处理之Layout 设计
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.8" data-path="chapter06/08.di-si-82823a-mo-ban-chu-li-zhi-renderform.html">
+            
+                
+                    <a href="../chapter06/08.di-si-82823a-mo-ban-chu-li-zhi-renderform.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.8.</b>
+                        
+                        第八节:模板处理之renderform
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.9" data-path="chapter06/09.di-qi-82823a-jing-tai-wen-jian-chu-li.html">
+            
+                
+                    <a href="../chapter06/09.di-qi-82823a-jing-tai-wen-jian-chu-li.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.9.</b>
+                        
+                        第九节:静态文件处理
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.10" data-path="chapter06/10.di-shi-82823a-fen-ye-chu-li.html">
+            
+                
+                    <a href="../chapter06/10.di-shi-82823a-fen-ye-chu-li.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.10.</b>
+                        
+                        第十节:分页处理
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.11" data-path="chapter06/11.di-shi-er-82823a-goroutine-he-chan-bu-chong.html">
+            
+                
+                    <a href="../chapter06/11.di-shi-er-82823a-goroutine-he-chan-bu-chong.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.11.</b>
+                        
+                        第十一节:goroutine和chan补充
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+
+            
+            <li class="divider"></li>
+            <li>
+                <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+                    Published with GitBook
+                </a>
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="book-header" role="navigation">
+    <!-- Actions Left -->
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../" >知了课堂Beego Web框架课程</a>
+    </h1>
+</div>
+
+            <div class="page-wrapper" tabindex="-1" role="main">
+                <div class="page-inner">
+                
+                
+                    <section class="normal" id="section-">
+                    
+                        <h2 id="&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x8DEF;&#x5F84;&#xFF1A;">&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x8DEF;&#x5F84;&#xFF1A;</h2>
+<ul>
+<li><h4 id="beego-&#x9ED8;&#x8BA4;&#x4F1A;&#x89E3;&#x6790;&#x5F53;&#x524D;&#x5E94;&#x7528;&#x4E0B;&#x7684;-confappconf-&#x6587;&#x4EF6;">beego &#x9ED8;&#x8BA4;&#x4F1A;&#x89E3;&#x6790;&#x5F53;&#x524D;&#x5E94;&#x7528;&#x4E0B;&#x7684; conf/app.conf &#x6587;&#x4EF6;</h4>
+<ul>
+<li><h5 id="&#x5E94;&#x7528;&#x540D;&#x79F0;&#xFF1A;appname--beepkg">&#x5E94;&#x7528;&#x540D;&#x79F0;&#xFF1A;appname = beepkg</h5>
+<ul>
+<li><h5 id="beegobconfigappname--beego">beego.BConfig.AppName = &quot;beego&quot;</h5>
+</li>
+</ul>
+</li>
+<li><h5 id="ip&#x5730;&#x5740;&#xFF1A;httpaddr--127001">ip&#x5730;&#x5740;&#xFF1A;httpaddr = &quot;127.0.0.1&quot;</h5>
+</li>
+<li><h5 id="&#x7AEF;&#x53E3;&#xFF1A;httpport--9090">&#x7AEF;&#x53E3;&#xFF1A;httpport = 9090</h5>
+</li>
+<li><h5 id="&#x8FD0;&#x884C;&#x6A21;&#x5F0F;&#xFF1A;runmode-dev------&#x9ED8;&#x8BA4;dev&#xFF0C;&#x5F00;&#x53D1;&#x6A21;&#x5F0F;">&#x8FD0;&#x884C;&#x6A21;&#x5F0F;&#xFF1A;runmode =&quot;dev&quot;      &#x9ED8;&#x8BA4;dev&#xFF0C;&#x5F00;&#x53D1;&#x6A21;&#x5F0F;</h5>
+<ul>
+<li><h5 id="dev-&#x5F00;&#x53D1;&#x73AF;&#x5883;">dev &#x5F00;&#x53D1;&#x73AF;&#x5883;</h5>
+</li>
+<li><h5 id="tets&#xFF1A;&#x6D4B;&#x8BD5;&#x73AF;&#x5883;">tets&#xFF1A;&#x6D4B;&#x8BD5;&#x73AF;&#x5883;</h5>
+</li>
+<li><h5 id="sprod&#xFF1A;&#x51C6;&#x751F;&#x4EA7;">sprod&#xFF1A;&#x51C6;&#x751F;&#x4EA7;</h5>
+</li>
+<li><h5 id="prod&#xFF1A;&#x751F;&#x4EA7;">prod&#xFF1A;&#x751F;&#x4EA7;</h5>
+</li>
+</ul>
+</li>
+<li><ul>
+<li><h5 id="beegobconfigrunmode--dev">beego.BConfig.RunMode = &quot;dev&quot;</h5>
+</li>
+</ul>
+</li>
+<li><h5 id="&#x662F;&#x5426;&#x5173;&#x95ED;&#x6A21;&#x677F;&#x6E32;&#x67D3;&#xFF1A;autorender--false">&#x662F;&#x5426;&#x5173;&#x95ED;&#x6A21;&#x677F;&#x6E32;&#x67D3;&#xFF1A;autorender = false</h5>
+</li>
+<li><h5 id="&#x6A21;&#x677F;&#x8DEF;&#x5F84;&#xFF1A;viewspath--myview">&#x6A21;&#x677F;&#x8DEF;&#x5F84;&#xFF1A;viewspath = &quot;myview&quot;</h5>
+<ul>
+<li><h5 id="beegosetviewspathtestview">beego.SetViewsPath(&#x201C;test_view&#x201D;)</h5>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="&#x8BFB;&#x53D6;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x4FE1;&#x606F;&#xFF1A;">&#x8BFB;&#x53D6;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x4FE1;&#x606F;&#xFF1A;</h2>
+<ul>
+<li><h4 id="beegoappconfigstringmysqluser">beego.AppConfig.String(&quot;mysqluser&quot;)</h4>
+</li>
+</ul>
+<h2 id="&#x591A;&#x4E2A;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#xFF1A;&#x6BD4;&#x5982;&#x6570;&#x636E;&#x5E93;&#x914D;&#x7F6E;&#x4FE1;&#x606F;">&#x591A;&#x4E2A;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#xFF1A;&#x6BD4;&#x5982;&#x6570;&#x636E;&#x5E93;&#x914D;&#x7F6E;&#x4FE1;&#x606F;</h2>
+<ul>
+<li><h4 id="&#x5728;confappconf&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x4E2D;&#x5F15;&#x5165;&#x5176;&#x4ED6;&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;">&#x5728;conf/app.conf&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x4E2D;&#x5F15;&#x5165;&#x5176;&#x4ED6;&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;</h4>
+<ul>
+<li><h4 id="include-mysqlserverconf">include &quot;mysql_server.conf&quot;</h4>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="&#x8BE6;&#x7EC6;&#x914D;&#x7F6E;&#x4FE1;&#x606F;&#x5982;&#x4E0B;&#xFF1A;">&#x8BE6;&#x7EC6;&#x914D;&#x7F6E;&#x4FE1;&#x606F;&#x5982;&#x4E0B;&#xFF1A;</h2>
+<h4 id="app-&#x914D;&#x7F6E;">App &#x914D;&#x7F6E;</h4>
+<ul>
+<li><p><strong>AppName</strong></p>
+<p>&#x5E94;&#x7528;&#x540D;&#x79F0;&#xFF0C;&#x9ED8;&#x8BA4;&#x662F; beego&#x3002;&#x901A;&#x8FC7;<code>bee new</code>&#x521B;&#x5EFA;&#x7684;&#x662F;&#x521B;&#x5EFA;&#x7684;&#x9879;&#x76EE;&#x540D;&#x3002;</p>
+<p><code>beego.BConfig.AppName = &quot;beego&quot;</code></p>
+</li>
+<li><p><strong>RunMode</strong></p>
+<p>&#x5E94;&#x7528;&#x7684;&#x8FD0;&#x884C;&#x6A21;&#x5F0F;&#xFF0C;&#x53EF;&#x9009;&#x503C;&#x4E3A;<code>prod</code>,<code>dev</code>&#x6216;&#x8005;<code>test</code>. &#x9ED8;&#x8BA4;&#x662F;<code>dev</code>, &#x4E3A;&#x5F00;&#x53D1;&#x6A21;&#x5F0F;&#xFF0C;&#x5728;&#x5F00;&#x53D1;&#x6A21;&#x5F0F;&#x4E0B;&#x51FA;&#x9519;&#x4F1A;&#x63D0;&#x793A;&#x53CB;&#x597D;&#x7684;&#x51FA;&#x9519;&#x9875;&#x9762;&#xFF0C;&#x5982;&#x524D;&#x9762;&#x9519;&#x8BEF;&#x63CF;&#x8FF0;&#x4E2D;&#x6240;&#x8FF0;&#x3002;</p>
+<p><code>beego.BConfig.RunMode = &quot;dev&quot;</code></p>
+</li>
+<li><p>RouterCaseSensitive</p>
+<p>&#x662F;&#x5426;&#x8DEF;&#x7531;&#x5FFD;&#x7565;&#x5927;&#x5C0F;&#x5199;&#x5339;&#x914D;&#xFF0C;&#x9ED8;&#x8BA4;&#x662F; true&#xFF0C;&#x533A;&#x5206;&#x5927;&#x5C0F;&#x5199;</p>
+<p><code>beego.BConfig.RouterCaseSensitive = true</code></p>
+</li>
+<li><p>ServerName</p>
+<p>beego &#x670D;&#x52A1;&#x5668;&#x9ED8;&#x8BA4;&#x5728;&#x8BF7;&#x6C42;&#x7684;&#x65F6;&#x5019;&#x8F93;&#x51FA; server &#x4E3A; beego&#x3002;</p>
+<p><code>beego.BConfig.ServerName = &quot;beego&quot;</code></p>
+</li>
+<li><p>RecoverPanic</p>
+<p>&#x662F;&#x5426;&#x5F02;&#x5E38;&#x6062;&#x590D;&#xFF0C;&#x9ED8;&#x8BA4;&#x503C;&#x4E3A; true&#xFF0C;&#x5373;&#x5F53;&#x5E94;&#x7528;&#x51FA;&#x73B0;&#x5F02;&#x5E38;&#x7684;&#x60C5;&#x51B5;&#xFF0C;&#x901A;&#x8FC7; recover &#x6062;&#x590D;&#x56DE;&#x6765;&#xFF0C;&#x800C;&#x4E0D;&#x4F1A;&#x5BFC;&#x81F4;&#x5E94;&#x7528;&#x5F02;&#x5E38;&#x9000;&#x51FA;&#x3002;</p>
+<p><code>beego.BConfig.RecoverPanic = true</code></p>
+</li>
+<li><p><strong>CopyRequestBody</strong></p>
+<p>&#x662F;&#x5426;&#x5141;&#x8BB8;&#x5728; HTTP &#x8BF7;&#x6C42;&#x65F6;&#xFF0C;&#x8FD4;&#x56DE;&#x539F;&#x59CB;&#x8BF7;&#x6C42;&#x4F53;&#x6570;&#x636E;&#x5B57;&#x8282;&#xFF0C;&#x9ED8;&#x8BA4;&#x4E3A; false &#xFF08;GET or HEAD or &#x4E0A;&#x4F20;&#x6587;&#x4EF6;&#x8BF7;&#x6C42;&#x9664;&#x5916;&#xFF09;&#x3002;</p>
+<p><code>beego.BConfig.CopyRequestBody = false</code></p>
+</li>
+<li><p>EnableGzip</p>
+<p>&#x662F;&#x5426;&#x5F00;&#x542F; gzip &#x652F;&#x6301;&#xFF0C;&#x9ED8;&#x8BA4;&#x4E3A; false &#x4E0D;&#x652F;&#x6301; gzip&#xFF0C;&#x4E00;&#x65E6;&#x5F00;&#x542F;&#x4E86; gzip&#xFF0C;&#x90A3;&#x4E48;&#x5728;&#x6A21;&#x677F;&#x8F93;&#x51FA;&#x7684;&#x5185;&#x5BB9;&#x4F1A;&#x8FDB;&#x884C; gzip &#x6216;&#x8005; zlib &#x538B;&#x7F29;&#xFF0C;&#x6839;&#x636E;&#x7528;&#x6237;&#x7684; Accept-Encoding &#x6765;&#x5224;&#x65AD;&#x3002;</p>
+<p><code>beego.BConfig.EnableGzip = false</code></p>
+<p>Gzip&#x5141;&#x8BB8;&#x7528;&#x6237;&#x81EA;&#x5B9A;&#x4E49;&#x538B;&#x7F29;&#x7EA7;&#x522B;&#x3001;&#x538B;&#x7F29;&#x957F;&#x5EA6;&#x9608;&#x503C;&#x548C;&#x9488;&#x5BF9;&#x8BF7;&#x6C42;&#x7C7B;&#x578B;&#x538B;&#x7F29;:</p>
+<ol>
+<li><p>&#x538B;&#x7F29;&#x7EA7;&#x522B;,<code>gzipCompressLevel = 9</code>,&#x53D6;&#x503C;&#x4E3A; 1~9,&#x5982;&#x679C;&#x4E0D;&#x8BBE;&#x7F6E;&#x4E3A; 1(&#x6700;&#x5FEB;&#x538B;&#x7F29;)</p>
+</li>
+<li><p>&#x538B;&#x7F29;&#x957F;&#x5EA6;&#x9608;&#x503C;,<code>gzipMinLength = 256</code>,&#x5F53;&#x539F;&#x59CB;&#x5185;&#x5BB9;&#x957F;&#x5EA6;&#x5927;&#x4E8E;&#x6B64;&#x9608;&#x503C;&#x65F6;&#x624D;&#x5F00;&#x542F;&#x538B;&#x7F29;,&#x9ED8;&#x8BA4;&#x4E3A; 20B(ngnix&#x9ED8;&#x8BA4;&#x957F;&#x5EA6;)</p>
+</li>
+<li><p>&#x8BF7;&#x6C42;&#x7C7B;&#x578B;,<code>includedMethods = get;post</code>,&#x9488;&#x5BF9;&#x54EA;&#x4E9B;&#x8BF7;&#x6C42;&#x7C7B;&#x578B;&#x8FDB;&#x884C;&#x538B;&#x7F29;,&#x9ED8;&#x8BA4;&#x53EA;&#x9488;&#x5BF9; GET &#x8BF7;&#x6C42;&#x538B;&#x7F29;</p>
+</li>
+</ol>
+</li>
+<li><p><strong>MaxMemory</strong></p>
+<p>&#x6587;&#x4EF6;&#x4E0A;&#x4F20;&#x9ED8;&#x8BA4;&#x5185;&#x5B58;&#x7F13;&#x5B58;&#x5927;&#x5C0F;&#xFF0C;&#x9ED8;&#x8BA4;&#x503C;&#x662F;<code>1 &lt;&lt; 26</code>(64M)&#x3002;</p>
+<p><code>beego.BConfig.MaxMemory = 1 &lt;&lt; 26</code></p>
+</li>
+<li><p>EnableErrorsShow</p>
+<p>&#x662F;&#x5426;&#x663E;&#x793A;&#x7CFB;&#x7EDF;&#x9519;&#x8BEF;&#x4FE1;&#x606F;&#xFF0C;&#x9ED8;&#x8BA4;&#x4E3A; true&#x3002;</p>
+<p><code>beego.BConfig.EnableErrorsShow = true</code></p>
+</li>
+<li><p>EnableErrorsRender</p>
+<p>&#x662F;&#x5426;&#x5C06;&#x9519;&#x8BEF;&#x4FE1;&#x606F;&#x8FDB;&#x884C;&#x6E32;&#x67D3;&#xFF0C;&#x9ED8;&#x8BA4;&#x503C;&#x4E3A; true&#xFF0C;&#x5373;&#x51FA;&#x9519;&#x4F1A;&#x63D0;&#x793A;&#x53CB;&#x597D;&#x7684;&#x51FA;&#x9519;&#x9875;&#x9762;&#xFF0C;&#x5BF9;&#x4E8E; API &#x7C7B;&#x578B;&#x7684;&#x5E94;&#x7528;&#x53EF;&#x80FD;&#x9700;&#x8981;&#x5C06;&#x8BE5;&#x9009;&#x9879;&#x8BBE;&#x7F6E;&#x4E3A; false &#x4EE5;&#x963B;&#x6B62;&#x5728;<code>dev</code>&#x6A21;&#x5F0F;&#x4E0B;&#x4E0D;&#x5FC5;&#x8981;&#x7684;&#x6A21;&#x677F;&#x6E32;&#x67D3;&#x4FE1;&#x606F;&#x8FD4;&#x56DE;&#x3002;</p>
+</li>
+</ul>
+<h4 id="web&#x914D;&#x7F6E;">Web&#x914D;&#x7F6E;</h4>
+<ul>
+<li><p>AutoRender</p>
+<p>&#x662F;&#x5426;&#x6A21;&#x677F;&#x81EA;&#x52A8;&#x6E32;&#x67D3;&#xFF0C;&#x9ED8;&#x8BA4;&#x503C;&#x4E3A; true&#xFF0C;&#x5BF9;&#x4E8E; API &#x7C7B;&#x578B;&#x7684;&#x5E94;&#x7528;&#xFF0C;&#x5E94;&#x7528;&#x9700;&#x8981;&#x628A;&#x8BE5;&#x9009;&#x9879;&#x8BBE;&#x7F6E;&#x4E3A; false&#xFF0C;&#x4E0D;&#x9700;&#x8981;&#x6E32;&#x67D3;&#x6A21;&#x677F;&#x3002;</p>
+<p><code>beego.BConfig.WebConfig.AutoRender = true</code></p>
+</li>
+<li><p>EnableDocs</p>
+<p>&#x662F;&#x5426;&#x5F00;&#x542F;&#x6587;&#x6863;&#x5185;&#x7F6E;&#x529F;&#x80FD;&#xFF0C;&#x9ED8;&#x8BA4;&#x662F; false</p>
+<p><code>beego.BConfig.WebConfig.EnableDocs = true</code></p>
+</li>
+<li><p>FlashName</p>
+<p>Flash &#x6570;&#x636E;&#x8BBE;&#x7F6E;&#x65F6; Cookie &#x7684;&#x540D;&#x79F0;&#xFF0C;&#x9ED8;&#x8BA4;&#x662F; BEEGO_FLASH</p>
+<p><code>beego.BConfig.WebConfig.FlashName = &quot;BEEGO_FLASH&quot;</code></p>
+</li>
+<li><p>FlashSeperator</p>
+<p>Flash &#x6570;&#x636E;&#x7684;&#x5206;&#x9694;&#x7B26;&#xFF0C;&#x9ED8;&#x8BA4;&#x662F; BEEGOFLASH</p>
+<p><code>beego.BConfig.WebConfig.FlashSeparator = &quot;BEEGOFLASH&quot;</code></p>
+</li>
+<li><p>DirectoryIndex</p>
+<p>&#x662F;&#x5426;&#x5F00;&#x542F;&#x9759;&#x6001;&#x76EE;&#x5F55;&#x7684;&#x5217;&#x8868;&#x663E;&#x793A;&#xFF0C;&#x9ED8;&#x8BA4;&#x4E0D;&#x663E;&#x793A;&#x76EE;&#x5F55;&#xFF0C;&#x8FD4;&#x56DE; 403 &#x9519;&#x8BEF;&#x3002;</p>
+<p><code>beego.BConfig.WebConfig.DirectoryIndex = false</code></p>
+</li>
+<li><p><strong>StaticDir</strong></p>
+<p>&#x9759;&#x6001;&#x6587;&#x4EF6;&#x76EE;&#x5F55;&#x8BBE;&#x7F6E;&#xFF0C;&#x9ED8;&#x8BA4;&#x662F;static</p>
+<p>&#x53EF;&#x914D;&#x7F6E;&#x5355;&#x4E2A;&#x6216;&#x591A;&#x4E2A;&#x76EE;&#x5F55;:</p>
+<ol>
+<li><p>&#x5355;&#x4E2A;&#x76EE;&#x5F55;,<code>StaticDir = download</code>. &#x76F8;&#x5F53;&#x4E8E;<code>beego.SetStaticPath(&quot;/download&quot;,&quot;download&quot;)</code></p>
+</li>
+<li><p>&#x591A;&#x4E2A;&#x76EE;&#x5F55;,<code>StaticDir = download:down download2:down2</code>. &#x76F8;&#x5F53;&#x4E8E;<code>beego.SetStaticPath(&quot;/download&quot;,&quot;down&quot;)</code>&#x548C;<code>beego.SetStaticPath(&quot;/download2&quot;,&quot;down2&quot;)</code></p>
+</li>
+</ol>
+<p><code>beego.BConfig.WebConfig.StaticDir</code></p>
+</li>
+<li><p>StaticExtensionsToGzip</p>
+<p>&#x5141;&#x8BB8;&#x54EA;&#x4E9B;&#x540E;&#x7F00;&#x540D;&#x7684;&#x9759;&#x6001;&#x6587;&#x4EF6;&#x8FDB;&#x884C; gzip &#x538B;&#x7F29;&#xFF0C;&#x9ED8;&#x8BA4;&#x652F;&#x6301; .css &#x548C; .js</p>
+<p><code>beego.BConfig.WebConfig.StaticExtensionsToGzip = []string{&quot;.css&quot;, &quot;.js&quot;}</code></p>
+<p>&#x7B49;&#x4EF7; config &#x6587;&#x4EF6;&#x4E2D;</p>
+<pre><code>StaticExtensionsToGzip=.css, .js
+</code></pre></li>
+<li><p>TemplateLeft</p>
+<p>&#x6A21;&#x677F;&#x5DE6;&#x6807;&#x7B7E;&#xFF0C;&#x9ED8;&#x8BA4;&#x503C;&#x662F;<code>{{</code>&#x3002;</p>
+<p><code>beego.BConfig.WebConfig.TemplateLeft=&quot;{{&quot;</code></p>
+</li>
+<li><p>TemplateRight</p>
+<p>&#x6A21;&#x677F;&#x53F3;&#x6807;&#x7B7E;&#xFF0C;&#x9ED8;&#x8BA4;&#x503C;&#x662F;<code>}}</code>&#x3002;</p>
+<p><code>beego.BConfig.WebConfig.TemplateRight=&quot;}}&quot;</code></p>
+</li>
+<li><p><strong>ViewsPath</strong></p>
+<p>&#x6A21;&#x677F;&#x8DEF;&#x5F84;&#xFF0C;&#x9ED8;&#x8BA4;&#x503C;&#x662F; views&#x3002;</p>
+<p><code>beego.BConfig.WebConfig.ViewsPath=&quot;views&quot;</code></p>
+</li>
+<li><p>EnableXSRF</p>
+<p>&#x662F;&#x5426;&#x5F00;&#x542F; XSRF&#xFF0C;&#x9ED8;&#x8BA4;&#x4E3A; false&#xFF0C;&#x4E0D;&#x5F00;&#x542F;&#x3002;</p>
+<p><code>beego.BConfig.WebConfig.EnableXSRF = false</code></p>
+</li>
+<li><p>XSRFKEY</p>
+<p>XSRF &#x7684; key &#x4FE1;&#x606F;&#xFF0C;&#x9ED8;&#x8BA4;&#x503C;&#x662F; beegoxsrf&#x3002; EnableXSRF&#xFF1D;true &#x624D;&#x6709;&#x6548;</p>
+<p><code>beego.BConfig.WebConfig.XSRFKEY = &quot;beegoxsrf&quot;</code></p>
+</li>
+<li><p>XSRFExpire</p>
+<p>XSRF &#x8FC7;&#x671F;&#x65F6;&#x95F4;&#xFF0C;&#x9ED8;&#x8BA4;&#x503C;&#x662F; 0&#xFF0C;&#x4E0D;&#x8FC7;&#x671F;&#x3002;</p>
+<p><code>beego.BConfig.WebConfig.XSRFExpire = 0</code></p>
+</li>
+</ul>
+<h4 id="&#x76D1;&#x542C;&#x914D;&#x7F6E;">&#x76D1;&#x542C;&#x914D;&#x7F6E;</h4>
+<ul>
+<li><p>Graceful</p>
+<p>&#x662F;&#x5426;&#x5F00;&#x542F;&#x70ED;&#x5347;&#x7EA7;&#xFF0C;&#x9ED8;&#x8BA4;&#x662F; false&#xFF0C;&#x5173;&#x95ED;&#x70ED;&#x5347;&#x7EA7;&#x3002;</p>
+<p><code>beego.BConfig.Listen.Graceful=false</code></p>
+</li>
+<li><p>ServerTimeOut</p>
+<p>&#x8BBE;&#x7F6E; HTTP &#x7684;&#x8D85;&#x65F6;&#x65F6;&#x95F4;&#xFF0C;&#x9ED8;&#x8BA4;&#x662F; 0&#xFF0C;&#x4E0D;&#x8D85;&#x65F6;&#x3002;</p>
+<p><code>beego.BConfig.Listen.ServerTimeOut=0</code></p>
+</li>
+<li><p>ListenTCP4</p>
+<p>&#x76D1;&#x542C;&#x672C;&#x5730;&#x7F51;&#x7EDC;&#x5730;&#x5740;&#x7C7B;&#x578B;&#xFF0C;&#x9ED8;&#x8BA4;&#x662F;TCP6&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x8BBE;&#x7F6E;&#x4E3A;true&#x8BBE;&#x7F6E;&#x4E3A;TCP4&#x3002;</p>
+<p><code>beego.BConfig.Listen.ListenTCP4 = true</code></p>
+</li>
+<li><p>EnableHTTP</p>
+<p>&#x662F;&#x5426;&#x542F;&#x7528; HTTP &#x76D1;&#x542C;&#xFF0C;&#x9ED8;&#x8BA4;&#x662F; true&#x3002;</p>
+<p><code>beego.BConfig.Listen.EnableHTTP = true</code></p>
+</li>
+<li><p>HTTPAddr</p>
+<p>&#x5E94;&#x7528;&#x76D1;&#x542C;&#x5730;&#x5740;&#xFF0C;&#x9ED8;&#x8BA4;&#x4E3A;&#x7A7A;&#xFF0C;&#x76D1;&#x542C;&#x6240;&#x6709;&#x7684;&#x7F51;&#x5361; IP&#x3002;</p>
+<p><code>beego.BConfig.Listen.HTTPAddr = &quot;&quot;</code></p>
+</li>
+<li><p>HTTPPort</p>
+<p>&#x5E94;&#x7528;&#x76D1;&#x542C;&#x7AEF;&#x53E3;&#xFF0C;&#x9ED8;&#x8BA4;&#x4E3A; 8080&#x3002;</p>
+<p><code>beego.BConfig.Listen.HTTPPort = 8080</code></p>
+</li>
+<li><p>EnableHTTPS</p>
+<p>&#x662F;&#x5426;&#x542F;&#x7528; HTTPS&#xFF0C;&#x9ED8;&#x8BA4;&#x662F; false &#x5173;&#x95ED;&#x3002;&#x5F53;&#x9700;&#x8981;&#x542F;&#x7528;&#x65F6;&#xFF0C;&#x5148;&#x8BBE;&#x7F6E; EnableHTTPS = true&#xFF0C;&#x5E76;&#x8BBE;&#x7F6E;<code>HTTPSCertFile</code>&#x548C;<code>HTTPSKeyFile</code></p>
+<p><code>beego.BConfig.Listen.EnableHTTPS = false</code></p>
+</li>
+<li><p>HTTPSAddr</p>
+<p>&#x5E94;&#x7528;&#x76D1;&#x542C;&#x5730;&#x5740;&#xFF0C;&#x9ED8;&#x8BA4;&#x4E3A;&#x7A7A;&#xFF0C;&#x76D1;&#x542C;&#x6240;&#x6709;&#x7684;&#x7F51;&#x5361; IP&#x3002;</p>
+<p><code>beego.BConfig.Listen.HTTPSAddr = &quot;&quot;</code></p>
+</li>
+<li><p>HTTPSPort</p>
+<p>&#x5E94;&#x7528;&#x76D1;&#x542C;&#x7AEF;&#x53E3;&#xFF0C;&#x9ED8;&#x8BA4;&#x4E3A; 10443</p>
+<p><code>beego.BConfig.Listen.HTTPSPort = 10443</code></p>
+</li>
+<li><p>HTTPSCertFile</p>
+<p>&#x5F00;&#x542F; HTTPS &#x540E;&#xFF0C;ssl &#x8BC1;&#x4E66;&#x8DEF;&#x5F84;&#xFF0C;&#x9ED8;&#x8BA4;&#x4E3A;&#x7A7A;&#x3002;</p>
+<p><code>beego.BConfig.Listen.HTTPSCertFile = &quot;conf/ssl.crt&quot;</code></p>
+</li>
+<li><p>HTTPSKeyFile</p>
+<p>&#x5F00;&#x542F; HTTPS &#x4E4B;&#x540E;&#xFF0C;SSL &#x8BC1;&#x4E66; keyfile &#x7684;&#x8DEF;&#x5F84;&#x3002;</p>
+<p><code>beego.BConfig.Listen.HTTPSKeyFile = &quot;conf/ssl.key&quot;</code></p>
+</li>
+<li><p>EnableAdmin</p>
+<p>&#x662F;&#x5426;&#x5F00;&#x542F;&#x8FDB;&#x7A0B;&#x5185;&#x76D1;&#x63A7;&#x6A21;&#x5757;&#xFF0C;&#x9ED8;&#x8BA4; false &#x5173;&#x95ED;&#x3002;</p>
+<p><code>beego.BConfig.Listen.EnableAdmin = false</code></p>
+</li>
+<li><p>AdminAddr</p>
+<p>&#x76D1;&#x63A7;&#x7A0B;&#x5E8F;&#x76D1;&#x542C;&#x7684;&#x5730;&#x5740;&#xFF0C;&#x9ED8;&#x8BA4;&#x503C;&#x662F; localhost &#x3002;</p>
+<p><code>beego.BConfig.Listen.AdminAddr = &quot;localhost&quot;</code></p>
+</li>
+<li><p>AdminPort</p>
+<p>&#x76D1;&#x63A7;&#x7A0B;&#x5E8F;&#x76D1;&#x542C;&#x7684;&#x5730;&#x5740;&#xFF0C;&#x9ED8;&#x8BA4;&#x503C;&#x662F; 8088 &#x3002;</p>
+<p><code>beego.BConfig.Listen.AdminPort = 8088</code></p>
+</li>
+<li><p>EnableFcgi</p>
+<p>&#x662F;&#x5426;&#x542F;&#x7528; fastcgi &#xFF0C; &#x9ED8;&#x8BA4;&#x662F; false&#x3002;</p>
+<p><code>beego.BConfig.Listen.EnableFcgi = false</code></p>
+</li>
+<li><p>EnableStdIo</p>
+<p>&#x901A;&#x8FC7;fastcgi &#x6807;&#x51C6;I/O&#xFF0C;&#x542F;&#x7528; fastcgi &#x540E;&#x624D;&#x751F;&#x6548;&#xFF0C;&#x9ED8;&#x8BA4; false&#x3002;</p>
+<p><code>beego.BConfig.Listen.EnableStdIo = false</code></p>
+</li>
+</ul>
+<h4 id="session&#x914D;&#x7F6E;">Session&#x914D;&#x7F6E;</h4>
+<ul>
+<li><p>SessionOn</p>
+<p>session &#x662F;&#x5426;&#x5F00;&#x542F;&#xFF0C;&#x9ED8;&#x8BA4;&#x662F; false&#x3002;</p>
+<p><code>beego.BConfig.WebConfig.Session.SessionOn = false</code></p>
+</li>
+<li><p>SessionProvider</p>
+<p>session &#x7684;&#x5F15;&#x64CE;&#xFF0C;&#x9ED8;&#x8BA4;&#x662F; memory&#xFF0C;&#x8BE6;&#x7EC6;&#x53C2;&#x89C1;<code>session &#x6A21;&#x5757;</code>&#x3002;</p>
+<p><code>beego.BConfig.WebConfig.Session.SessionProvider = &quot;&quot;</code></p>
+</li>
+<li><p>SessionName</p>
+<p>&#x5B58;&#x5728;&#x5BA2;&#x6237;&#x7AEF;&#x7684; cookie &#x540D;&#x79F0;&#xFF0C;&#x9ED8;&#x8BA4;&#x503C;&#x662F; beegosessionID&#x3002;</p>
+<p><code>beego.BConfig.WebConfig.Session.SessionName = &quot;beegosessionID&quot;</code></p>
+</li>
+<li><p>SessionGCMaxLifetime</p>
+<p>session &#x8FC7;&#x671F;&#x65F6;&#x95F4;&#xFF0C;&#x9ED8;&#x8BA4;&#x503C;&#x662F; 3600 &#x79D2;&#x3002;</p>
+<p><code>beego.BConfig.WebConfig.Session.SessionGCMaxLifetime = 3600</code></p>
+</li>
+<li><p>SessionProviderConfig</p>
+<p>&#x914D;&#x7F6E;&#x4FE1;&#x606F;&#xFF0C;&#x6839;&#x636E;&#x4E0D;&#x540C;&#x7684;&#x5F15;&#x64CE;&#x8BBE;&#x7F6E;&#x4E0D;&#x540C;&#x7684;&#x914D;&#x7F6E;&#x4FE1;&#x606F;&#xFF0C;&#x8BE6;&#x7EC6;&#x7684;&#x914D;&#x7F6E;&#x8BF7;&#x770B;&#x4E0B;&#x9762;&#x7684;&#x5F15;&#x64CE;&#x8BBE;&#x7F6E;&#xFF0C;&#x8BE6;&#x7EC6;&#x53C2;&#x89C1;<a href="https://beego.me/docs/mvc/controller/zh-CN/module/session.md" target="_blank">session &#x6A21;&#x5757;</a></p>
+</li>
+<li><p>SessionCookieLifeTime</p>
+<p>session &#x9ED8;&#x8BA4;&#x5B58;&#x5728;&#x5BA2;&#x6237;&#x7AEF;&#x7684; cookie &#x7684;&#x65F6;&#x95F4;&#xFF0C;&#x9ED8;&#x8BA4;&#x503C;&#x662F; 3600 &#x79D2;&#x3002;</p>
+<p><code>beego.BConfig.WebConfig.Session.SessionCookieLifeTime = 3600</code></p>
+</li>
+<li><p>SessionAutoSetCookie</p>
+<p>&#x662F;&#x5426;&#x5F00;&#x542F;SetCookie, &#x9ED8;&#x8BA4;&#x503C; true &#x5F00;&#x542F;&#x3002;</p>
+<p><code>beego.BConfig.WebConfig.Session.SessionAutoSetCookie = true</code></p>
+</li>
+<li><p>SessionDomain</p>
+<p>session cookie &#x5B58;&#x50A8;&#x57DF;&#x540D;, &#x9ED8;&#x8BA4;&#x7A7A;&#x3002;</p>
+<p><code>beego.BConfig.WebConfig.Session.SessionDomain = &quot;&quot;</code></p>
+</li>
+</ul>
+<h4 id="log&#x914D;&#x7F6E;">Log&#x914D;&#x7F6E;</h4>
+<pre><code>log&#x8BE6;&#x7EC6;&#x914D;&#x7F6E;&#xFF0C;&#x8BF7;&#x53C2;&#x89C1;`logs &#x6A21;&#x5757;`&#x3002;
+</code></pre><ul>
+<li><p>AccessLogs</p>
+<p>&#x662F;&#x5426;&#x8F93;&#x51FA;&#x65E5;&#x5FD7;&#x5230; Log&#xFF0C;&#x9ED8;&#x8BA4;&#x5728; prod &#x6A21;&#x5F0F;&#x4E0B;&#x4E0D;&#x4F1A;&#x8F93;&#x51FA;&#x65E5;&#x5FD7;&#xFF0C;&#x9ED8;&#x8BA4;&#x4E3A; false &#x4E0D;&#x8F93;&#x51FA;&#x65E5;&#x5FD7;&#x3002;&#x6B64;&#x53C2;&#x6570;&#x4E0D;&#x652F;&#x6301;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x914D;&#x7F6E;&#x3002;</p>
+<p><code>beego.BConfig.Log.AccessLogs = false</code></p>
+</li>
+<li><p>FileLineNum</p>
+<p>&#x662F;&#x5426;&#x5728;&#x65E5;&#x5FD7;&#x91CC;&#x9762;&#x663E;&#x793A;&#x6587;&#x4EF6;&#x540D;&#x548C;&#x8F93;&#x51FA;&#x65E5;&#x5FD7;&#x884C;&#x53F7;&#xFF0C;&#x9ED8;&#x8BA4; true&#x3002;&#x6B64;&#x53C2;&#x6570;&#x4E0D;&#x652F;&#x6301;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x914D;&#x7F6E;&#x3002;</p>
+<p><code>beego.BConfig.Log.FileLineNum = true</code></p>
+</li>
+<li><p>Outputs</p>
+<p>&#x65E5;&#x5FD7;&#x8F93;&#x51FA;&#x914D;&#x7F6E;&#xFF0C;&#x53C2;&#x8003; logs &#x6A21;&#x5757;&#xFF0C;console file &#x7B49;&#x914D;&#x7F6E;&#xFF0C;&#x6B64;&#x53C2;&#x6570;&#x4E0D;&#x652F;&#x6301;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x914D;&#x7F6E;&#x3002;</p>
+<p><code>beego.BConfig.Log.Outputs = map[string]string{&quot;console&quot;: &quot;&quot;}</code></p>
+<p>or</p>
+<p><code>beego.BConfig.Log.Outputs[&quot;console&quot;] = &quot;&quot;</code></p>
+</li>
+</ul>
+<p>&#x4E09;.&#x64CD;&#x4F5C;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x7684;&#x65B9;&#x6CD5;&#xFF1A;</p>
+<ul>
+<li><p>&#x83B7;&#x53D6;&#x914D;&#x7F6E;&#x4FE1;&#x606F;</p>
+<ul>
+<li>beego.AppConfig.String(&quot;user_name&quot;)</li>
+</ul>
+</li>
+<li><p>Set(key, val string) error</p>
+</li>
+<li><p>String(key string) string</p>
+</li>
+<li><p>Strings(key string) []string</p>
+</li>
+<li><p>Int(key string) (int, error)</p>
+</li>
+<li><p>Int64(key string) (int64, error)</p>
+</li>
+<li><p>Bool(key string) (bool, error)</p>
+</li>
+<li><p>Float(key string) (float64, error)</p>
+</li>
+<li><p>DefaultString(key string, defaultVal string) string</p>
+</li>
+<li><p>DefaultStrings(key string, defaultVal []string)</p>
+</li>
+<li><p>DefaultInt(key string, defaultVal int) int</p>
+</li>
+<li><p>DefaultInt64(key string, defaultVal int64) int64</p>
+</li>
+<li><p>DefaultBool(key string, defaultVal bool) bool</p>
+</li>
+<li><p>DefaultFloat(key string, defaultVal float64) float64</p>
+</li>
+<li><p>DIY(key string) (interface{}, error)</p>
+</li>
+<li><p>GetSection(section string) (map[string]string, error)</p>
+</li>
+<li><p>SaveConfigFile(filename string) error</p>
+</li>
+</ul>
+<p>&#x56DB;.&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x7684;key &#x652F;&#x6301; section::key &#x6A21;&#x5F0F;&#x3002;&#x4F18;&#x5148;&#x89E3;&#x6790; runmode &#x4E0B;&#x7684;&#x914D;&#x7F6E;&#xFF0C;&#x7136;&#x540E;&#x89E3;&#x6790;&#x9ED8;&#x8BA4;&#x7684;&#x914D;&#x7F6E;</p>
+<p>[dev]</p>
+<p>httpport = 8080</p>
+<p>[prod]</p>
+<p>httpport = 8088</p>
+<p>[test]</p>
+<p>httpport = 8888</p>
+<p>&#x4E94;.&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x652F;&#x6301;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#x914D;&#x7F6E;</p>
+<pre><code>runmode  = &quot;${ProRunMode||dev}&quot;
+httpport = &quot;${ProPort||9090}&quot;
+</code></pre><p>&#x4F18;&#x5148;&#x7EA7;&#xFF1A;&#x5982;&#x679C;&#x6709;&#x914D;&#x7F6E;&#x73AF;&#x5883;&#x53D8;&#x91CF; ProRunMode &#x5219;&#x4F18;&#x5148;&#x4F7F;&#x7528;&#x8BE5;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#x503C;&#x3002;&#x5982;&#x679C;&#x4E0D;&#x5B58;&#x5728;&#x6216;&#x8005;&#x4E3A;&#x7A7A;&#xFF0C;&#x5219;&#x4F7F;&#x7528; &#x201C;dev&#x201D; &#x4F5C;&#x4E3A; runmode&#x3002;</p>
+
+                    
+                    </section>
+                
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../chapter05/00.beego的controller模块.html" class="navigation navigation-prev " aria-label="Previous page: 第五章:beego的controller模块"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="../chapter05/02.di-er-82823a-lu-you-pei-zhi.html" class="navigation navigation-next " aria-label="Next page: 第二节:路由配置"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+<script src="../gitbook/app.js"></script>
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/lunr.min.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/search.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {"highlight":{},"search":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
+    gitbook.start(config);
+});
+</script>
+
+        
+    </body>
+    
+</html>

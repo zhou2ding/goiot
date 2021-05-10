@@ -1,0 +1,993 @@
+<!DOCTYPE HTML>
+<html lang="en" >
+    
+    <head>
+        
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>第十节:表单数据验证 | 知了课堂Beego Web框架课程</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 2.6.7">
+        
+        
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+        <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+        
+    <link rel="stylesheet" href="../gitbook/style.css">
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
+        
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-search/search.css">
+        
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
+    
+
+        
+    
+    
+    <link rel="next" href="../chapter05/11.di-shi-82823a-biao-dan-yan-zheng-de-fang-fa.html" />
+    
+    
+    <link rel="prev" href="../chapter05/09.di-ba-82823a-urlfor-shi-xian-lu-you-fan-zhuan.html" />
+    
+
+        
+    </head>
+    <body>
+        
+        
+    <div class="book"
+        data-level="7.10"
+        data-chapter-title="第十节:表单数据验证"
+        data-filepath="chapter05/10.di-jiu-82823a-biao-dan-shu-ju-yan-zheng.md"
+        data-basepath=".."
+        data-revision="Sat May 09 2020 14:50:17 GMT+0800 (中国标准时间)"
+        data-innerlanguage="">
+    
+
+<div class="book-summary">
+    <nav role="navigation">
+        <ul class="summary">
+            
+            
+            
+            
+
+            
+
+            
+    
+        <li class="chapter " data-level="0" data-path="index.html">
+            
+                
+                    <a href="../index.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                        Introduction
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1" data-path="chapter01/00.README.html">
+            
+                
+                    <a href="../chapter01/00.README.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.</b>
+                        
+                        知了课堂go web框架课程
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2" data-path="chapter01/01.go-webkuang-jia-jie-shao.html">
+            
+                
+                    <a href="../chapter01/01.go-webkuang-jia-jie-shao.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.</b>
+                        
+                        go-web框架介绍
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3" data-path="chapter01/02.web介绍.html">
+            
+                
+                    <a href="../chapter01/02.web介绍.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.</b>
+                        
+                        第一章.WEB介绍
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4" data-path="chapter02/00.beegokuang-jia.html">
+            
+                
+                    <a href="../chapter02/00.beegokuang-jia.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.</b>
+                        
+                        第二章.beego框架介绍
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.1" data-path="chapter02/01.di-yi-82823a.html">
+            
+                
+                    <a href="../chapter02/01.di-yi-82823a.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.1.</b>
+                        
+                        第一节:环境准备
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5" data-path="chapter03/00.beegochu-ti-yan.html">
+            
+                
+                    <a href="../chapter03/00.beegochu-ti-yan.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.</b>
+                        
+                        第三章:beego初体验
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.1" data-path="chapter03/01.di-yi-82823a-di-yi-ge-xiang-mu.html">
+            
+                
+                    <a href="../chapter03/01.di-yi-82823a-di-yi-ge-xiang-mu.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.1.</b>
+                        
+                        第一节:第一个项目
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="chapter03/02.di-er-82823a-yun-xing-luo-ji-jie-shao.html">
+            
+                
+                    <a href="../chapter03/02.di-er-82823a-yun-xing-luo-ji-jie-shao.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.2.</b>
+                        
+                        第二节:运行逻辑介绍
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3" data-path="chapter03/03.di-san-82823a-controller-yun-xing-yuan-li.html">
+            
+                
+                    <a href="../chapter03/03.di-san-82823a-controller-yun-xing-yuan-li.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.3.</b>
+                        
+                        第三节:controller运行原理
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4" data-path="chapter03/04.di-si-82823a-jie-gou-ti-xiang-jie.html">
+            
+                
+                    <a href="../chapter03/04.di-si-82823a-jie-gou-ti-xiang-jie.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.4.</b>
+                        
+                        第四节:结构体详解
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="6" data-path="chapter04/00.shu-ju-jiao-hu.html">
+            
+                
+                    <a href="../chapter04/00.shu-ju-jiao-hu.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.</b>
+                        
+                        第四章:beego数据交互
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="6.1" data-path="chapter04/01.di-yi-82823a-zi-fu-chuan-xuan-ran.html">
+            
+                
+                    <a href="../chapter04/01.di-yi-82823a-zi-fu-chuan-xuan-ran.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.1.</b>
+                        
+                        第一节:字符串渲染
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.2" data-path="chapter04/02.di-yi-82823a-mo-ban-xuan-ran-jian-jie.html">
+            
+                
+                    <a href="../chapter04/02.di-yi-82823a-mo-ban-xuan-ran-jian-jie.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.2.</b>
+                        
+                        第二节:模板渲染简介
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.3" data-path="chapter04/03.di-er-82823a-qi-ta-shu-ju-lei-xing-de-mo-ban-xuan-ran.html">
+            
+                
+                    <a href="../chapter04/03.di-er-82823a-qi-ta-shu-ju-lei-xing-de-mo-ban-xuan-ran.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.3.</b>
+                        
+                        第三节:其他数据类型的模板渲染
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.4" data-path="chapter04/04.di-san-82823a-jing-tai-wen-jian-de-shi-yong.html">
+            
+                
+                    <a href="../chapter04/04.di-san-82823a-jing-tai-wen-jian-de-shi-yong.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.4.</b>
+                        
+                        第四节:.静态文件的使用
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.5" data-path="chapter04/05.di-si-82823a-huo-qu-qing-qiu-shu-ju.html">
+            
+                
+                    <a href="../chapter04/05.di-si-82823a-huo-qu-qing-qiu-shu-ju.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.5.</b>
+                        
+                        第五节:获取请求数据
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.6" data-path="chapter04/06.di-wu-82823a-huo-qu-body-zhong-de-shu-636e28-ajax.html">
+            
+                
+                    <a href="../chapter04/06.di-wu-82823a-huo-qu-body-zhong-de-shu-636e28-ajax.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.6.</b>
+                        
+                        第六节:获取body中的数据\(ajax\)
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.7" data-path="chapter04/07.di-liu-82823a-jiang-huo-qu-de-shu-ju-jie-xi-dao-jie-gou-4f5328-struct.html">
+            
+                
+                    <a href="../chapter04/07.di-liu-82823a-jiang-huo-qu-de-shu-ju-jie-xi-dao-jie-gou-4f5328-struct.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.7.</b>
+                        
+                        第七节:form表单数据解析到结构体\(struct\)
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.8" data-path="chapter04/08.di-qi-82823a-duo-zhong-ge-shi-shu-ju-shu-chu.html">
+            
+                
+                    <a href="../chapter04/08.di-qi-82823a-duo-zhong-ge-shi-shu-ju-shu-chu.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.8.</b>
+                        
+                        第八节:多种格式数据输出
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.9" data-path="chapter04/09.di-ba-82823a-flash-shu-ju-chuan-di.html">
+            
+                
+                    <a href="../chapter04/09.di-ba-82823a-flash-shu-ju-chuan-di.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.9.</b>
+                        
+                        第九节:flash数据传递
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="7" data-path="chapter05/00.beego的controller模块.html">
+            
+                
+                    <a href="../chapter05/00.beego的controller模块.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.</b>
+                        
+                        第五章:beego的controller模块
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="7.1" data-path="chapter05/01.di-yi-82823a-pei-zhi-wen-jian.html">
+            
+                
+                    <a href="../chapter05/01.di-yi-82823a-pei-zhi-wen-jian.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.1.</b>
+                        
+                        第一节:配置文件
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.2" data-path="chapter05/02.di-er-82823a-lu-you-pei-zhi.html">
+            
+                
+                    <a href="../chapter05/02.di-er-82823a-lu-you-pei-zhi.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.2.</b>
+                        
+                        第二节:路由配置
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.3" data-path="chapter05/03.di-san-82823a-controller-fang-fa.html">
+            
+                
+                    <a href="../chapter05/03.di-san-82823a-controller-fang-fa.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.3.</b>
+                        
+                        第三节:controller方法
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.4" data-path="chapter05/04.di-si-82823a-kua-zhan-qing-qiu-wei-902028-xsrf.html">
+            
+                
+                    <a href="../chapter05/04.di-si-82823a-kua-zhan-qing-qiu-wei-902028-xsrf.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.4.</b>
+                        
+                        第四节:跨站请求伪造\(XSRF\)
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.5" data-path="chapter05/05.di-wu-82823a-wen-jian-shang-chuan.html">
+            
+                
+                    <a href="../chapter05/05.di-wu-82823a-wen-jian-shang-chuan.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.5.</b>
+                        
+                        第五节:文件上传之form表单
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.6" data-path="chapter05/06.di-liu-82823a-wen-jian-shang-chuan-zhi-ajax.html">
+            
+                
+                    <a href="../chapter05/06.di-liu-82823a-wen-jian-shang-chuan-zhi-ajax.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.6.</b>
+                        
+                        第六节:文件上传之ajax
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.7" data-path="chapter05/07.di-liu-82823a-session.html">
+            
+                
+                    <a href="../chapter05/07.di-liu-82823a-session.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.7.</b>
+                        
+                        第七节:session
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.8" data-path="chapter05/08.di-qi-82823a-zi-ding-yi-guo-lv-qi.html">
+            
+                
+                    <a href="../chapter05/08.di-qi-82823a-zi-ding-yi-guo-lv-qi.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.8.</b>
+                        
+                        第八节:自定义过滤器
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.9" data-path="chapter05/09.di-ba-82823a-urlfor-shi-xian-lu-you-fan-zhuan.html">
+            
+                
+                    <a href="../chapter05/09.di-ba-82823a-urlfor-shi-xian-lu-you-fan-zhuan.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.9.</b>
+                        
+                        第九节:UrlFor实现路由反转
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter active" data-level="7.10" data-path="chapter05/10.di-jiu-82823a-biao-dan-shu-ju-yan-zheng.html">
+            
+                
+                    <a href="../chapter05/10.di-jiu-82823a-biao-dan-shu-ju-yan-zheng.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.10.</b>
+                        
+                        第十节:表单数据验证
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.11" data-path="chapter05/11.di-shi-82823a-biao-dan-yan-zheng-de-fang-fa.html">
+            
+                
+                    <a href="../chapter05/11.di-shi-82823a-biao-dan-yan-zheng-de-fang-fa.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.11.</b>
+                        
+                        第十一节:表单验证的方法
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.12" data-path="chapter05/12.di-shi-er-82823a-cuo-wu-chu-li.html">
+            
+                
+                    <a href="../chapter05/12.di-shi-er-82823a-cuo-wu-chu-li.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.12.</b>
+                        
+                        第十二节:错误处理
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="8" data-path="chapter06/00.37viewmo-kuai.html">
+            
+                
+                    <a href="../chapter06/00.37viewmo-kuai.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.</b>
+                        
+                        第六章:beego的view模块
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="8.1" data-path="chapter06/01.di-yi-82823a-mo-ban-yu-fa-yi.html">
+            
+                
+                    <a href="../chapter06/01.di-yi-82823a-mo-ban-yu-fa-yi.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.1.</b>
+                        
+                        第一节:模板语法一
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.2" data-path="chapter06/02.di-er-82823a-mo-ban-yu-fa-er.html">
+            
+                
+                    <a href="../chapter06/02.di-er-82823a-mo-ban-yu-fa-er.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.2.</b>
+                        
+                        第二节:模板语法二
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.3" data-path="chapter06/03.di-er-82823a-mo-ban-chu-li.html">
+            
+                
+                    <a href="../chapter06/03.di-er-82823a-mo-ban-chu-li.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.3.</b>
+                        
+                        第三节:模板中的基本函数
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.4" data-path="chapter06/04.di-si-82823a-nei-zhi-mo-ban-han-shu.html">
+            
+                
+                    <a href="../chapter06/04.di-si-82823a-nei-zhi-mo-ban-han-shu.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.4.</b>
+                        
+                        第四节:内置模板函数
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.5" data-path="chapter06/05.di-liu-82823a-zi-ding-yi-mo-ban-han-shu.html">
+            
+                
+                    <a href="../chapter06/05.di-liu-82823a-zi-ding-yi-mo-ban-han-shu.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.5.</b>
+                        
+                        第五节:自定义模板函数
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.6" data-path="chapter06/06.di-san-82823a-mo-ban-chu-li.html">
+            
+                
+                    <a href="../chapter06/06.di-san-82823a-mo-ban-chu-li.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.6.</b>
+                        
+                        第六节:模板处理
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.7" data-path="chapter06/07.di-wu-82823a.html">
+            
+                
+                    <a href="../chapter06/07.di-wu-82823a.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.7.</b>
+                        
+                        第七节:模板处理之Layout 设计
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.8" data-path="chapter06/08.di-si-82823a-mo-ban-chu-li-zhi-renderform.html">
+            
+                
+                    <a href="../chapter06/08.di-si-82823a-mo-ban-chu-li-zhi-renderform.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.8.</b>
+                        
+                        第八节:模板处理之renderform
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.9" data-path="chapter06/09.di-qi-82823a-jing-tai-wen-jian-chu-li.html">
+            
+                
+                    <a href="../chapter06/09.di-qi-82823a-jing-tai-wen-jian-chu-li.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.9.</b>
+                        
+                        第九节:静态文件处理
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.10" data-path="chapter06/10.di-shi-82823a-fen-ye-chu-li.html">
+            
+                
+                    <a href="../chapter06/10.di-shi-82823a-fen-ye-chu-li.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.10.</b>
+                        
+                        第十节:分页处理
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.11" data-path="chapter06/11.di-shi-er-82823a-goroutine-he-chan-bu-chong.html">
+            
+                
+                    <a href="../chapter06/11.di-shi-er-82823a-goroutine-he-chan-bu-chong.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.11.</b>
+                        
+                        第十一节:goroutine和chan补充
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+
+            
+            <li class="divider"></li>
+            <li>
+                <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+                    Published with GitBook
+                </a>
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="book-header" role="navigation">
+    <!-- Actions Left -->
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../" >知了课堂Beego Web框架课程</a>
+    </h1>
+</div>
+
+            <div class="page-wrapper" tabindex="-1" role="main">
+                <div class="page-inner">
+                
+                
+                    <section class="normal" id="section-">
+                    
+                        <h1 id="&#x7528;&#x4E8E;&#x6570;&#x636E;&#x6821;&#x9A8C;&#xFF1A;">&#x7528;&#x4E8E;&#x6570;&#x636E;&#x6821;&#x9A8C;&#xFF1A;</h1>
+<ul>
+<li><h4 id="&#x6821;&#x9A8C;&#x6570;&#x636E;&#x662F;&#x5426;&#x5408;&#x6CD5;">&#x6821;&#x9A8C;&#x6570;&#x636E;&#x662F;&#x5426;&#x5408;&#x6CD5;</h4>
+</li>
+</ul>
+<h2 id="&#x5B89;&#x88C5;&#xFF1A;"><strong>&#x5B89;&#x88C5;</strong>&#xFF1A;</h2>
+<pre><code>go get github.com/astaxie/beego/validation
+</code></pre><h2 id="&#x6D4B;&#x8BD5;&#xFF1A;"><strong>&#x6D4B;&#x8BD5;</strong>&#xFF1A;</h2>
+<pre><code>go test github.com/astaxie/beego/validation
+
+        ok      github.com/astaxie/beego/validation     0.449s
+</code></pre><h2 id="beego&#x4E2D;&#x4F7F;&#x7528;&#xFF1A;"><strong>beego&#x4E2D;&#x4F7F;&#x7528;</strong>&#xFF1A;</h2>
+<pre><code>func (l *LoginController) Post()  {
+    name := l.GetString(&quot;name&quot;)
+    age := l.GetString(&quot;age&quot;)
+    addr := l.GetString(&quot;addr&quot;)
+
+    valid := validation.Validation{}
+    valid.Required(name,&quot;name&quot;)   // &#x8FD9;&#x91CC;&#x7684;key&#x662F;valid.Errors&#x4E2D;&#x7684;key&#xFF0C;&#x7528;&#x6765;&#x83B7;&#x53D6;err&#x7684;key
+    valid.Required(age,&quot;age&quot;)
+    valid.Required(addr,&quot;addr&quot;)
+
+    if valid.HasErrors() {
+        // &#x5982;&#x679C;&#x6709;&#x9519;&#x8BEF;&#x4FE1;&#x606F;&#xFF0C;&#x8BC1;&#x660E;&#x9A8C;&#x8BC1;&#x6CA1;&#x901A;&#x8FC7;
+        // &#x6253;&#x5370;&#x9519;&#x8BEF;&#x4FE1;&#x606F;
+        for _, err := range valid.Errors {
+            fmt.Println(err.Key, err.Message)
+            message := err.Key + err.Message
+            l.Ctx.WriteString(message)
+        }
+    }
+
+    l.TplName = &quot;login.html&quot;
+}
+</code></pre><h2 id="&#x81EA;&#x5B9A;&#x4E49;&#x9519;&#x8BEF;&#x4FE1;&#x606F;&#xFF1A;"><strong>&#x81EA;&#x5B9A;&#x4E49;&#x9519;&#x8BEF;&#x4FE1;&#x606F;</strong>&#xFF1A;</h2>
+<pre><code>valid.Required(name,&quot;name&quot;).Message(&quot;&#x7528;&#x6237;&#x540D;&#x4E0D;&#x80FD;&#x4E3A;&#x7A7A;&quot;)   // &#x8FD9;&#x91CC;&#x7684;key&#x662F;valid.Errors&#x4E2D;&#x7684;key&#xFF0C;&#x7528;&#x6765;&#x83B7;&#x53D6;err&#x7684;key
+valid.Required(age,&quot;age&quot;).Message(&quot;&#x5E74;&#x9F84;&#x4E0D;&#x80FD;&#x4E3A;&#x7A7A;&quot;)
+valid.Required(addr,&quot;addr&quot;).Message(&quot;&#x5730;&#x5740;&#x4E0D;&#x80FD;&#x4E3A;&#x7A7A;&quot;)
+</code></pre><h2 id="&#x89E3;&#x6790;&#x5230;&#x7ED3;&#x6784;&#x4F53;&#x5E76;&#x6821;&#x9A8C;&#x6570;&#x636E;&#xFF1A;"><strong>&#x89E3;&#x6790;&#x5230;&#x7ED3;&#x6784;&#x4F53;&#x5E76;&#x6821;&#x9A8C;&#x6570;&#x636E;</strong>&#xFF1A;</h2>
+<pre><code>type LoginParams struct {
+    Name string
+    Age int
+    Addr string
+}
+
+
+func (l *LoginController) Post()  {
+
+    valid := validation.Validation{}
+
+    params := LoginParams{}
+    if err := l.ParseForm(&amp;params); err != nil {
+        //handle error
+        return
+    }
+    valid.Required(params.Name,&quot;name&quot;).Message(&quot;&#x7528;&#x6237;&#x540D;&#x4E0D;&#x80FD;&#x4E3A;&#x7A7A;&quot;)
+    valid.Required(params.Age,&quot;age&quot;).Message(&quot;&#x5E74;&#x9F84;&#x4E0D;&#x80FD;&#x4E3A;&#x7A7A;&quot;)
+    valid.Required(params.Addr,&quot;addr&quot;).Message(&quot;&#x5730;&#x5740;&#x4E0D;&#x80FD;&#x4E3A;&#x7A7A;&quot;)
+    if valid.HasErrors() {
+        // &#x5982;&#x679C;&#x6709;&#x9519;&#x8BEF;&#x4FE1;&#x606F;&#xFF0C;&#x8BC1;&#x660E;&#x9A8C;&#x8BC1;&#x6CA1;&#x901A;&#x8FC7;
+        // &#x6253;&#x5370;&#x9519;&#x8BEF;&#x4FE1;&#x606F;
+        for _, err := range valid.Errors {
+            fmt.Println(err.Key, err.Message)
+            message := err.Key + err.Message
+            l.Ctx.WriteString(message)
+        }
+    }
+
+    l.TplName = &quot;login.html&quot;
+}
+</code></pre><h2 id="&#x901A;&#x8FC7;-structtag&#x6821;&#x9A8C;&#x6570;&#x636E;&#xFF1A;"><strong>&#x901A;&#x8FC7; StructTag&#x6821;&#x9A8C;&#x6570;&#x636E;&#xFF1A;</strong></h2>
+<ul>
+<li>&#x9A8C;&#x8BC1;&#x51FD;&#x6570;&#x5199;&#x5728; &quot;valid&quot; tag &#x7684;&#x6807;&#x7B7E;&#x91CC;</li>
+<li>&#x5404;&#x4E2A;&#x51FD;&#x6570;&#x4E4B;&#x95F4;&#x7528;&#x5206;&#x53F7; &quot;;&quot; &#x5206;&#x9694;&#xFF0C;&#x5206;&#x53F7;&#x540E;&#x9762;&#x53EF;&#x4EE5;&#x6709;&#x7A7A;&#x683C;</li>
+<li>&#x53C2;&#x6570;&#x7528;&#x62EC;&#x53F7; &quot;()&quot; &#x62EC;&#x8D77;&#x6765;&#xFF0C;&#x591A;&#x4E2A;&#x53C2;&#x6570;&#x4E4B;&#x95F4;&#x7528;&#x9017;&#x53F7; &quot;,&quot; &#x5206;&#x5F00;&#xFF0C;&#x9017;&#x53F7;&#x540E;&#x9762;&#x53EF;&#x4EE5;&#x6709;&#x7A7A;&#x683C;</li>
+<li>&#x6B63;&#x5219;&#x51FD;&#x6570;(Match)&#x7684;&#x5339;&#x914D;&#x6A21;&#x5F0F;&#x7528;&#x4E24;&#x659C;&#x6760; &quot;/&quot; &#x62EC;&#x8D77;&#x6765;</li>
+<li>&#x5404;&#x4E2A;&#x51FD;&#x6570;&#x7684;&#x7ED3;&#x679C;&#x7684; key &#x503C;&#x4E3A;&#x5B57;&#x6BB5;&#x540D;.&#x9A8C;&#x8BC1;&#x51FD;&#x6570;&#x540D;</li>
+</ul>
+<pre><code>type LoginParams struct {
+      Name string valid:&quot;Required&quot;
+      Age int    valid:&quot;Required;MinSize(2)&quot;
+      Addr string    valid:&quot;Required&quot;
+ }
+
+func (l *LoginController) Post()  {
+        valid := validation.Validation{}
+     // &#x89E3;&#x6790;&#x5230;&#x7ED3;&#x6784;&#x4F53;
+      params := LoginParams{}
+      if err := l.ParseForm(&amp;params); err != nil {
+          //handle error
+          return
+      }
+
+      //&#x91CD;&#x5199;&#x9519;&#x8BEF;&#x4FE1;&#x606F;&#xFF1A;validation.SetDefaultMessage(map)
+      var messages = map[string]string{
+        &quot;Required&quot;: &quot;&#x4E0D;&#x80FD;&#x4E3A;&#x7A7A;&quot;,
+        &quot;MinSize&quot;:  &quot;&#x6700;&#x77ED;&#x957F;&#x5EA6;&#x4E3A; %d&quot;,
+        &quot;Length&quot;:   &quot;&#x957F;&#x5EA6;&#x5FC5;&#x987B;&#x4E3A; %d&quot;,
+        &quot;Numeric&quot;:  &quot;&#x5FC5;&#x987B;&#x662F;&#x6709;&#x6548;&#x7684;&#x6570;&#x5B57;&quot;,
+        &quot;Email&quot;:    &quot;&#x5FC5;&#x987B;&#x662F;&#x6709;&#x6548;&#x7684;&#x7535;&#x5B50;&#x90AE;&#x4EF6;&#x5730;&#x5740;&quot;,
+        &quot;Mobile&quot;:   &quot;&#x5FC5;&#x987B;&#x662F;&#x6709;&#x6548;&#x7684;&#x624B;&#x673A;&#x53F7;&#x7801;&quot;,
+      }
+      validation.SetDefaultMessage(messages)
+
+      // &#x6821;&#x9A8C;
+      b, err := valid.Valid(&amp;params)
+
+      // &#x9A8C;&#x8BC1;StructTag &#x662F;&#x5426;&#x6B63;&#x786E;
+      if err != nil {
+
+          fmt.Println(err)
+      }
+
+      if !b {   
+          // &#x9A8C;&#x8BC1;&#x6CA1;&#x901A;&#x8FC7;&#xFF0C;&#x5219;b&#x4E3A;false
+          for _, err := range valid.Errors {
+              fmt.Println(err.Key, err.Message)
+              message := err.Key + err.Message
+              l.Ctx.WriteString(message)
+          }
+      }
+}
+</code></pre><h3 id="&#x591A;&#x4E2A;structtag&#x4E4B;&#x95F4;&#x7528;&#x7A7A;&#x683C;&#x9694;&#x5F00;">&#x591A;&#x4E2A;StructTag&#x4E4B;&#x95F4;&#x7528;&#x7A7A;&#x683C;&#x9694;&#x5F00;</h3>
+
+                    
+                    </section>
+                
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../chapter05/09.di-ba-82823a-urlfor-shi-xian-lu-you-fan-zhuan.html" class="navigation navigation-prev " aria-label="Previous page: 第九节:UrlFor实现路由反转"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="../chapter05/11.di-shi-82823a-biao-dan-yan-zheng-de-fang-fa.html" class="navigation navigation-next " aria-label="Next page: 第十一节:表单验证的方法"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+<script src="../gitbook/app.js"></script>
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/lunr.min.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/search.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {"highlight":{},"search":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
+    gitbook.start(config);
+});
+</script>
+
+        
+    </body>
+    
+</html>

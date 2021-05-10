@@ -1,0 +1,1138 @@
+<!DOCTYPE HTML>
+<html lang="en" >
+    
+    <head>
+        
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>第二十节:sql子查询补充 | 知了课堂beego框架课程</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 2.6.7">
+        
+        
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+        <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+        
+    <link rel="stylesheet" href="../gitbook/style.css">
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-highlight/website.css">
+        
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-search/search.css">
+        
+    
+        
+        <link rel="stylesheet" href="../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
+    
+
+        
+    
+    
+    <link rel="next" href="../chapter08-beego的日志模块/01.di-ba-7ae03a-beego-de-ri-zhi-mo-kuai.html" />
+    
+    
+    <link rel="prev" href="../chapter07-beego的model模块/20.di-shi-jiu-82823a-sql-guan-lian-cha-xun-bu-chong.html" />
+    
+
+        
+    </head>
+    <body>
+        
+        
+    <div class="book"
+        data-level="1.20"
+        data-chapter-title="第二十节:sql子查询补充"
+        data-filepath="chapter07-beego的model模块/21.di-er-shi-82823a-sql-zi-cha-xun-bu-chong.md"
+        data-basepath=".."
+        data-revision="Thu Feb 25 2021 13:24:17 GMT+0800 (中国标准时间)"
+        data-innerlanguage="">
+    
+
+<div class="book-summary">
+    <nav role="navigation">
+        <ul class="summary">
+            
+            
+            
+            
+
+            
+
+            
+    
+        <li class="chapter " data-level="0" data-path="index.html">
+            
+                
+                    <a href="../index.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                        Introduction
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1" data-path="chapter07-beego的model模块/01.README.html">
+            
+                
+                    <a href="../chapter07-beego的model模块/01.README.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.</b>
+                        
+                        第七章.beego的model模块
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1" data-path="02.di-yi-82823a-orm-jian-jie.html">
+            
+                
+                    <a href="../02.di-yi-82823a-orm-jian-jie.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.1.</b>
+                        
+                        第一节:orm简介
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="chapter07-beego的model模块/03.di-er-82823a-orm-ru-men-shi-yong.html">
+            
+                
+                    <a href="../chapter07-beego的model模块/03.di-er-82823a-orm-ru-men-shi-yong.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.2.</b>
+                        
+                        第二节:orm入门使用
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="chapter07-beego的model模块/04.di-san-82823a-mo-xing-ding-yi.html">
+            
+                
+                    <a href="../chapter07-beego的model模块/04.di-san-82823a-mo-xing-ding-yi.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.3.</b>
+                        
+                        第三节:模型定义一
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="chapter07-beego的model模块/05.di-si-82823a-zeng-shan-gai-cha.html">
+            
+                
+                    <a href="../chapter07-beego的model模块/05.di-si-82823a-zeng-shan-gai-cha.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.4.</b>
+                        
+                        第四节:增删改查
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="chapter07-beego的model模块/06.di-wu-82823a-exper-biao-da-shi.html">
+            
+                
+                    <a href="../chapter07-beego的model模块/06.di-wu-82823a-exper-biao-da-shi.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.5.</b>
+                        
+                        第五节:exper表达式
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="chapter07-beego的model模块/07.di-liu-82823a-cha-xun-fang-fa.html">
+            
+                
+                    <a href="../chapter07-beego的model模块/07.di-liu-82823a-cha-xun-fang-fa.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.6.</b>
+                        
+                        第六节:QueryTable接口
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="chapter07-beego的model模块/08.di-qi-82823a-gao-ji-cha-xun-bu-chong.html">
+            
+                
+                    <a href="../chapter07-beego的model模块/08.di-qi-82823a-gao-ji-cha-xun-bu-chong.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.7.</b>
+                        
+                        第七节:QueryTable接口总结
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="chapter07-beego的model模块/09.di-ba-82823a-shi-yong-yuan-sheng-sql-cha-xun.html">
+            
+                
+                    <a href="../chapter07-beego的model模块/09.di-ba-82823a-shi-yong-yuan-sheng-sql-cha-xun.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.8.</b>
+                        
+                        第八节:使用原生sql查询
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="chapter07-beego的model模块/10.di-jiu-82823a-jian-dan-de-sql-yu-ju-hui-gu.html">
+            
+                
+                    <a href="../chapter07-beego的model模块/10.di-jiu-82823a-jian-dan-de-sql-yu-ju-hui-gu.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.9.</b>
+                        
+                        第九节:简单的sql语句回顾
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" data-path="chapter07-beego的model模块/11.di-shi-82823a-ming-ling-xing-zi-dong-jian-biao.html">
+            
+                
+                    <a href="../chapter07-beego的model模块/11.di-shi-82823a-ming-ling-xing-zi-dong-jian-biao.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.10.</b>
+                        
+                        第十节:命令行自动建表
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11" data-path="chapter07-beego的model模块/12.di-shi-82823a-mo-xing-ding-yi.html">
+            
+                
+                    <a href="../chapter07-beego的model模块/12.di-shi-82823a-mo-xing-ding-yi.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.11.</b>
+                        
+                        第十一节:模型定义二
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.12" data-path="chapter07-beego的model模块/13.di-shi-82823a-guan-lian-cha-xun.html">
+            
+                
+                    <a href="../chapter07-beego的model模块/13.di-shi-82823a-guan-lian-cha-xun.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.12.</b>
+                        
+                        第十二节:表关系介绍
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13" data-path="chapter07-beego的model模块/14.mo-xing-ding-yi-zhi-biao-guan-xi.html">
+            
+                
+                    <a href="../chapter07-beego的model模块/14.mo-xing-ding-yi-zhi-biao-guan-xi.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.13.</b>
+                        
+                        第十三节:模型定义三之表关系
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14" data-path="chapter07-beego的model模块/15.di-shi-er-82823a-guan-lian-biao-cha-ru.html">
+            
+                
+                    <a href="../chapter07-beego的model模块/15.di-shi-er-82823a-guan-lian-biao-cha-ru.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.14.</b>
+                        
+                        第十四节:一对一关联表操作
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.15" data-path="chapter07-beego的model模块/16.di-shi-si-82823a-guan-lian-biao-yi-dui-duo-cao-zuo.html">
+            
+                
+                    <a href="../chapter07-beego的model模块/16.di-shi-si-82823a-guan-lian-biao-yi-dui-duo-cao-zuo.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.15.</b>
+                        
+                        第十五节:一对多关联表操作
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.16" data-path="chapter07-beego的model模块/17.di-shi-wu-82823a-duo-dui-duo-guan-lian-biao-cao-zuo.html">
+            
+                
+                    <a href="../chapter07-beego的model模块/17.di-shi-wu-82823a-duo-dui-duo-guan-lian-biao-cao-zuo.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.16.</b>
+                        
+                        第十六节:多对多关联表操作
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17" data-path="chapter07-beego的model模块/18.di-shi-qi-82823a-duo-biao-cao-zuo-shi-zhan.html">
+            
+                
+                    <a href="../chapter07-beego的model模块/18.di-shi-qi-82823a-duo-biao-cao-zuo-shi-zhan.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.17.</b>
+                        
+                        第十七节:多表操作实战
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.18" data-path="chapter07-beego的model模块/19.di-shi-82823a-gou-zao-cha-xun.html">
+            
+                
+                    <a href="../chapter07-beego的model模块/19.di-shi-82823a-gou-zao-cha-xun.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.18.</b>
+                        
+                        第十八节:构造查询
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.19" data-path="chapter07-beego的model模块/20.di-shi-jiu-82823a-sql-guan-lian-cha-xun-bu-chong.html">
+            
+                
+                    <a href="../chapter07-beego的model模块/20.di-shi-jiu-82823a-sql-guan-lian-cha-xun-bu-chong.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.19.</b>
+                        
+                        第十九节:sql关联查询补充
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.20" data-path="chapter07-beego的model模块/21.di-er-shi-82823a-sql-zi-cha-xun-bu-chong.html">
+            
+                
+                    <a href="../chapter07-beego的model模块/21.di-er-shi-82823a-sql-zi-cha-xun-bu-chong.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.20.</b>
+                        
+                        第二十节:sql子查询补充
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2" data-path="chapter08-beego的日志模块/01.di-ba-7ae03a-beego-de-ri-zhi-mo-kuai.html">
+            
+                
+                    <a href="../chapter08-beego的日志模块/01.di-ba-7ae03a-beego-de-ri-zhi-mo-kuai.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.</b>
+                        
+                        第八章:beego的日志模块
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1" data-path="chapter08-beego的日志模块/02.di-yi-jie-ff1a-ri-zhi-jie-shao.html">
+            
+                
+                    <a href="../chapter08-beego的日志模块/02.di-yi-jie-ff1a-ri-zhi-jie-shao.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.1.</b>
+                        
+                        第一节：日志介绍
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="chapter08-beego的日志模块/03.di-yi-82823a-beego-zi-dai-ri-zhi-chu-li-gong-neng.html">
+            
+                
+                    <a href="../chapter08-beego的日志模块/03.di-yi-82823a-beego-zi-dai-ri-zhi-chu-li-gong-neng.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.2.</b>
+                        
+                        第二节:beego自带日志处理功能
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="chapter08-beego的日志模块/04.di-san-jie-ff1a-ri-zhi-gui-fan.html">
+            
+                
+                    <a href="../chapter08-beego的日志模块/04.di-san-jie-ff1a-ri-zhi-gui-fan.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.3.</b>
+                        
+                        第三节：日志规范
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="chapter08-beego的日志模块/05.di-er-82823a-ri-zhi-mo-kuai.html">
+            
+                
+                    <a href="../chapter08-beego的日志模块/05.di-er-82823a-ri-zhi-mo-kuai.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.4.</b>
+                        
+                        第四节:日志模块
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="chapter08-beego的日志模块/06.di-wu-82823a-cuo-wu-he-yi-chang.html">
+            
+                
+                    <a href="../chapter08-beego的日志模块/06.di-wu-82823a-cuo-wu-he-yi-chang.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.5.</b>
+                        
+                        第五节:错误和异常
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6" data-path="chapter08-beego的日志模块/07.di-wu-jie-ff1a-chang-yong-ri-zhi-mo-ban.html">
+            
+                
+                    <a href="../chapter08-beego的日志模块/07.di-wu-jie-ff1a-chang-yong-ri-zhi-mo-ban.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.6.</b>
+                        
+                        第六节：常用日志模板
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.7" data-path="chapter08-beego的日志模块/08.di-liu-jie-ff1a-feng-zhuang-ri-zhi-mo-ban.html">
+            
+                
+                    <a href="../chapter08-beego的日志模块/08.di-liu-jie-ff1a-feng-zhuang-ri-zhi-mo-ban.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.7.</b>
+                        
+                        第七节：封装日志模板
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3" data-path="chapter09-beego的cache模块/01.di-jiu-7ae03a-beego-de-cache-mo-kuai.html">
+            
+                
+                    <a href="../chapter09-beego的cache模块/01.di-jiu-7ae03a-beego-de-cache-mo-kuai.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.</b>
+                        
+                        第九章:beego的cache 模块
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1" data-path="chapter09-beego的cache模块/02.di-yi-82823a.html">
+            
+                
+                    <a href="../chapter09-beego的cache模块/02.di-yi-82823a.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.</b>
+                        
+                        第一节:cache介绍
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="chapter09-beego的cache模块/03.di-er-jie-ff1a-shi-yong-cache.html">
+            
+                
+                    <a href="../chapter09-beego的cache模块/03.di-er-jie-ff1a-shi-yong-cache.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.</b>
+                        
+                        第二节：使用cache
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="chapter09-beego的cache模块/04.di-san-jie-ff1a-qi-ta-yin-qing.html">
+            
+                
+                    <a href="../chapter09-beego的cache模块/04.di-san-jie-ff1a-qi-ta-yin-qing.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.</b>
+                        
+                        第三节：其他引擎
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4" data-path="chapter09-beego的cache模块/05.di-si-jie-ff1a-kai-fa-zi-ji-de-yin-qing.html">
+            
+                
+                    <a href="../chapter09-beego的cache模块/05.di-si-jie-ff1a-kai-fa-zi-ji-de-yin-qing.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.4.</b>
+                        
+                        第四节：开发自己的引擎
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4" data-path="chapter10-beego的httplib模块/01.di-shi-7ae03a-beego-de-httplib-mo-kuai.html">
+            
+                
+                    <a href="../chapter10-beego的httplib模块/01.di-shi-7ae03a-beego-de-httplib-mo-kuai.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.</b>
+                        
+                        第十章:beego的httplib 模块
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.1" data-path="chapter10-beego的httplib模块/02.di-yi-82823a.html">
+            
+                
+                    <a href="../chapter10-beego的httplib模块/02.di-yi-82823a.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.1.</b>
+                        
+                        第一节:httplib的使用
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="chapter10-beego的httplib模块/03.di-er-jie-ff1a-beegohttprequest-de-fang-fa-jie-shao.html">
+            
+                
+                    <a href="../chapter10-beego的httplib模块/03.di-er-jie-ff1a-beegohttprequest-de-fang-fa-jie-shao.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.2.</b>
+                        
+                        第二节：BeegoHTTPRequest的方法介绍
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5" data-path="chapter11-实战/01.di-shi-yi-7ae03a-shi-zhan.html">
+            
+                
+                    <a href="../chapter11-实战/01.di-shi-yi-7ae03a-shi-zhan.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.</b>
+                        
+                        第十一章:实战
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.1" data-path="chapter11-实战/02.di-yi-82823a.html">
+            
+                
+                    <a href="../chapter11-实战/02.di-yi-82823a.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.1.</b>
+                        
+                        第一节:项目结构搭建
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="chapter11-实战/03.di-er-jie-ff1a-login-mo-kuai.html">
+            
+                
+                    <a href="../chapter11-实战/03.di-er-jie-ff1a-login-mo-kuai.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.2.</b>
+                        
+                        第二节：login模块
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3" data-path="chapter11-实战/04.di-san-jie-ff1a-quan-xian-guan-li-mo-kuai.html">
+            
+                
+                    <a href="../chapter11-实战/04.di-san-jie-ff1a-quan-xian-guan-li-mo-kuai.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.3.</b>
+                        
+                        第三节：权限管理模块
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4" data-path="chapter11-实战/05.di-san-82823a-dao-ru-excel-shu-ju-dao-shu-ju-ku.html">
+            
+                
+                    <a href="../chapter11-实战/05.di-san-82823a-dao-ru-excel-shu-ju-dao-shu-ju-ku.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.4.</b>
+                        
+                        第三节:导入excel数据到数据库
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5" data-path="chapter11-实战/di-si-jie-ff1a-fu-wen-ben-bian-ji-qi.html">
+            
+                
+                    <a href="../chapter11-实战/di-si-jie-ff1a-fu-wen-ben-bian-ji-qi.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.5.</b>
+                        
+                        第四节：富文本编辑器
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.6" data-path="chapter11-实战/di-wu-82823a-xiao-xi-tong-zhi.html">
+            
+                
+                    <a href="../chapter11-实战/di-wu-82823a-xiao-xi-tong-zhi.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.6.</b>
+                        
+                        第五节:消息通知
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.7" data-path="chapter11-实战/di-liu-82823a-bao-biao-guan-li.html">
+            
+                
+                    <a href="../chapter11-实战/di-liu-82823a-bao-biao-guan-li.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.7.</b>
+                        
+                        第六节:报表管理
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="6" data-path="chapter12-context模块/01.di-shi-er-7ae03a-context-mo-kuai.html">
+            
+                
+                    <a href="../chapter12-context模块/01.di-shi-er-7ae03a-context-mo-kuai.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.</b>
+                        
+                        第十二章:context模块
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="6.1" data-path="chapter12-context模块/02.di-yi-82823a-context-mo-kuai.html">
+            
+                
+                    <a href="../chapter12-context模块/02.di-yi-82823a-context-mo-kuai.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.1.</b>
+                        
+                        第一节:context模块
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="7" data-path="chapter13-beego的项目部署/01.di-shi-er-7ae03a-beego-de-xiang-mu-bu-shu.html">
+            
+                
+                    <a href="../chapter13-beego的项目部署/01.di-shi-er-7ae03a-beego-de-xiang-mu-bu-shu.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.</b>
+                        
+                        第十二章:beego的项目部署
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="7.1" data-path="chapter13-beego的项目部署/02.di-yi-82823a.html">
+            
+                
+                    <a href="../chapter13-beego的项目部署/02.di-yi-82823a.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.1.</b>
+                        
+                        第一节:独立部署
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.2" data-path="chapter13-beego的项目部署/di-er-82823a-supervisor-bu-shu.html">
+            
+                
+                    <a href="../chapter13-beego的项目部署/di-er-82823a-supervisor-bu-shu.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.2.</b>
+                        
+                        第二节:supervisor部署
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.3" data-path="chapter13-beego的项目部署/di-san-82823a-nginx-bu-shu.html">
+            
+                
+                    <a href="../chapter13-beego的项目部署/di-san-82823a-nginx-bu-shu.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.3.</b>
+                        
+                        第三节:Nginx部署
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.4" data-path="chapter13-beego的项目部署/di-si-82823a-apache-bu-shu.html">
+            
+                
+                    <a href="../chapter13-beego的项目部署/di-si-82823a-apache-bu-shu.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.4.</b>
+                        
+                        第四节:Apache部署
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="8" data-path="chapter14-git版本控制01.di-shi-san-7ae03a-git-ban-ben-kong-zhi.html">
+            
+                
+                    <a href="../chapter14-git版本控制01.di-shi-san-7ae03a-git-ban-ben-kong-zhi.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.</b>
+                        
+                        第十三章:git版本控制
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="8.1" data-path="chapter14-git版本控制01.di-shi-san-7ae03a-git-ban-ben-kong-zhi/di-yi-82823a-gitlab-jie-shao.html">
+            
+                
+                    <a href="../chapter14-git版本控制01.di-shi-san-7ae03a-git-ban-ben-kong-zhi/di-yi-82823a-gitlab-jie-shao.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.1.</b>
+                        
+                        第一节:gitlab介绍
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.2" data-path="chapter14-git版本控制01.di-shi-san-7ae03a-git-ban-ben-kong-zhi/di-er-jie-ff1a-shi-yong-bu-zou.html">
+            
+                
+                    <a href="../chapter14-git版本控制01.di-shi-san-7ae03a-git-ban-ben-kong-zhi/di-er-jie-ff1a-shi-yong-bu-zou.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.2.</b>
+                        
+                        第二节：使用步骤
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+
+            
+            <li class="divider"></li>
+            <li>
+                <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+                    Published with GitBook
+                </a>
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="book-header" role="navigation">
+    <!-- Actions Left -->
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../" >知了课堂beego框架课程</a>
+    </h1>
+</div>
+
+            <div class="page-wrapper" tabindex="-1" role="main">
+                <div class="page-inner">
+                
+                
+                    <section class="normal" id="section-">
+                    
+                        <h4 id="&#x5B50;&#x67E5;&#x8BE2;&#xFF1A;">&#x5B50;&#x67E5;&#x8BE2;&#xFF1A;</h4>
+<ul>
+<li><h6 id="&#x628A;&#x4E00;&#x4E2A;&#x67E5;&#x8BE2;&#x7684;&#x7ED3;&#x679C;&#x5728;&#x53E6;&#x4E00;&#x4E2A;&#x67E5;&#x8BE2;&#x4E2D;&#x4F7F;&#x7528;&#x5C31;&#x53EB;&#x505A;&#x5B50;&#x67E5;&#x8BE2;">&#x628A;&#x4E00;&#x4E2A;&#x67E5;&#x8BE2;&#x7684;&#x7ED3;&#x679C;&#x5728;&#x53E6;&#x4E00;&#x4E2A;&#x67E5;&#x8BE2;&#x4E2D;&#x4F7F;&#x7528;&#x5C31;&#x53EB;&#x505A;&#x5B50;&#x67E5;&#x8BE2;</h6>
+</li>
+<li><h6 id="&#x7279;&#x70B9;">&#x7279;&#x70B9;</h6>
+<ul>
+<li><p>&#x9700;&#x8981;&#x521B;&#x5EFA;&#x4E34;&#x65F6;&#x8868;&#xFF0C;&#x67E5;&#x8BE2;&#x5B8C;&#x6BD5;&#x540E;&#x518D;&#x5220;&#x9664;&#x8FD9;&#x4E9B;&#x4E34;&#x65F6;&#x8868;&#xFF0C;&#x800C;&#x4E14;&#x505A;&#x5F97;&#x7B1B;&#x5361;&#x5C14;&#x79EF;&#xFF0C;&#x6240;&#x4EE5;&#x67E5;&#x8BE2;&#x6162;</p>
+</li>
+<li><p>&#x7075;&#x6D3B;</p>
+</li>
+<li><p>where&#x5B50;&#x67E5;&#x8BE2;&#x7684;&#x76F8;&#x7B49;&#x5224;&#x65AD;&#x53EA;&#x80FD;&#x6709;&#x4E00;&#x6761;&#x8BB0;&#x5F55;&#xFF0C;&#x5426;&#x5219;&#x4F1A;&#x62A5;&#xFF1A;Subquery returns more than 1 row</p>
+</li>
+<li><p>where&#x540E;&#x7684;&#x5B50;&#x67E5;&#x8BE2;&#x53EA;&#x80FD;&#x6709;&#x4E00;&#x4E2A;&#x5B57;&#x6BB5;&#xFF0C;&#x5426;&#x5219;&#x62A5;&#x9519;:Operand should contain 1 column(s),</p>
+</li>
+<li><p>ntext&#x3001;text &#x548C; image &#x6570;&#x636E;&#x7C7B;&#x578B;&#x4E0D;&#x80FD;&#x7528;&#x5728;&#x5B50;&#x67E5;&#x8BE2;&#x7684;&#x9009;&#x62E9;&#x5217;&#x8868;&#x4E2D;</p>
+</li>
+<li><h5 id=""> </h5>
+</li>
+</ul>
+</li>
+<li><h6 id="where&#x5B50;&#x67E5;&#x8BE2;">WHERE&#x5B50;&#x67E5;&#x8BE2;</h6>
+<ul>
+<li><p>&#x67E5;&#x8BE2;&#x5E74;&#x9F84;&#x5C0F;&#x4E8E;&#x5E73;&#x5747;&#x5E74;&#x9F84;&#x7684;&#x7528;&#x6237;&#xFF0C;&#x5148;&#x67E5;&#x5E73;&#x5747;&#x5E74;&#x9F84;&#xFF0C;&#x7136;&#x540E;&#x5728;&#x7ED3;&#x679C;&#x4E2D;&#x67E5;&#x8BE2;&#x6EE1;&#x8DB3;&#x6307;&#x5B9A;&#x6761;&#x4EF6;&#x7684;&#x6570;&#x636E;</p>
+<ul>
+<li><pre><code>SELECT * from user_one WHERE age &lt; (SELECT AVG(age) from user_one)
+
+-- &#x67E5;&#x8BE2;&#x591A;&#x5BF9;&#x591A;&#x4E2D;&#x95F4;&#x8868;tag_id=2&#x7684;post_id&#xFF0C;&#x7136;&#x540E;&#x53BB;post&#x8868;&#x4E2D;&#x67E5;&#x8BE2;&#x5B50;&#x67E5;&#x8BE2;&#x7684;&#x7ED3;&#x679C;&#x4E2D;&#x67E5;&#x8BE2;&#x5176;&#x4ED6;&#x6570;&#x636E;
+SELECT * from post WHERE id = (SELECT post_id FROM post_tags where tag_id=2)
+
+-- &#x5916;&#x90E8;&#x67E5;&#x8BE2;&#x53EF;&#x4EE5;&#x6709;&#x591A;&#x6761;&#x6570;&#x636E;
+SELECT * from post_tags WHERE tag_id = (SELECT id FROM tag where id=2)
+</code></pre></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h6 id="from&#x5B50;&#x67E5;&#x8BE2;">FROM&#x5B50;&#x67E5;&#x8BE2;</h6>
+<ul>
+<li><p>&#x6CE8;&#x610F;Every derived table must have its own alias&#x62A5;&#x9519;&#xFF0C;&#x5F97;&#x8D77;&#x522B;&#x540D;</p>
+</li>
+<li><p>FROM&#x5B50;&#x53E5;&#x4E2D;&#x4F7F;&#x7528;&#x5B50;&#x67E5;&#x8BE2;&#x4E00;&#x822C;&#x90FD;&#x662F;&#x8FD4;&#x56DE;&#x591A;&#x884C;&#x591A;&#x5217;&#xFF0C;&#x53EF;&#x4EE5;&#x5C06;&#x5176;&#x5F53;&#x4F5C;&#x4E00;&#x5F20;&#x6570;&#x636E;&#x8868;</p>
+<p>&#x4F8B;&#xFF1A;SELECT * from (SELECT post_id,tag_id FROM post_tags where post_id=1) as a  --&#x8FD9;&#x91CC;&#x5FC5;&#x987B;&#x5F97;&#x6709;&#x522B;&#x540D;</p>
+<p>-- &#x5982;&#x679C;&#x6CA1;&#x6709;as&#x5219;&#x4F1A;&#x62A5;&#x9519;Every derived table must have its own alias</p>
+</li>
+</ul>
+</li>
+<li><h6 id="having&#x5B50;&#x67E5;&#x8BE2;&#xFF1A;having&#x5B50;&#x53E5;&#x662F;&#x5BF9;&#x5206;&#x7EC4;&#x7EDF;&#x8BA1;&#x51FD;&#x6570;&#x8FDB;&#x884C;&#x8FC7;&#x6EE4;&#x7684;&#x5B50;&#x53E5;">HAVING&#x5B50;&#x67E5;&#x8BE2;&#xFF1A;HAVING&#x5B50;&#x53E5;&#x662F;&#x5BF9;&#x5206;&#x7EC4;&#x7EDF;&#x8BA1;&#x51FD;&#x6570;&#x8FDB;&#x884C;&#x8FC7;&#x6EE4;&#x7684;&#x5B50;&#x53E5;</h6>
+<ul>
+<li><p>having&#x53EA;&#x80FD;&#x4E0E;select&#x8BED;&#x53E5;&#x4E00;&#x8D77;&#x4F7F;&#x7528;&#xFF0C;&#x901A;&#x5E38;&#x5728;group by&#x5B50;&#x53E5;&#x4E2D;&#x4F7F;&#x7528;</p>
+<ul>
+<li><p>SELECT * from user_one GROUP BY `name` HAVING name = (SELECT name from user_one WHERE id=1)</p>
+</li>
+<li><p>SELECT * from user_one GROUP BY `name` HAVING name &lt; (SELECT name from user_one WHERE id=1)</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h6 id="select&#x5B50;&#x67E5;&#x8BE2;">SELECT&#x5B50;&#x67E5;&#x8BE2;</h6>
+<ul>
+<li>&#x7565;&#xFF0C;&#x770B;&#x524D;&#x9762;</li>
+</ul>
+</li>
+<li><h6 id="exisitnot-exists--&#x5B50;&#x67E5;&#x8BE2;">EXISIT/NOT EXISTS  &#x5B50;&#x67E5;&#x8BE2;</h6>
+<ul>
+<li><p>&#x5E26;&#x6709;EXISTS&#x8C13;&#x8BCD;&#x7684;&#x5B50;&#x67E5;&#x8BE2;&#x4E0D;&#x8FD4;&#x56DE;&#x4EFB;&#x4F55;&#x6570;&#x636E;&#xFF0C;&#x53EA;&#x4EA7;&#x751F;&#x903B;&#x8F91;&#x771F;&#x503C;&#x201C;true&#x201D;&#x6216;&#x8005;&#x903B;&#x8F91;&#x5047;&#x503C;&#x201C;false&#x201D;</p>
+<ul>
+<li><p>SELECT * from user_one WHERE EXISTS (SELECT name from user_one WHERE id=1)</p>
+</li>
+<li><p>SELECT * from user_one WHERE not EXISTS (SELECT name from user_one WHERE id=77)</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h6 id="&#x6309;&#x7ED3;&#x679C;&#x96C6;&#x7684;&#x884C;&#x5217;&#x6570;&#x4E0D;&#x540C;&#xFF1A;">&#x6309;&#x7ED3;&#x679C;&#x96C6;&#x7684;&#x884C;&#x5217;&#x6570;&#x4E0D;&#x540C;&#xFF1A;</h6>
+<p>&#x53C2;&#x8003;&#xFF1A;<a href="https://blog.csdn.net/qq_26594041/article/details/89438382" target="_blank">https://blog.csdn.net/qq_26594041/article/details/89438382</a></p>
+<ul>
+<li><p>&#x6807;&#x91CF;&#x5B50;&#x67E5;&#x8BE2;&#xFF08;&#x7ED3;&#x679C;&#x96C6;&#x53EA;&#x6709;&#x4E00;&#x884C;&#x4E00;&#x5217;&#xFF09;</p>
+</li>
+<li><p>&#x5217;&#x5B50;&#x67E5;&#x8BE2;&#xFF08;&#x7ED3;&#x679C;&#x96C6;&#x53EA;&#x6709;&#x4E00;&#x5217;&#x591A;&#x884C;&#xFF09;</p>
+</li>
+<li><p>&#x884C;&#x5B50;&#x67E5;&#x8BE2;&#xFF08;&#x7ED3;&#x679C;&#x96C6;&#x6709;&#x4E00;&#x884C;&#x591A;&#x5217;&#xFF09;</p>
+</li>
+<li><p>&#x8868;&#x5B50;&#x67E5;&#x8BE2;&#xFF08;&#x7ED3;&#x679C;&#x96C6;&#x4E00;&#x822C;&#x4E3A;&#x591A;&#x884C;&#x591A;&#x5217;&#xFF09;</p>
+</li>
+</ul>
+<h4 id=""> </h4>
+<h6 id="&#x5B50;&#x67E5;&#x8BE2;&#x548C;&#x5173;&#x8054;&#x67E5;&#x8BE2;&#x7684;&#x533A;&#x522B;">&#x5B50;&#x67E5;&#x8BE2;&#x548C;&#x5173;&#x8054;&#x67E5;&#x8BE2;&#x7684;&#x533A;&#x522B;</h6>
+<ul>
+<li><p>&#x8868;&#x5173;&#x8054;&#x7684;&#x6548;&#x7387;&#x8981;&#x9AD8;&#x4E8E;&#x5B50;&#x67E5;&#x8BE2;&#xFF0C;&#x56E0;&#x4E3A;&#x5B50;&#x67E5;&#x8BE2;&#x8D70;&#x7684;&#x662F;&#x7B1B;&#x5361;&#x5C14;&#x79EF;&#xFF0C;&#x5B50;&#x67E5;&#x8BE2;&#x9700;&#x8981;&#x521B;&#x5EFA;&#x4E34;&#x65F6;&#x8868;&#xFF0C;&#x67E5;&#x8BE2;&#x5B8C;&#x6BD5;&#x540E;&#x518D;&#x5220;&#x9664;&#x8FD9;&#x4E9B;&#x4E34;&#x65F6;&#x8868;</p>
+</li>
+<li><p>&#x8868;&#x5173;&#x8054;&#x53EF;&#x80FD;&#x6709;&#x591A;&#x6761;&#x8BB0;&#x5F55;&#xFF0C;&#x5B50;&#x67E5;&#x8BE2;&#x53EA;&#x6709;&#x4E00;&#x6761;&#x8BB0;&#x5F55;</p>
+</li>
+<li><p>&#x5B50;&#x67E5;&#x8BE2;&#x5F88;&#x7075;&#x6D3B;</p>
+</li>
+<li><p>&#x5B50;&#x67E5;&#x8BE2;&#x53EF;&#x4EE5;&#x5D4C;&#x5957;&#x5728;&#x4E3B;&#x67E5;&#x8BE2;&#x4E2D;&#x6240;&#x6709;&#x4F4D;&#x7F6E;&#xFF0C;&#x5305;&#x62EC;SELECT&#x3001;FROM&#x3001;WHERE&#x3001;GROUP BY&#x3001;HAVING&#x3001;ORDER BY&#x3002;</p>
+</li>
+</ul>
+
+                    
+                    </section>
+                
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../chapter07-beego的model模块/20.di-shi-jiu-82823a-sql-guan-lian-cha-xun-bu-chong.html" class="navigation navigation-prev " aria-label="Previous page: 第十九节:sql关联查询补充"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="../chapter08-beego的日志模块/01.di-ba-7ae03a-beego-de-ri-zhi-mo-kuai.html" class="navigation navigation-next " aria-label="Next page: 第八章:beego的日志模块"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+<script src="../gitbook/app.js"></script>
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/lunr.min.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-search/search.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {"highlight":{},"search":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
+    gitbook.start(config);
+});
+</script>
+
+        
+    </body>
+    
+</html>
