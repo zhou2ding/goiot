@@ -25,7 +25,7 @@
   - 技术栈
     - ASP：微软开发，在HTML中嵌入了VB、C#脚本，业务逻辑代码都在页面中，IIS服务器
     - PHP：开发速度快、跨平台，代码简单；但无法承载大访问量的情况
-    - JSP/Servlet：sun开发，B/S架构（浏览器/服务器，jiava的C/S是客户端/服务器架构），基于java，可承载三高问题
+    - JSP/Servlet：sun开发，B/S架构（浏览器/服务器，C/S是客户端/服务器架构），基于java，可承载三高问题
   - 服务器
     - IIS：Internet Information Services，微软开发，Windows自带，ASP
     - Tomcat：运行JSP页面和Servlet，属于轻量级的应用服务器

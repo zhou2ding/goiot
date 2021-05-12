@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 )
@@ -71,12 +72,16 @@ func main() {
 	// fmt.Printf("%#v\n", p1)
 	// fmt.Printf("%#v\n", p2)
 	// fmt.Printf("%#v\n", p3[0])
-	m1 := make(map[string]interface{}, 10)
-	dataM := `{"name":"lisi","age":90}`
-	m1["data"] = dataM
-	b, _ := json.Marshal(m1)
-	for k, v := range m1 {
-		fmt.Printf("key:%v, value:%v\n", k, v)
-	}
-	fmt.Printf("%s\n", b)
+	// m1 := make(map[string]interface{}, 10)
+	// dataM := `{"name":"lisi","age":90}`
+	// m1["data"] = dataM
+	// b, _ := json.Marshal(m1)
+	// for k, v := range m1 {
+	// 	fmt.Printf("key:%v, value:%v\n", k, v)
+	// }
+	// fmt.Printf("%s\n", b)
+}
+
+func filter(ctx *context.Context) {
+
 }
