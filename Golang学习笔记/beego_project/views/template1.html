@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+        {{.name}}
+        是0
+        {{"是1"}}<br>
+
+        {{range .arr}}
+            值：{{"是："}}{{.}}<br>
+        {{else}}
+            没值了
+        {{end}}
+
+        {{template "t2.html" .}}
+
+        {{define "myt"}}
+            <ul>
+                <li>一</li>
+                <li>二</li>
+                <li>{{.name}}</li>
+            </ul>
+        {{end}}
+        {{template "mt" .}}
+    </body>
+</html>

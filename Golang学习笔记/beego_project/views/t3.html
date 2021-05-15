@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+        {{dateformat .nowtime "2006/01/02-15:04:05"}}<br>
+        {{date .nowtime "Y-m-d H:i:s"}}<br>
+
+        {{eq 'a' 97}}<br>
+        {{compare 'a' 97}}<br>
+        {{compare_not 'a' 97}}<br>
+        {{ne 'a' 97}}<br>
+        {{not_nil 0}}<br>
+        {{not_null 0}}<br>
+
+        {{substr "abcdef" 0 3}}<br>
+        {{html2str "<a href='www.baidu.com'>Baidu</a>"}}<br>
+        {{str2html "<a href='www.baidu.com'>Baidu</a>"}}<br>
+        {{htmlquote "<a href='www.baidu.com'>Baidu</a>"}}<br>
+        {{htmlunquote "&lt;a&nbsp;href=&#39;www.baidu.com&#39;&gt;Baidu&lt;/a&gt;"}}<br>
+
+        {{assets_js "/static/js/jquery.min.js"}}<br>
+        {{assets_css "/static/css/static_test.css"}}<br>
+
+        <!-- 第三个参数是获取不到时返回的默认值 -->
+        {{config "String" "httpport" "8080"}}<br>
+
+        {{urlfor "T3Controller.Get" "name" "zhangsan" "age" "18"}}
+    </body>
+</html>

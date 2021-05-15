@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <script src="/static/js/jquery.min.js"></script>
+    </head>
+    <body>
+        参数传递页面
+        <!-- action是url，method必须是POST，这样的话提交的信息就不是明文，get的话是明文 -->
+        <!-- <form action="/param" method="POST"> -->
+        <!-- 使用ajax后不需要post了 -->
+        <form>
+            <!-- name这个字段的值就是controller的POST方法中Getxxx函数获取的参数 -->
+            <!-- 两个name都是username，都会传进controller的GetStrings返回的数组中 -->
+            用户名：<input type="text" name="username" id="username"><br>
+            <!-- 用户名2：<input type="text" name="username"><br> -->
+
+            <!-- text代表一个框 -->
+            年&nbsp;&nbsp;&nbsp;龄：<input type="text" name="age" id="age"><br>
+            价&nbsp;&nbsp;&nbsp;格：<input type="text" name="price" id="price"><br>
+
+            <!-- 这两个的name相同才是单选，radio代表按钮 -->
+            已婚：<input type="radio" name="married" value="true" id="married">
+            未婚：<input type="radio" name="married" value="false" id="married"><br>
+
+            <!-- submit代表点了之后会提交表单，vlaue是这个按钮上显示的字 -->
+            <!-- <input type="submit" value="提交"> -->
+
+            <!-- 不用submit，使用ajax，除了用id获取这个button，还可以使用name、class，document也有对应的函数-->
+            <input type="button" value="提交" id="btn">
+        </form>
+
+        <script>
+            var btn=document.getElementById("btn")
+            btn.onclick=function(ev){
+                var username=document.getElementById("username").value;
+                var age = document.getElementById("age").value;
+                var price = document.getElementById("price").value;
+                var married = document.getElementById("married").value;
+                $.ajax({
+                    url:"/param",
+                    type:"POST",
+                    data:JSON.stringify({
+                        // 前端获取到的数据默认都为string，需要进行转换
+                        "username":username,
+                        "age":Number(age),
+                        "price":price,
+                        "married":married,
+                    }),
+                    dataType:"JSON",
+                    success:function(data) {
+                        var code = data["code"]
+                        var msg = data["message"]
+                        if(code == 200) {
+                            alert(msg)
+                        }
+                        // alert("处理成功")
+                    },
+                    error:function(data){
+                        alert("处理异常")
+                    }
+                })
+            }
+        </script>
+    </body>
+</html>

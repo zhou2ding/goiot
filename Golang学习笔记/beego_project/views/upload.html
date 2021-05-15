@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <script src="/static/js/jquery.min.js"></script>
+    </head>
+    <body>
+        <a href="{{urlfor "LoginController.Get" "name" "zhangsan" "age" "18"}}">url反转</a>
+        上传文件测试
+        <!-- <form action="/upload" method="POST" enctype="multipart/form-data"> -->
+        <form>
+            <input type="file" name="upload_file" id="upload_file"><br>
+            <!-- <input type="submit" value="提交"> -->
+            <input type="button" id="btn" value="提交">
+        </form>
+
+        <!-- 使用ajax上传文件 -->
+        <script>
+            var btn = document.getElementById("btn");
+            btn.onclick = function(ev) {
+                // 下面两行是固定写法
+                var formdata = new FormData();
+                formdata.append("upload_file",$("#upload_file")[0].files[0]);
+
+                $.ajax({
+                    url:"/upload",
+                    type:"POST",
+                    data:formdata,
+                    //下面两个必须false
+                    contentType:false,
+                    processData:false,
+                    success:function(data) {
+                        if (data["code"]==200) {
+                            alert(data["message"]);
+                        }
+                    },
+                    error:function(data) {
+                        alert(data["message"]);
+                    }
+                })
+            }
+        </script>
+    </body>
+</html>

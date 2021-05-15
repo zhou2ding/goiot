@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+        template2
+        {{printf "%d-%d" 1 2}}<br>
+        {{print .name}}<br>
+        {{printf "%s" .name}}<br>
+        {{.name | printf "%s"}}<br>
+
+        {{call .f}}
+
+        {{index .mapp "name"}}<br>
+        {{map_get .mapp "name"}}<br>
+        {{index .slicee 1}}<br>
+        {{index .stringg 3}}<br>
+
+        {{len .stringg}}
+
+        第一个bool：{{not .is_bool}}<br>
+        第二个bool：{{.is_bool | not | not}}<br>
+        {{.name |len | print}}<br>
+        <!-- and是返回第一个空，如果找不到，返回最后一个；or是返回第一个非空，如果找不到，返回最后一个 -->
+        <!-- {{and .A .B .C}} {{or .A .B .C}} -->
+
+        {{urlquery "http://www.baidu.com"}}
+
+    </body>
+</html>
