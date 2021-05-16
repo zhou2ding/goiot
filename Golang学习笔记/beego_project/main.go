@@ -60,5 +60,6 @@ func main() {
 	beego.AddFuncMap("sub", controllers.SubstrAndReplace)
 
 	orm.Debug = true //开启sql语句的打印
+	orm.RunCommand() //开启通过orm的命令行操作数据库
 	beego.Run()
 }

@@ -199,3 +199,20 @@ resisdb = redis.NewClient(&redis.Options{
    2. `nsqd.exe -broadcast-address=127.0.0.1 -lookupd-tcp-address=127.0.0.1:4160`
    3. `nsqadmin.exe -lookupd-http-address=127.0.0.1:4161`
    4. 浏览器输入`http://127.0.0.1:4171`
+
+# Beego命令
+
+```powershell
+#先main.go中添加orm.RunCommand()，且要把结构体注册一下
+#常用：go run main.go orm -v
+go run main.go orm syncdb		#根据结构体建表，不带参数时，只根据结构体创建不存在的表
+				==>-db=string	#指定数据库的别名，默认“default”
+				==>-force		#建表前把已有的表先删除，慎用！！！不带此参数或指定为false时不执行此操作
+				==>-v			#查看详情（verbose，打印sql语句等）
+					
+go run main.go orm sqlall		#打印建表语句
+go run main.go orm help			#查看帮助，orm后面不带参数时默认带的help
+```
+
+
+

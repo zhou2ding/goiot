@@ -47,6 +47,7 @@ func init() {
 	beego.Router("/orm2-update", &testorm.TestOrm2UpdateController{})
 	beego.Router("/orm2-delete", &testorm.TestOrm2DeleteController{})
 	beego.Router("/orm3", &testorm.TestOrm3Controller{}) // exeper表达式
-	beego.Router("/orm4", &testorm.TestOrm4Controller{}) // exeper表达式
-
+	beego.Router("/orm4", &testorm.TestOrm4Controller{}) // querytable接口函数
+	beego.Router("/orm5", &testorm.TestOrm5Controller{}) // 原生sql
+	beego.Router("/orm6", &testorm.TestOrm6Controller{}) // 命令行
 }
