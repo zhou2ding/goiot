@@ -1617,8 +1617,8 @@ func TestSplit(t *testing.T) {
 
   - 命令`go test -bench=Fib2`，会把`Fib2`和`Fib20`都跑一下
   - 跑所有`go test -bench=.`
-    - `go test -bench . -memprofile=./mem.pprof`
-    - `go test -bench . -cpuprofile=./cpu.pprof`
+    - `go test -bench . -memprofile=mem.pprof`
+    - `go test -bench . -cpuprofile=cpu.pprof`
   - 默认情况下，每个基准测试至少运行1秒。如果在Benchmark函数返回时没有到1秒，则b.N的值会按1,2,5,10,20,50，…增加，并且函数再次运行 
   - 强制时间`go test -bench=Fib20 -benchtime=20s`
 

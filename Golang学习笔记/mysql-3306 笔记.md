@@ -4,7 +4,7 @@
 
 **1. 查看用户信息**
 
-select host,user,plugin,authentication_string from mysql.user;
+`select host,user,plugin,authentication_string from mysql.user;`
 
 ![img](https://img-blog.csdn.net/20180609145407985?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTI2MDQ3NDU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
 
@@ -12,11 +12,11 @@ select host,user,plugin,authentication_string from mysql.user;
 
 **2. 修改用户密码**
 
-ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '123456';
+`ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '123456';`
 
 更新user为root，host为% 的密码为123456
 
-ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '123456';
+`ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '123456';`
 更新user为root，host为localhost 的密码为123456
 
 ## 修改root密码
@@ -35,7 +35,7 @@ ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '123456';
 
 3. 输入命令` ./mysql` 回车后，输入命令`FLUSH PRIVILEGES`;
 
-   回车后，输入命令 `LTER USER 'root'@'localhost' IDENTIFIED BY '你的新密码';`
+   回车后，输入命令 `ALTER USER 'root'@'localhost' IDENTIFIED BY '你的新密码';`
    
 4. 密码`564710`
 ## sql语句执行顺序
@@ -74,7 +74,7 @@ DCL：grant revoke
 
 ## 常用命令
 
-`mysql -uroot -p5023152` 登录
+`mysql -uroot -p564710` 登录
 
 `exit` 退出
 
@@ -84,7 +84,7 @@ DCL：grant revoke
 
 `use bjpowernode;` 使用数据库
 
-`source D:\learn\bjpowernode.sql;` 导入数据
+`source D:\learn\bjpowernode.sql;` 导入数据，批量执行文件中的sql语句
 
 `show tables;` 显示表
 
@@ -97,8 +97,6 @@ DCL：grant revoke
 `select database()` 查看当前的数据库
 
 `system cls` 清屏
-
-`source xxx.sql（绝对路径）;` 批量执行sql语句，xxx.sql是sql脚本文件
 
 `show create table 表名;` 查看建表语句
 
@@ -156,7 +154,7 @@ where
 |   between ... and ...    |                =null是不行的                |  0不是null  |      |      | 等价于or a or b or c | is not null |
 | 必须左小又大，且是闭区间 | 数据库中null代表空，不是一个值，不能用=比较 |             |      |      |                      |             |
 
-1. and和or同时出现，先执行and，不确定优先级，加小括号
+1. and和or同时出现，先执行and；不确定优先级的话，加小括号
    
 2. 模糊查询：like
    * %代表任意多个字符
@@ -167,7 +165,7 @@ where
 
    select 字面值 from table;
 
-   得到的结果是一列内容全是字面值的查询结果。
+   得到的结果是一列内容全是该字面值的查询结果。
 
 ## 排序
 
@@ -215,7 +213,7 @@ mysql> select
    
    - `format(数字,'格式')` 数字格式化：`select ename,format(sal,'$999,999') from emp;`
    
-   - `case...when...then...when...then...else...end`
+   - `case 字段名 when 值1 then...when 值2 then...else...end`
    
      ```mysql
      # 涨薪
@@ -279,14 +277,16 @@ mysql> select
 **场景：**先对数据分组，再对每一组数据进行操作。
 
    ```mysql
-   select
-   	...
-   from
-   	...
-   group by
-	...
-   order by
-	...
+select
+...
+from
+...
+where
+...
+group by
+...
+order by
+...
    ```
 
 **重点结论：**
@@ -335,26 +335,29 @@ eg：`select deptno, max(sal) from emp where sal > 3000 group by deptno;`
 
 #### 笛卡尔积现象
 
-   - 现象：当两张表进行连接查询，没有任何条件限制的时候，最终查询结果的条数，是两张表条数的乘积
+   - 现象：当两张表进行连接查询，没有任何条件限制的时候，最终查询结果的条数，是两张表条数的乘积，结果错误
 
      `select ename,dname from emp,dept;`
 
-   - 避免：连接查询时加条件，满足这个条件的记录再筛选出来
+   - 解决错误：连接查询时加条件，满足这个条件的记录再筛选出来
 
      `select ename,dname frome emp,dept where emp.deptno = dept.deptno;`
 
+     > 如上方法匹配次数和不做限制相比并没有减少，只是解决了错误
+
    - 提高效率：
 
-        - 如上方法匹配次数和不做限制相比并没有减少，要给表起别名后用`别名.字段`来查询   
+        - 要给表起别名后用`别名.字段`来查询（提高编写sql语句的效率）
         
        ```mysql
+       #SQL92语法，已被淘汰
        select
        	e.ename,d.dname
        from
        	emp e, dept d
        where
        	e.deptno = d.deptno
-       ```
+     ```
      - 尽量避免表的连接次数（连接次数=表A条数 \* 表B次 * 表c次数）
      
 ### 内连接
@@ -409,7 +412,7 @@ on
 #### 自连接
 
 ```mysql
-#查询每个员工上级领导的名字
+#查询每个员工上级领导的名字，结果少一条，因为最高领导的领导是NULL，查不出来。用左外就能查出来
 select
 	a.ename as '员工名',b.ename as '领导名'
 from
@@ -426,7 +429,7 @@ a.mgr = b.empno; #技巧：自连接，一张表看成两张表
 
 - 两张表存在着主次关系
 
-- 将join关键字左边 / 右边这张表看成主表，主要是为了将这张表的数据全部查询出来，捎带着连接查询右边 / 左边的表
+- 将join关键字左边 / 右边这张表看成主表，主要是为了将主表的数据全部查询出来，捎带着连接查询子表
 
 - 任何一个右连接 / 左连接都有左连接 / 右连接的写法
 
@@ -449,7 +452,7 @@ on
 
 #### 左外连接
 
-  left join，左表是主小
+  left join，左表是主表
 
   ```mysql
   select
@@ -502,7 +505,7 @@ on
   ```mysql
   # 找出每个员工的部门名、薪资等级和上级领导，要求显示员工名、领导名、部门名、薪资、薪资等级
   select
-  	e.ename,e2.ename,e.sal,d.dname,s.grade
+  	e.ename '员工',e2.ename '领导',e.sal '工资',d.dname '部门',s.grade '工资等级'
   from
   	emp e
   join
@@ -604,7 +607,7 @@ from
 
 ### 概述
 
-- 语法格式：`crate table 表名(字段名1 数据类型, 字段名2 数据类型, 字段名3 数据类型);`
+- 语法格式：`crate table 表名(字段名1 数据类型 约束条件 默认值, 字段名2 数据类型, 字段名3 数据类型);`
   - 表名：以`t_`开始或`tbl_`开始
   - 字段名：见名知意
   - 建表的时候可以指定默认值，在数据类型后跟`default xxx`
@@ -639,15 +642,17 @@ create table t_student(
 ### 插入日期
 
 - 语法格式：`insert into 表名(字段1,字段2,字段3) values(值1,值2,值3)`
+
 - 注意
   - 字段名要和值一一对应（数量、数据类型要对应）
   - insert语句但凡执行成功，必然会多一条记录，没有给其他字段指定值的话，默认值是NULL或建表时给的默认值
   - **省略字段名的话等于都写上了，所以值都得写上**（主键的值可以直接用字段名代替）
+  
 - 操作日期的单行处理函数
   - `str_to_date('日期字符串','日期格式')`
     - 将字符串varchar转换成date，通常在插入时使用
     - 如果提供的字符串是`'%Y-%m-%d'`，则可以不用此函数
-  - `date _format(date类型数据,'日期格式')`
+  - `date_format(date类型数据,'日期格式')`
     - 将date转换成具有特定格式的varchar，通常在查询时使用
     - 不使用时，mysql会默认进行格式化，采用默认格式（`%Y-%m-%d`）
   - 日期格式
@@ -659,7 +664,19 @@ create table t_student(
     - %s 秒
   - 日期默认格式
     - 短日期：`%Y-%m-%d`，按长日期格式插入时，会省略时分秒
-    - 长日期：`%Y-%m-%d %h:Hi:%s`
+    - 长日期：`%Y-%m-%d %h:i:%s`
+  
+- 实际业务
+
+  ```mysql
+  create table if not exists test(
+  	id int primary key auto_increment,
+      name varchar(32),
+      time datetime default now(),
+      ....
+  );
+  insert into test(name) values('张三');
+  ```
 
 ### 插入多条数据
 
@@ -765,7 +782,8 @@ create table t_student(
     	id int,
         name varchar(255),
         emai varchar(255),
-        unique(name,email)); #表级约束
+        unique(name,email) #表级约束
+    );
     ```
 
 #### 主键约束 primary key
@@ -791,8 +809,8 @@ create table t_student(
      ```mysql
      drop table if exists t_vip;
      create table t_vip(
-     	id int primary key, #列级约束
-         # primary key(id)， 表级约束
+     	#id int primary key, #列级约束
+         primary key(id)， 表级约束
          name varchar(255),
          sex int(1)
      );
@@ -860,7 +878,7 @@ create table t_student(
 3. 概念
 
    - 父表：被引用为外键的字段所在的表；子表：引用某其他表的字段作为外键的表
-   - 外键值可以为空
+   - 子表的外键值可以为空
    - **被引用为外键的父表中的字段，不一定是主键，但至少具有`unique`约束**
 
 #### 两个约束联合
@@ -883,7 +901,7 @@ create table t_student(
 
 ### 分类
 
-- `show engines \G`：查看支持哪些存储引擎
+- `show engines \G`：查看支持哪些存储引擎，`\G`可省略
 
 - mysql支持九大存储引擎；版本不同，支持情况不同；常用以下三个
   - MyISAM
@@ -939,14 +957,14 @@ update
 ### 事务操作
 
 ```mysql
-#回滚事务
+#提交事务
 start transaction;
 insert into dept_bak values(10, 'sales', 'beijing')
 insert into dept_bak values(10, 'sales', 'beijing')
 commit;
 rollback; #此时回滚没有任何作用，因为事务提交了，已经结束了！
 
-#提交事务
+#回滚事务
 start transaction;
 insert into dept_bak values(10, 'sales', 'beijing')
 insert into dept_bak values(10, 'sales', 'beijing')
@@ -983,13 +1001,13 @@ rollback;
 
   > 事务A只能读到事务B提交之后的数据，解决了脏读，但不可重复读取数据
   >
-  > 即事务A结束之前，如果有多个事务修改了数据，则A每次从表中读取到的数据不一致
+  > 即事务A结束之前，如果有多个事务修改了数据，则事务A每次从表中读取到的数据不一致
   >
   > 读到的数据比较真实，Oracle的默认级别
 
-- 可重复度：`repeatable read`《提交之后也读不到，每次都是读取事务刚开启时的数据》
+- 可重复读：`repeatable read`《提交之后也读不到，每次都是读取事务刚开启时的数据》
 
-  > 事务A开启之后，不管多久，每次A从表中读到的数据都是一致的，即使B对表中数据已经修改并提交，A读到的数据仍不变
+  > 事务A开启之后，不管多久，每次A从表中读到的数据都是一致的，即使事务B对表中数据已经修改并提交，A读到的数据仍不变
   >
   > 可能存在幻影读，即读到的数据不一定真实，mysql的默认级别
   >
@@ -1004,7 +1022,7 @@ rollback;
 - 查看当前隔离级别
 
   - `select @@transaction_isolation;`
-  - `select @@global.transaction_isolation;`：
+  - `select @@global.transaction_isolation;`
 
 - 修改隔离级别，重启mysql后生效
 
@@ -1084,9 +1102,9 @@ rollback;
 
 - 索引的使用
 
-  - 使用条件：数据量庞大，具体还要看硬件环境，需要测试；改字段经常出现在`where`后面，即该字段总是被扫描；该字段有很少的DML操作（因为DML之后索引需要重新排序）
+  - 使用条件：数据量庞大，具体还要看硬件环境，需要测试；该字段经常出现在`where`后面，即该字段总是被扫描；该字段有很少的DML操作（因为DML之后索引需要重新排序）
   - 不要随便添加索引，索引多了系统性能反而会降低；建议通过主键或unique约束的字段来查询
-  - `create emp_ename_index on emp(ename);`在ename字段上创建索引
+  - `create index emp_ename_index on emp(ename);`在ename字段上创建索引
   - `drop index emp_ename_index on emp;`删除ename对象上的索引
   - `explain select * from emp where ename='KING';`查看一个SQL语句是否使用了索引进行检索，如果输出的结果中`type`是`ALL`的话，就没有使用索引；是`ref`的话就是用了索引
 

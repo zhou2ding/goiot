@@ -321,26 +321,7 @@ rm -rf /var/lib/docker # 删除资源
 >   docker run -d -p 8088:9000 \
 >   --restart=always -v /var/run/docker.sock:/var/run/docker.sock --privileged=true portainer/portainer
 >   ```
->   ```
->  
->   ```
->
->   ```
->  
->   ```
->
->   ```
->  
 >  - 然后访问`https://linux的ip:8088`
->   ```
->
->   ```
->  
->   ```
->
->   ```
->  
->   ```
 
 ## 小结
 
@@ -350,7 +331,7 @@ rm -rf /var/lib/docker # 删除资源
 
 ## 概述
 
-> 镜像是一种轻量级、可执行的独立软件包，用来打包软件运行环境和基于运行环境开发的软件，包含运行某个软件所需的素有内容，包括代码、运行时、库、环境变量和配置文件
+> 镜像是一种轻量级、可执行的独立软件包，用来打包软件运行环境和基于运行环境开发的软件，包含运行某个软件所需的所有内容，包括代码、运行时、库、环境变量和配置文件
 
 ![image-20210427145001669](D:\资料\Go\src\studygo\Golang学习笔记\docker学习笔记.assets\image-20210427145001669.png)
 

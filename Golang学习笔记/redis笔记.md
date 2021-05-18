@@ -22,7 +22,7 @@
 - RDBMS和NoSQL区别
 
   - 关系型数据库是结构化组织、结构化查询语言、数据和关系都存在单独的表中、严格的一致性、事务
-  - NoSQL没有固定的查询语言，存储方式多（键值对存储、列存储、文档存储、图形数据库
+  - NoSQL没有固定的查询语言，存储方式多（键值对存储、列存储、文档存储、图形数据库)
   - NoSQL最终一致性（只要最终结果一致就行）
   - NoSQL的CAP、BASE理论
   - NoSQL有高性能、高可用、高可扩展性（机器不够时，随时水平拆分）
@@ -42,13 +42,13 @@
 
 ![image-20210430160658134](D:\资料\Go\src\studygo\Golang学习笔记\redis笔记.assets\image-20210430160658134.png)
 
-## CQP
+## CAP
 
 ## BASE
 
 # Redis介绍
 
-> Remote Dictionary Server，远程服务字典，Key-Value存储
+> Remote Dictionary Server，远程字典服务，Key-Value存储
 >
 > 可以用作==数据库==、==缓存==、==消息中间件==
 >
@@ -85,9 +85,9 @@
 | 13   | **-t**    | 仅运行以逗号分隔的测试命令列表。           |           |
 | 14   | **-I**    | Idle 模式。仅打开 N 个 idle 连接并等待。   |           |
 
-# 基本命令
+# 通用命令
 
-- 默认16个数据库，默认使用第0个，可以用`select n`切换，`DBSIZE`查看数据库大小
+- 默认16个数据库，默认使用第0个，可以用`select n`切换，切换后域名后面会有`[n]`显示，没有的话就是在第0个；`DBSIZE`查看数据库大小
 
 - 官网查看命令[帮助文档](http://redis.cn/commands.html)
 
@@ -95,25 +95,25 @@
   ping				#测试连接
   EXPIRE <key> sec	#sec秒后key过期
   ttl <key>			#查看key的剩余过期时间，-1是不会过期，-2是已经过期，过期后就没了
-  type <key>			#查看key的乐西
+  type <key>			#查看key的类型
   keys *				#查看所有的key
   flushdb / FLUSHALL	#清空当前数据库 / 清空全部数据库
   move <key> 1		#把此key移动到数据库1
   EXISTS <key>		#查看这个key是否存在
   config get/set xxx	#查看/修改某配置项
+  del <key>			#删除key
   ```
 
 # key的基本数据类型
 
 - String
 
-  > 可以是字符串，也可以是数字，场景：计数器、对象缓存存储等
+  > 可以是字符串，也可以是数字；场景：计数器、对象缓存存储等
 
   ```bash
   set <key> <val>						#插入键值对
   get <key>							#查看key对应的值
-  del <key>							#删除key
-  APPEND <key> <val>					#在key对应的字符串值后追加ccc，如果当前key不存在，就自动添加一个键值对
+  APPEND <key> <val>					#在key对应的字符串值后追加val的值，如果当前key不存在，就自动添加一个键值对
   STRLEN <key>						#key对应的字符串值的长度
   incr <key> / decr <key>				#key对应的值自增1/自减1
   INCRBY <key> n / DECRBY <key> n		#key对应的值增加n/减少n
@@ -129,19 +129,19 @@
   # 方式1：<obj>:<id>作为key，后面{}括起来的json是val，后面再去解析这个json
   set <obj>:<id> {<key1>:<val>,<key2>:<val2>}				#如set usr:1 {name:zs,age:10}
   # 方式2：<obj>:<id>:<key1>，<obj>:<id>:<key2>分别为两个key
-  mset <obj>:<id>:<key1> <val1> <obj>:<id>:<key2> <val2>	#如mset usr:1:name:zs usr1:1:age:10
+  mset <obj>:<id>:<key1> <val1> <obj>:<id>:<key2> <val2>	#如mset usr:1:name:zs usr:1:age:10
   mget <obj>:<id>:<key1> <obj>:<id>:<key2>
   ```
-
+  
 - List
 
   > 所有的list命令都是L开头，LPUSH LPOP则是栈，LPUSH RPOP则是队列
 
   ```bash
-  LPUSH <key1> <val1>	<key1> <val1>		#把val塞入key这个list，入栈
+  LPUSH <key1> <val1>	<val2>		#把val塞入key这个list；入栈
+  LPOP <key>								#弹出栈顶元素，可以跟数字，弹出几个；出栈
+  RPOP <key>								#移除栈底元素，可以跟数字，移除几个；出队
   RPUSH <key> <val>						#从另一个方向塞入list（从栈底塞进去）
-  LPOP <key>								#弹出栈顶元素，可以跟数字，弹出几个
-  RPOP <key>								#移除栈底元素，可以跟数字
   LRANGE <key> start end					#获取下标区间内的值，按出栈顺序获取
   LINDEX <key> idx						#查看idx下标对应的值，下标顺序是从栈顶到栈底
   LLEN <key>								#查看长度
