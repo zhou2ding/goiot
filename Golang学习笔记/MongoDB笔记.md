@@ -10,7 +10,7 @@
 - 数据库
 - 集合
 - 文档
-- 属性：值可以是数组，可以是文档对象（JSON），称为内嵌文档
+- 属性：值可以是数组，可以是文档对象（BSON），称为内嵌文档
 
 # 命令
 
@@ -19,10 +19,10 @@
 > 集合命名时一般用复数
 
 - 基本命令
-  - `show dbs`：查看所有数据库
+  - `show dbs`：查看所有数据库（创建数据库后，若没有数据，是查不到此数据库的）
   - `show collections`：查看所有集合
   - `db`：查看当前使用的数据库
-  - `use xxx`：切换到xxx数据库，没有的话新建一个xxx
+  - `use xxx`：切换到xxx数据库，没有的话自动新建一个xxx
   - `db.dropDatabaes()`删除数据库
   - `ObjectId()`：手动生成`_id`字段（或称为数据域）
     - 是MongoDB自动根据时间戳和机器码计算生成的，文档的唯一标识
@@ -39,7 +39,7 @@
   
   - `db.<collection>.insertOne()`插入单个文档，语义上更明确
   
-  - `db.<collection>.insertMany()`查询多个文档，语义上更明确
+  - `db.<collection>.insertMany()`插入多个文档，语义上更明确
   
   - 循环插入
   
@@ -50,29 +50,48 @@
         arr.push({"number":i})
     }
     db.numbers.insert(arr)
+    db.users.insert(
+    	{
+            name:"zhangsan",
+            #hobby即是内嵌文档
+            hobby:{
+            	cities:["beijing","shanghai"],
+            	movies:["sanguo","hero"]
+        	}
+        }
+    )
     ```
   
 - 查询
   - `db.<collection>.find()`或`db.<collection>.find({})`：查询所有文档
   - `db.<collection>.find({<field>:"<value>"})`
-    - 查询所有符合此条件的文档，有多个条件时用逗号隔开
+    - 查询所有符合此条件的文档，有多个条件时在大括号中用逗号隔开
     - 返回的是一个数组，可以根据数组下标获取数组中的文档
   - `db.<collection>.findOne({<field>:"<value>"})`
     - 查询符合此条件的第一个文档，返回的是一个文档对象
+    
     - 可以直接用`.`操作符调用此文档对象的属性
-  - `db.<collection>.find().couont()`或`db.<collection>.find().length()`返回查询结果的数量，一般用`count()`
+    
+    - 也有操作符：`$lt 、$lte、$lte、$gt 、$gte $gte、$ne 、$or 、$in 、$nin 、 $not 、$exists`
+    
+      ```javascript
+      db.student.find({
+          age:{$gt:50}
+          })
+      ```
+  - `db.<collection>.find().count()`或`db.<collection>.find().length()`返回查询结果的数量，一般用`count()`
   
 - 修改
   
   - `db.<collection>.update(查询条件,新对象)`
   
-    - 默认情况下会使用新对象来完全替换旧对象
+    - 默认情况下会使用新对象来完全替换旧对象（直接把第二个参数完全替换符合条件的文档了），所以要用操作符
   
-    - 修改指定的属性，用修改操作符`$set`、`$unset`
+    - 修改指定的属性，用修改操作符`$set`（修改）、`$unset`（删除）
   
     - 对于用`$set`修改的属性，如果集合中不存在，会新增；用`$unset`修改的属性，不管给的值是什么，都会删掉这个属性
   
-    - 其他操作符：`$push`，在数组中新增值；`$addToSet`，在数组中新增不重复的值
+    - 其他操作符：`$push`，在数组中新增值；`$addToSet`，在数组中新增不重复的值；`$inc`：增加已有键的值，键不存在则创建
   
     - 默认情况下只改符合条件的一个文档，还可以传第三个参数来修改多个
   
@@ -80,11 +99,19 @@
       db.<collection>.update(<query>,
                              <update>,
                              {
-                             upsert:<boolean>,
-                             multi:<boolean>, # true则支持修改多个
-                             writeConcern:<document>,
-                             collation:<document>,
+                                 upsert:<boolean>,
+                                 multi:<boolean>, # true则支持修改多个
+                                 writeConcern:<document>,
+                                 collation:<document>,
       						}
+      )
+      #示例
+      db.stus.update(
+          {"_id" : ObjectId("59c219689410bc1dbecc0709")},
+          {$set:{
+              gender:"男",
+              address:"流沙河"
+          }}    
       )
       ```
   
@@ -98,11 +125,11 @@
   
   - `db.<collection>.drop()`：直接删除集合（数据库中没有集合时，数据库也没了）
   
-  - `db.<collection>.remove<query>)`
+  - `db.<collection>.remove(<query>)`
   
     - 根据条件删除文档，默认支持删除符合条件的所有文档
   
-    - 传第二个参数，可以只删一个
+    - 第二个参数传true，可以只删一个
   
       ```javascript
       db.<collection>.remove(<query>,<boolean>)
@@ -120,11 +147,27 @@
 
 - 内嵌文档
 
-  - 属性的值也是个文档对象，MongoDB支持通过内嵌文档来查找，但必须用`''`或`""`括起来，否则报错
+  - 属性的值也是个文档对象，MongoDB支持通过内嵌文档来查找，但字段名必须用`''`或`""`括起来，否则报错
 
   - 查找时，查找的条件不一定是`=`关系，也可能是包含关系
 
     > 比如属性a的值是个文档对象b，b的值是个数组，查找时也可以通过条件查找出来
+    
+    ```java
+    db.student.insert(
+        {
+            name:"猪八戒",
+            age:20,
+            locations:{
+                provicens:["陕西","湖北"],
+                cities:["西安","武汉"]
+            }
+        }
+    )
+    db.student.find({
+        "cities.provicens":"陕西"
+    })
+    ```
 
 - 分页
 
@@ -132,13 +175,13 @@
 
   - `limit(n)`：只显示n条
   - `skip(n)`：跳过前n条
-  - 显示k条数据：`db.<collections>.find().skip((pagenumber-1)*pagesize).limin(pagesize)`
+  - 显示k条数据：`db.<collections>.find().skip((pagenumber-1)*pagesize).limit(pagesize)`
 
 - 排序
 
   > skip、limit、sort可以以任意顺序调用
 
-  - MongoDB默认按照`_id`属性排序
+  - MongoDB默认按照`_id`属性升序
   - `sort({<field:1>})`：按照field的升序排序，降序是`-1`
   - 可以指定多个字段，和mysql一样，第一个字段相等时，再根据第二个字段排序
 
@@ -159,6 +202,13 @@
   - `$lte`
   - `$ne`
   - `$inc:n`值自增（自减时`$inc:-n`)
+
+# 额外参数总结
+
+- find：第二个参数：指定显示的字段`db.student.find({},{name:1,_id:0})`
+- update：第三个参数：{}括起来的update的一些属性，如multi:true则支持修改多个文档
+- insert：第二个参数：是否按序插入，默认true
+- remove：第二个参数：置为true的话则一次只删符合条件的一个文档
 
 # 其他知识点
 
@@ -192,8 +242,12 @@
 
   > 底层是B-Tree结构，mysql是B+Tree
 
+  ```javascript
+db.student.createIndex({name:1,age:-1},{unique:true}) //创建一个name升序和age降序的复合索引，且是唯一索引
+  ```
+  
   复制别人的博客
-
+  
   ```shell
   4.1 概述
   索引支持在 MongoDB 中高效地执行查询.如果没有索引, MongoDB 必须执行全集合扫描, 即扫描集合中的每个文档, 以选择与查询语句 匹配的文档.这种扫描全集合的查询效率是非常低的, 特别在处理大量的数据时, 查询可以要花费几十秒甚至几分钟, 这对网站的性能是非常致命的.
@@ -204,23 +258,23 @@
   
   MongoDB 使用的是 B Tree, MySQL 使用的是 B+ Tree
   
-  // create index
-  db.<collection_name>.createIndex({ userid : 1, username : -1 })
+  # create index，默认是_id为索引
+  db.<collection_name>.createIndex({ userid : 1, username : -1 })	#创建userid升序和username降序的复合索引
   
-  // retrieve indexes
+  # retrieve indexes
   db.<collection_name>.getIndexes()
   
-  // remove indexes
+  # remove indexes
   db.<collection_name>.dropIndex(index)
   
-  // there are 2 ways to remove indexes:
-  // 1. removed based on the index name
-  // 2. removed based on the fields
+  # there are 2 ways to remove indexes:
+  # 1. removed based on the index name
+  # 2. removed based on the fields
   
   db.<collection_name>.dropIndex( "userid_1_username_-1" )
   db.<collection_name>.dropIndex({ userid : 1, username : -1 })
   
-  // remove all the indexes, will only remove non_id indexes
+  # remove all the indexes, will only remove non_id indexes
   db.<collection_name>.dropIndexes()
   4.2 索引的类型
   4.2.1 单字段索引
@@ -241,6 +295,7 @@
   地理空间索引 Geospatial Index
   文本索引 Text Indexes
   哈希索引 Hashed Indexes
+  
   地理空间索引（Geospatial Index）
   为了支持对地理空间坐标数据的有效查询, MongoDB 提供了两种特殊的索引: 返回结果时使用平面几何的二维索引和返回结果时使用球面几何的二维球面索引.
   
@@ -294,7 +349,7 @@
   4.4.1 执行计划
   分析查询性能 (Analyze Query Performance) 通常使用执行计划 (解释计划 - Explain Plan) 来查看查询的情况
   
-  $ db.<collection_name>.find( query, options ).explain(options)
+  $ db.<collection_name>.find( query, options ).explain(options) #explain可以传参""
   比如: 查看根据 user_id 查询数据的情况
   
   未添加索引之前
@@ -306,12 +361,12 @@
   
   "stage" : "IXSCAN", 基于索引的扫描
   
-  4.4.2 涵盖的查询
+4.4.2 涵盖的查询
   当查询条件和查询的投影仅包含索引字段是, MongoDB 直接从索引返回结果, 而不扫描任何文档或将 带入内存, 这些覆盖的查询十分有效
   
-  https://docs.mongodb.com/manual/core/query-optimization/#covered-query
+  https:#docs.mongodb.com/manual/core/query-optimization/#covered-query
   ```
-
+  
   | Parameter              | Type          | Description                                                  |
   | :--------------------- | :------------ | :----------------------------------------------------------- |
   | background             | Boolean       | 建索引过程会阻塞其它数据库操作，background可指定以后台方式创建索引，即增加 "background" 可选参数。 "background" 默认值为**false**。 |

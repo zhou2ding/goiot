@@ -23,7 +23,7 @@
 
 ### 常用函数
 
-`s := fmt.Sprintf("a", "b")`
+`s := fmt.Sprintf("%v,%v", "a","b")`：s的值是`"a,b"`
 
 `s := strings.Split(s, ",")`
 
@@ -37,7 +37,7 @@
 
 `LastIndex`
 
-`Join`
+`Join([]string elem, sep string)`：把一系列字符串拼接起来，中间用sep分隔
 
 ### 长度
 
@@ -59,8 +59,6 @@
 	fmt.Println(len(string(b3[0]))) // 1
 	fmt.Println(len(string(b4[0]))) // 2
 ```
-
-
 
 ## 数组
 
@@ -137,7 +135,7 @@
 
 ## 切片
 
-- 包含三个元素：指向底层数组第一个元素的指针、长度、容量
+- 包含三个元素：指向底层数组第一个元素的指针，切片的长度、容量
 
 - 切片是引用类型（切片不存值），改一个值其他的指向同一个底层数组的切片都会改
 
@@ -171,9 +169,9 @@
   - `copy(dst, src)`
     - 切片没有长度或内存无法copy（copy之后不改变dst的值）
     - copy之后，dst和src的底层数组不一样，所以改值不影响；append也不会改
-    - 当dst长度大于src长度时，src的赋值过来后，dst多出来的值不受影响
+    - 当dst长度大于src长度时，src的赋值过来后，只覆盖src长度范围内的值，dst多出来的值不受影响
   - 删掉`a[k]`元素
-    - `a1 = append(a1[:k], a1[k+1:])`
+    - `a1 = append(a1[:k], a1[k+1:]...)`
     - 此时底层数组被修改，效果等于把`a[k+1]`及的之后的值拷贝到了从`a[k]`开始的位置上
     - 删掉多个元素时，方法类似
 
@@ -184,7 +182,7 @@ Go语言不存在指针操作，只有取地址和取值
 - 取地址`&`
   - 不能对字面值取地址
   - 指针要先new，对刚new完的指针取值，得到的是对应类型的零值
-  - new用于基本数据类型分配内存，返回的是类型指针（基本没人用）
+  - new用于基本数据类型、结构体分配内存，返回的是类型指针
   - make用于slice、map、chan分配内存，返回的是类型本身（因为这三种本身就是引用类型）
 - 取值`*`（得到的是指针指向的变量）
 
@@ -194,7 +192,7 @@ Go语言不存在指针操作，只有取地址和取值
 
 - 如果找的key不存在，则返回值的零值
 
-- ```go
+  ```go
   // map初始化方法1：
   m := make(map[string]int, 10)
   m["我是"] = 18
@@ -212,7 +210,7 @@ Go语言不存在指针操作，只有取地址和取值
       "stu2": 26,
   }
   ```
-  
+
 - 遍历map
 
   - 只遍历key，for range可以只有key
@@ -266,9 +264,9 @@ Go语言不存在指针操作，只有取地址和取值
 
 - `defer`把跟在它后面的语句延迟到函数即将返回的时候再执行
 - 使用场景：函数结束之前（return、panic等）释放资源
-  - 文件句柄
-  - socket连接
-  - 数据库连接
+  - 关闭文件
+  - 关闭socket连接
+  - 关闭数据库连接
 - 一个函数中有多个`defer`时，倒序执行`defer`（先进后出）
   - Go的`return`语句在底层不是原子操作（`return x`一步执行完成就是原子操作）
   - `defer`语句执行时机在给返回值赋值之后，真正的`RET`返回之前
@@ -288,8 +286,8 @@ Go语言不存在指针操作，只有取地址和取值
 ### 函数类型
 
 - 根据函数的形式，有不同的类型：`func()`类型、`func() int`、`func(int, int) int`类型。。。
-- 函数类型可以作为参数和返回值
-- 带参数的函数类型赋值给变量是，可以通过变量名来使用函数
+- 函数类型的变量可以作为参数和返回值
+- 带参数的函数类型赋值给变量时，可以通过变量名加括号来调用函数
 
 ### 匿名函数
 
@@ -394,18 +392,18 @@ Go语言不存在指针操作，只有取地址和取值
    - `%d, %02d, %T, %c, %t, %b, %o, %x, %X, %f, %F, %U, %s, %p, %q, %v, %+v, %#v, %b, %e, %E, %g, %G, %+, %-`
    - %后可带宽度和精度
 2. 其他常用函数
-   - `fmt.Fprintln()`：往`io.Writer`类型变量中打印内容，如`os.StdOut`、`os.*File`等
    - `fmt.Errorf()`：格式化输出后返回一个`error`类型
    - `errors.New()`：创建一个`error`类型
 3. 获取输入（应该传指针）
-   - `fmt.Scan()`
+   - `fmt.Scan(a ...interface{})`
      - 从cmd扫描文本，读取由空格符保存的值传递给本函数的参数，换行符视为空格
      - 如果读取的数据个数比提供的参数少，则返回错误
    - `fmt.Scanf()`：`fmt.Scanf("%s, %d, %s\n", &name, &age, &email)`
    - `fmt.Scanln()`：`fmt.Scanln(&name, &age, &email)`，检测到空白符就结束
-   - `fmt.Fscan()`
-   - `fmt.Sscan()`
-4. `Sprint`系列拼接字符串，返回一个字符串
+   - `fmt.Fscan(r io.Reader, a ...interface{})`系列：从`r`扫描文本，将成功读取的空白分隔的值保存进成功传递给本函数的参数
+   - `fmt.Sscan(str string, a ...interface{})`系列：同上
+4. `fmt.Sprint`系列：拼接字符串，返回一个字符串
+5. `fmt.Fprint(w io.Writer, a ...interface{})`系列：往`w`中打印内容，如`os.StdOut`、`os.*File`等
 
 # day03
 
@@ -523,8 +521,8 @@ type person struct {
 
 // 结构体中的元素比较多时，要返回结构体指针，减少程序运行的内存开销
 // 约定成俗，Go中的构造函数都是new开头
-func newPerson(name string, age int) &person {
-    return *person {
+func newPerson(name string, age int) *person {
+    return &person {
         name: name,
         age: age,
     }
@@ -639,12 +637,12 @@ func main() {
     p2 := person {
         name: "李四",
         age: 15,
-        address: address {
-            city: "北京",
-            province: "河北"，
+        location: location {
+            country: "美利坚",
+            avenue: "皇后区"，
         }
     }
-    fmt.Println(p2.city)
+    fmt.Println(p2.avenue)
 }
 ```
 
@@ -725,7 +723,7 @@ func main() {
 
 ### 概述
 
-- 接口是一种类型，它规定了变量有哪些方法
+- 接口是一种类型，它规定了变量有哪些方法，接口就是一个==需要实现的方法列表==
 - 场景
 
   - 不关心函数传进来的参数是什么类型，只关心这个参数能调用的方法
@@ -742,7 +740,7 @@ func main() {
   }
   type cat struct{}
   type dog struct{}
-  type beat(x speaker) {
+  func beat(x speaker) {
       x.speak() // 只要实现了speak方法，就属于speaker类型的变量
   }
   func (c cat) speak(){}
@@ -750,10 +748,10 @@ func main() {
   func main() {
       var(
       	c cat
-          d dog
+        d dog
       )
-      c.beat()
-      d.beat()
+      beat(c)
+      beat(d)
       
       var ss speaker // 此时ss的类型为nil
       ss = c // cat类型赋值给speaker类型的变量，此时ss的类型为main.cat
@@ -854,7 +852,7 @@ func assign(a interface{}) {
 - `main包`：
   1. `main包`才能编译成`exe`
   2. `main函数`是程序的入口
-  3. `main包`不一定叫`main,go`
+  3. `main包`不一定叫`main.go`
   4. 非`main包`也可以有`main函数`，但无法`go run`，也不能编译成`exe`
 - 在包中定义的标识符，首字母大写才能被其他包调用
 - 一般情况下包名和文件夹名是一样的，一个文件夹就是一个包
@@ -938,7 +936,7 @@ func assign(a interface{}) {
     }
     ```
 
-  - `ReadLine()`
+  - `ReadLine()`：是一个低水平的行数据读取原语。大多数调用者应使用`ReadBytes('\n')`或`ReadString('\n')`代替，或者使用`Scanner`
 
 - `ioutil`读文件
 
@@ -987,7 +985,7 @@ func assign(a interface{}) {
   err := ioutil.WriteFile("xx.txt", []byte(str), 0666)
   ```
 
-- `io.Copy()`：周五记得看一下博客
+- `io.Copy()`：将src的数据拷贝到dst，直到在src上到达EOF或发生错误。返回拷贝的字节数和遇到的第一个错误。
 
 - 解决`fmt.Scan`一读到空白符就结束的方法
 
@@ -1097,19 +1095,22 @@ func assign(a interface{}) {
 
 ### 通过反射读变量的值
 
-- `reflect.TypeOf(x)`
-  - `.Name()`、`.Kind()`，Kind是底层类型，是种类
+> 任意接口值在反射中都可以理解为由`reflect.Type`和`reflect.Value`两部分组成，分别由如下两个函数获取
+
+- `reflect.TypeOf(x)`：获取反射类型
+  - `.Name()`、`.Kind()`，Kind是底层类型，是种类（对结构体变量调用这两个方法分别是结构体名和"struct"）
   - Kind包含：`reflect.Int64`等等
 
-- `reflect.ValueOf(x)`
-  - `.Name()`、`.Kind()`
-  - 通过`.Int()`、`.Bytes()`、`.Float()`等获取原始值，没有8、32、64这些
-- ``reflecy.TypeOf(x).Elem().Kind()`：获取指针变量所指向的类型
+- `reflect.ValueOf(x)`：获取反射值
+  - `.Kind()`
+  - 后面再跟`.Int()`、`.Bytes()`、`.Float()`等获取反射值的原始值，没有8、32、64这些
+- `reflecy.TypeOf(x).Elem().Kind()`：获取指针变量所指向的类型
 
 ### 通过反射设置变量的值
 
-- `reflecy.ValueOf(x).Elem().SetInt(100)`
 - 传x的时候要传指针，否则会panic
+
+- 必须用`reflecy.ValueOf(x).Elem().SetInt(100)`：`Elem()`方法可以获取指针对应的值
 
 ### 其他
 
@@ -1124,7 +1125,6 @@ func assign(a interface{}) {
 
 -  任意值通过`reflect.TypeOf()`获得反射对象信息后，如果它的类型是结构体，可以通过反射值对象（`reflect.Type`）的`NumField()`和`Field()`方法获得结构体成员的详细信息。
 - 一般是用结构体指针来获取字段信息，所以是`reflect.TypeOf(x).Elem().Field()` 
-- `FiledByxxx()`一般通过Value类型来调用，其他的用Type类型来调用
 
 |                            方法                             |                             说明                             |
 | :---------------------------------------------------------: | :----------------------------------------------------------: |
@@ -1153,7 +1153,7 @@ type StructField struct {
 }
 ```
 
-`StructField.Tag`有`.Get("zhoulin")`方法，可以在tag中查找对应的字符串
+`StructField.Tag`有`.Get("json")`方法，可以在tag中查找对应的字符串
 
 # day04
 
@@ -1171,8 +1171,8 @@ type StructField struct {
   - 进制
   - 位数
 - 返回得到的`int64`变量和一个`error`
-- 当传进来的位数不是64时，虽然函数返回的是`int64`类型，但此时把结果强转成低位的类型，不会丢失
-- 传的进制是0时，返回`int`
+- 当传进来的位数不是64时，虽然函数返回的是`int64`类型，但此时把返回值强转成低位的类型，不会丢失
+- 传的进制是0时，对应的位数是`int`，可传0、8、16、32、64
 
 **用法2**
 
@@ -1189,8 +1189,8 @@ type StructField struct {
 
 **常用函数**
 
-- `rand.Int()`返回一个`int64`的随的数，一般都特别大
-- `rand.Intn(n)`返回`[0,n)`的随机数
+- `rand.Int()`返回一个`int64`的随的数，一般都特别大；`rand.Int63()`、`rand.Int31()`分别返回int64、int32类型的随机数
+- `rand.Intn(n)`返回`[0,n)`的随机数；int64、32位随机数的获取和上面类似
 
 **随机数种子**
 
@@ -1266,7 +1266,7 @@ func main() {
 - OS线程的栈内存是固定的，一般2MB；goroutine的栈内存是按需动态变化的，初始一般2KB，最大能到1GB
 - `G`：goroutine
 - `P(Processor)`：P管理着一组goroutine队列，通过`runtime.GOMAXPROCS`设定P的数量，最大256，默认为物理线程数；不设置的话，默认跑满CPU
-- `M(Matine)`：Go的`runtime`对OS线程的虚拟，是真正干活的，goroutine都是放到M上运行
+- `M(Machine)`：Go的`runtime`对OS线程的虚拟，是真正干活的，goroutine都是放到M上运行
 - P管理一组G在M上运行，发生阻塞时，runtime会新建一个M，并把阻塞的G所属的P中他其他G挂载到新建的M上，待阻塞的M完成或死掉时，回收
 - P与M一一对应，M与OS线程一一对应；P的默认数量不一定是CPU核心数，一些CPU有超线程技术：双核4线程；G和OS线程是多对多，即`m:n`技术
 
@@ -1298,7 +1298,7 @@ func main() {
 
 - 向无缓冲区的`channel`发送数据，会发生`deadlock`的error
 
-- 解决方法：另启一个从无缓冲区通道接收数据的线程
+- 解决方法：另启一个从无缓冲区通道中接收数据的`goroutine`
 
   ```go
   var wg sync.WaitGroup
@@ -1323,8 +1323,8 @@ func main() {
 - `cloese(ch1)`，不关也可以，会自动回收，但最好关了；
 - 如果多个`goroutine`操作同一个通道的话，所有`goroutine`都结束之后再关
 - 当通过中的值取完时，如果继续取值
-  - 未关闭通过，会报`deadlock`错误
-  - 关闭通过，会取到零值；两个变量接收的话就是零值和`false`
+  - 未关闭通道，会报`deadlock`错误
+  - 关闭通道，会取到零值；两个变量接收的话就是零值和`false`
 
 #### 从通道循环取值
 
@@ -1368,9 +1368,9 @@ func main() {
 
 #### 单向通道
 
-- 单向发送：`var ch1 chan<- int`
+- 只写通道：`var ch1 chan<- int`
 
-- 单向接收`var ch2 <-chan int`
+- 只读通道：`var ch2 <-chan int`
 - 作用：作为函数的参数，限制只能向该参数发送 / 从该参数接收
 
 #### 异常情况
@@ -1383,7 +1383,7 @@ func main() {
 // 从jobs接收值发送到results
 func worker (id int, jobs <-chan int, results chan<- int) {
     for j := range jobs {
-        results <- j * 2
+        results <- j * 2 //从jobs中取到值后，进行一些耗时的复杂操作
     }
 }
 func main() {
@@ -1445,7 +1445,7 @@ func main() {
 
 >  sync.Once
 >
->  - 一些场景中，某个操作只需要做一次，如加载配置文件、关闭`channel`；Once是一个结构体，里面是一个标志位和一个锁，false的话枷锁，true的话继续往后走
+>  - 一些场景中，某个操作只需要做一次，如加载配置文件、关闭`channel`；Once是一个结构体，里面是一个标志位和一个锁，false的话加锁，true的话继续往后走
 >  - `var once sync.Once`，`once.Do()`，`Do()`只接受无参、无返回值的函数类型
 
   ```go
@@ -1457,17 +1457,13 @@ func main() {
 
 >  sync.Map
 >
-> - Go内置的`map`不是并发安全的，最多支持20个`goroutine`操作同一个map（20以内也会有问题，只是不报错），超过20个时，会报`fatal error: concurrent map writes``
-> - ``m := sync.Map{}`：不用初始化，直接用
+> - Go内置的`map`不是并发安全的，最多支持20个`goroutine`操作同一个map（20以内也会有问题，只是不报错），超过20个时，会报`fatal error: concurrent map writes`
+> - `m := sync.Map{}`：不用初始化，直接用
 >   - `m.Store(key， value)`
->   - ``value, ok := m.Load(key)`
->   - `m.LoadOrStore()`
->   - ``m.Delete(key)`
->   - `m.Range()`
-
-### context包
-
-
+>   - `value, ok := m.Load(key)`
+>   - `m.LoadOrStore()`：有的话就返回取到的；没有的话先存值，再返回存入的值
+>   - `m.Delete(key)`
+>   - `m.Range(func(key, value interface{}) bool {...})`：参数是一个函数，函数的操作即循环中每次的操作
 
 ## 原子操作 atomic包
 
@@ -1513,16 +1509,16 @@ func main() {
 
 ### 概述
 
-- `go test`、`go test -v`
+- `go test`、`go test -v`，`-v`是查看测试函数名称和运行时间
 - `go test -run=Testxxx/case_x`
-- `go test -cover`、`go test -cover -coverpfofile=cover.out`、`go tool cover -html=cover.out`
-- `go test -bench=xxx`、`go test -bench=xxx -benchmem`
+- `go test -cover`：检查你的代码覆盖率；`go test -cover -coverprofile=cover.out`：测试完成后将覆盖率相关的记录信息输出到一个文件；`go tool cover -html=cover.out`：打开本地的浏览器窗口生成一个HTML报告
+- `go test -bench=xxx`：执行基准测试；`go test -bench=xxx -benchmem`：获得内存分配的统计数据
 
 - 文件名`*_test.go`，`go build`不会编译这些文件
 
 ### 测试函数
 
-- `func Testxxx(t *testing.T)`
+- `func Testxxx(t *testing.T)`：常用Error、Fail、Fatal、Log及其格式化输出函数
 
   ```go
   func (c *T) Error(args ...interface{})
@@ -1539,14 +1535,16 @@ func main() {
   func (t *T) Run(name string, f func(t *T)) bool
   func (c *T) Skip(args ...interface{})
   func (c *T) SkipNow()
-  func (c *T) Skipf(format strin
+  func (c *T) Skipf(format strin)
   ```
 
 - `reflect.DeepEqual()`比较字符串和切片是否相等
 
-- 测试组，子测试`t.Run(name, func(t *testing.T){...})`：
+- 测试组，子测试`t.Run(case_name, func(t *testing.T){...})`：
 
 ```go
+//搞一个testCase结构体，成员是被测函数的参数和预期结果，预期一般是string切片
+//搞一个测试组，类型是map，key是子测试的名字，value是testCase
 func TestSplit(t *testing.T) {
 	type testCase struct {
 		s    string
@@ -1559,8 +1557,8 @@ func TestSplit(t *testing.T) {
 		"case_3": {s: "abcef", sep: "bc", want: []string{"a", "ef"}},
 		"case_4": {s: "沙河有沙又有河", sep: "有", want: []string{"沙河", "沙又", "河"}},
 	}
-	for name, tc := range testGroup {
-		t.Run(name, func(t *testing.T) {
+	for case_name, tc := range testGroup {
+		t.Run(case_name, func(t *testing.T) {
 			got := Split(tc.s, tc.sep)
 			if !reflect.DeepEqual(got, tc.want) {
 				t.Fatalf("want:%v, but got:%v\n", tc.want, got)
@@ -1572,17 +1570,21 @@ func TestSplit(t *testing.T) {
 
 ### 基准函数 
 
+> Profiling 一般和性能测试一起使用，只有应用在负载高的情况下 Profiling 才有意义
+
 - `Benchmarkxxx(b *testing.B)`
 
   ```go
   func BenchmarkSplit(b *testing.B) {
-  	for i := 0; i < b.N; i++ {
+  	for i := 0; i < b.N; i++ { //b.N的值是系统根据实际情况去调整的
   		Split("a:b:c:d", ":")
   	}
   }
   ```
 
-  - 命令``go test -bench=xxx`、`go test -bench=xxx -benchmem``
+  - b也有t的那些Log、Fail、Fatal、Error方法
+
+  - 命令`go test -bench=xxx`、`go test -bench=xxx -benchmem`
 
   - 用4个进程跑的，测试了6762436次，每次操作154纳秒，64B内存，申请了1次内存
 
@@ -1596,12 +1598,18 @@ func TestSplit(t *testing.T) {
 - 性能比较函数`func BenchmarkFib(b *testing.B, n int)`
 
   ```go
+  // fib.go的Fib函数是一个计算第n个斐波那契数的函数
+  func Fib(n int) int {
+  	if n < 2 {
+  		return n
+  	}
+  	return Fib(n-1) + Fib(n-2)
+  }
   func BenchmarkFib(b *testing.B, n int) {
   	for i := 0; i < b.N; i++ {
   		Fib(n)
   	}
   }
-  
   func BenchmarkFib20(b *testing.B) {
   	BenchmarkFib(b, 20)
   }
@@ -1609,12 +1617,14 @@ func TestSplit(t *testing.T) {
 
   - 命令`go test -bench=Fib2`，会把`Fib2`和`Fib20`都跑一下
   - 跑所有`go test -bench=.`
+    - `go test -bench . -memprofile=./mem.pprof`
+    - `go test -bench . -cpuprofile=./cpu.pprof`
   - 默认情况下，每个基准测试至少运行1秒。如果在Benchmark函数返回时没有到1秒，则b.N的值会按1,2,5,10,20,50，…增加，并且函数再次运行 
   - 强制时间`go test -bench=Fib20 -benchtime=20s`
 
 - 时间重置`b.ResetTimer()`
 
-  >  在这之前的处理不会算到执行时间内，也不会放到输出报告中（准备阶段的耗时可以用这个方法）
+  >  放到Benchmarkxxx函数中，在这之前的处理不会算到执行时间内，也不会放到输出报告中（准备阶段的耗时可以用这个方法）
 
 - 并行测试` go test -bench=. -cpu 1 `或代码中添加如下
 
@@ -1651,32 +1661,40 @@ func TestSplit(t *testing.T) {
 
     ```go
     func main() {
-        nameVal := flags.String("name", "张三", "请输入名字")
-        ageVal := flags.Int("age", "18", "请输入年龄")
+        nameVal := flag.String("name", "张三", "请输入名字")
+        ageVal := flag.Int("age", "18", "请输入年龄")
         flag.Parse()
     }
     ```
 
     ```cmd
-    # 使用命令参数可以多种形式：
+    # 使用命令参数可以多种形式(布尔类型的参数必须使用等号的方式指定):
     flag.exe -name=李四 --age 1000 # 变量name被设置为"李四"，变量age被设置为1000
     ```
 
-- `flag.TypeVar(&nameVal,"name", "张三", "请输入名字")`：和上面方法类似
+- `flag.TypeVar(&nameVal,"name", "张三", "请输入名字")`：和上面方法类似，也要调用`flag.Parse()`
 
-- `flag.Args()`、`flag.NArg()`、`flag.NFlag()`
+- `flag.Args()`：返回命令行参数后的其他参数，以[]string类型；`flag.NArg()`：返回命令行参数后的其他参数个数；`flag.NFlag()`：返回使用的命令行参数个数
 
 ## pprof包
 
-`pprof.StartCPUProfile(w *io.Writer)`
+> 一般是自己写两个bool类型的flag（cpu和内存），==函数中添加对flag的if判断，if中要先os.Create(cpu/mem.pprof)==，如果执行exe时用了这些flag则开启性能分析
+>
+> runtime/pprof：采集工具型应用运行数据进行分析
+>
+> net/http/pprof：采集服务型应用运行时数据进行分析
+>
+> pprof开启后，每隔一段时间（10ms）就会收集下当前的堆栈信息，获取各个函数占用的CPU以及内存资源；最后通过对这些采样数据进行分析，形成一个性能分析报告。
 
-`pprof.StopCPUProfile()`
+`pprof.StartCPUProfile(w *io.Writer)`：开启CPU性能分析
 
-`pprof.WriteHeapProfile(w *io.Writer)`
+`pprof.StopCPUProfile()`：停止CPU性能分析，一般defer它；应用执行结束后，就会生成一个文件，保存了我们的 CPU profiling 数据，再使用命令行分析
 
-`go tool pprof cpu.pprof`
+`pprof.WriteHeapProfile(w *io.Writer)`：开启内存性能分析（作用是记录程序的堆栈信息），无需stop
 
-`top3`、`list logic`
+`go tool pprof cpu.pprof`：使用工具进行CPU性能分析，会进入交互界面
+
+- `top3`：查看程序中占用CPU前3位的函数；`list 函数名`：查看具体的函数分析
 
 >  自己写的函数占用CPU太多时，可以让线程休眠一会（如半秒），把CPU让出给其他函数使用
 
@@ -1707,7 +1725,7 @@ func TestSplit(t *testing.T) {
 - 通知子`goroutine`退出
 - 处理单个请求的多个`goroutine`之间与请求域的数据、取消信号、截止时间等相关操作
 - `WithCancel`、`WithDeadLine`、`WithTimeOut`、`WithValue`，deadline是绝对时间，timeout是相对时间
-  - `WithDeadLine`接收`contex.Contex`和`time.Time`变量，返回类型和`WithCanel`一样，返回的contex过期后，会**自动触发`ctx.Done()`**，但仍要**手动`defer canel()`**
+  - `WithDeadLine`接收`contex.Contex`和`time.Time`变量，返回类型和`WithCanel`一样，返回的context过期后，会**自动触发`ctx.Done()`**，但仍要**手动`defer canel()`**
   - `WithTImeOut`接受的时间是`time.Duration`
   - `WithValue`把context和key、value绑定起来
 - `Background()`、`TODO()`生成根节点context，background用于main函数，todo是预留的，当前还不知道啥场景使用
@@ -1719,7 +1737,7 @@ func TestSplit(t *testing.T) {
   - `context.WithCancel()`接收一个`contex.Contex`类型变量(`parent context`)，可以用`BackGround()`函数生成
   - 返回`contex.Contex`和`context.CancalFun`类型的变量，`CancalFun`是一个无参无返回值的函数类型，可以直接调用
 
-- 在子`goroutine`的`select`中，`case <-ctx.Done():`
+- 在子`goroutine`的`select`中，添加`case <-ctx.Done():break`
 
 - 需要通知子`goroutine`退出时，直接`cancel()`即可，且子`goroutine`中的子`goroutine`也能退出，且能一级一级传下去
 
@@ -1795,4 +1813,67 @@ func TestSplit(t *testing.T) {
   }
   ```
 
-  
+
+# 面试题
+
+```go
+//阅读下面的代码，写出最后的打印结果。
+func f1() int {
+	x := 5
+	defer func() {
+		x++
+	}()
+	return x
+}
+
+func f2() (x int) {
+	defer func() {
+		x++
+	}()
+	return 5
+}
+
+func f3() (y int) {
+	x := 5
+	defer func() {
+		x++
+	}()
+	return x
+}
+func f4() (x int) {
+	defer func(x int) {
+		x++
+	}(x)
+	return 5
+}
+func main() {
+	fmt.Println(f1()) //5
+	fmt.Println(f2()) //6
+	fmt.Println(f3()) //5
+	fmt.Println(f4()) //5
+}
+```
+
+```go
+//上面代码的输出结果是？
+func calc(index string, a, b int) int {
+	ret := a + b
+	fmt.Println(index, a, b, ret)
+	return ret
+}
+
+func main() {
+	x := 1
+	y := 2
+	defer calc("AA", x, calc("A", x, y))
+	x = 10
+	defer calc("BB", x, calc("B", x, y))
+	y = 20
+}
+//结果：
+//A 1 2 3
+//B 10 2 12
+//BB 10 12 22
+//AA 1 3 4
+```
+

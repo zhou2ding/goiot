@@ -1,9 +1,9 @@
 package main
 
 import (
-	"context"
 	"encoding/json"
 	"fmt"
+	"sync"
 )
 
 func f1() int {
@@ -50,11 +50,12 @@ func getPerson() (p *person) {
 	fmt.Printf("%#v", p)
 	return
 }
+
 func main() {
 	// fmt.Println(f1()) // 5
-	// fmt.Println(f2()) // 6
+	// fmt.Println(f2()) // 6，defer中x++是加的f2的参数x
 	// fmt.Println(f3()) // 5
-	// fmt.Println(f4()) // 5
+	// fmt.Println(f4()) // 5，defer中x++是加的defer函数的参数x
 	// getPerson()
 	// var p1 = &person{}
 	// var p2 = new(person)
@@ -80,8 +81,39 @@ func main() {
 	// 	fmt.Printf("key:%v, value:%v\n", k, v)
 	// }
 	// fmt.Printf("%s\n", b)
+	// x := 1
+	// y := 2
+	// defer calc("AA", x, calc("A", x, y))
+	// x = 10
+	// defer calc("BB", x, calc("B", x, y))
+	// y = 20
+
+	// rand.Seed(time.Now().Unix())
+	// t := time.Tick(time.Second)
+	// for _ = range t {
+	// 	fmt.Println(rand.Intn(10000))
+	// }
+	m := sync.Map{}
+	m.Store("key", 0)
+	m.Store("key1", 1)
+	m.Store("key2", 2)
+	m.Store("key3", 3)
+	m.Store("key4", 4)
+	m.Store("key5", 5)
+	m.Range(func(k, v interface{}) bool {
+		fmt.Printf("key:%v,value:%v\n", k, v)
+		return true
+	})
+
 }
 
-func filter(ctx *context.Context) {
-
+func calc(index string, a, b int) int {
+	//结果：
+	//A 1 2 3
+	//B 10 2 12
+	//BB 10 12 22
+	//AA 1 3 4
+	ret := a + b
+	fmt.Println(index, a, b, ret)
+	return ret
 }

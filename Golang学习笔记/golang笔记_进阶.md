@@ -168,8 +168,6 @@ resisdb = redis.NewClient(&redis.Options{
 })
 ```
 
-
-
 ## 消息队列
 
 常用的消息队列
