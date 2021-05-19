@@ -2,6 +2,7 @@ package testorm
 
 import (
 	"beego_project/models"
+	"fmt"
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
@@ -14,7 +15,8 @@ type TestOrmO2OController struct {
 
 func (t *TestOrmO2OController) Get() {
 	o := orm.NewOrm()
-	uid := 4 //一般由前端获取，下面的更新和删除要用到
+	// uid := 2 //一般由前端获取，下面的更新和删除要用到
+	pid := 3 //正向查询和反向查询要用到
 
 	//orm插入
 	// usr := models.UserOne{UserName: "张三", Age: 18}
@@ -38,14 +40,26 @@ func (t *TestOrmO2OController) Get() {
 	// r3.Exec()
 
 	//删除：orm
-	qs := o.QueryTable(new(models.UserOne))
-	qs.Filter("id__exact", uid).Delete() //自带级联删除功能，即删了主表的数据会自动删子表的关联数据
+	// qs := o.QueryTable(new(models.UserOne))
+	// qs.Filter("id__exact", uid).Delete() //自带级联删除功能，即删了主表的数据会自动删子表的关联数据
 
 	//删除：原生sql
-	r4 := o.Raw("delete from user_one where id = ?", uid)
-	r5 := o.Raw("delete from profile_one where user_one_id = ?", uid)
-	r4.Exec()
-	r5.Exec()
+	// r4 := o.Raw("delete from user_one where id = ?", uid)
+	// r5 := o.Raw("delete from profile_one where user_one_id = ?", uid)
+	// r4.Exec()
+	// r5.Exec()
+
+	//正向查询：RelatedSel()，根据子表的外键，把子表和主表都查到
+	// po := models.ProfileOne{}
+	// qs := o.QueryTable("profile_one")
+	// qs.Filter("pid__exact", pid).RelatedSel().One(&po)
+	// fmt.Println(po, po.UserOne)
+
+	//反向查询：ProfileOne__Id，根据子表的外键，只能把主表查到
+	usr := models.UserOne{}
+	qs := o.QueryTable("user_one")
+	qs.Filter("ProfileOne__Id", pid).One(&usr)
+	fmt.Println(usr, usr.ProfileOne)
 
 	t.TplName = "test_orm/o2o.html"
 }

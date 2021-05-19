@@ -7,7 +7,8 @@ type UserOne struct {
 	Id         int `orm:"pk;auto"`
 	UserName   string
 	Age        int
-	ProfileOne *ProfileOne `orm:"reverse(one)"` //只是用来反向查询的，建表时会自动省略
+	ProfileOne *ProfileOne `orm:"reverse(one)"` //一对一，只是用来反向查询的，建表时会自动省略
+	// ArticleMany []*ArticleMany `orm:"reverse(many)"` //一对多，多是rel(fk)；一是reverse(many)。类型必须是切片
 }
 
 type ProfileOne struct {

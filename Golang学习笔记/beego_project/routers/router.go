@@ -50,5 +50,10 @@ func init() {
 	beego.Router("/orm4", &testorm.TestOrm4Controller{})  // querytable接口函数
 	beego.Router("/orm5", &testorm.TestOrm5Controller{})  // 原生sql
 	beego.Router("/o2o", &testorm.TestOrmO2OController{}) // 一对一模型
-
+	beego.Router("/o2m", &testorm.TestOrmO2MController{}) // 一对多模型
+	beego.Router("/m2m", &testorm.TestOrmM2MController{}) // 多对多模型
+	//实战
+	beego.Router("/po2o", &testorm.O2OController{}) // 一对一实战
+	beego.Router("/po2m", &testorm.O2MController{}) // 一对一实战
+	beego.Router("/pm2m", &testorm.M2MController{}) // 一对一实战
 }
