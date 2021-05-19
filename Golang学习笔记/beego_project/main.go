@@ -62,14 +62,14 @@ func main() {
 	orm.Debug = true //开启sql语句的打印
 	orm.RunCommand() //开启通过orm的命令行操作数据库
 	//不通过命令行，直接在代码中自动建表
-	name := "default"
-	force := false
-	verbose := true
-	err := orm.RunSyncdb(name, force, verbose)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
+	// name := "default"
+	// force := false
+	// verbose := true
+	// err := orm.RunSyncdb(name, force, verbose)
+	// if err != nil {
+	// 	fmt.Println(err)
+	// 	return
+	// }
 
 	beego.Run()
 }

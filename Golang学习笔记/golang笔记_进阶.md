@@ -210,6 +210,9 @@ go run main.go orm syncdb		#根据结构体建表，不带参数时，只根据�
 					
 go run main.go orm sqlall		#打印建表语句
 go run main.go orm help			#查看帮助，orm后面不带参数时默认带的help
+
+#修改源码：cmd_utils.go中getColumnAddQuery()的return中添加
+fi.description,
 ```
 
 
