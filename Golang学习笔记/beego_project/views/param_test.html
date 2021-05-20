@@ -43,7 +43,7 @@
                     type:"POST",
                     data:JSON.stringify({
                         // 前端获取到的数据默认都为string，需要进行转换
-                        "username":username,
+                        "username":username, //左边是后端结构体的字段名（或struct tag），右边是前端通过getElementById().value获取的变量
                         "age":Number(age),
                         "price":price,
                         "married":married,

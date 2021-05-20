@@ -13,6 +13,10 @@ type TestOrmO2OController struct {
 	beego.Controller
 }
 
+func (t *TestOrmO2OController) Prepare() {
+	t.EnableXSRF = false
+}
+
 func (t *TestOrmO2OController) Get() {
 	o := orm.NewOrm()
 	// uid := 2 //一般由前端获取，下面的更新和删除要用到

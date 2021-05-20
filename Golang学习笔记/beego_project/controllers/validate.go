@@ -14,8 +14,8 @@ type ValidateController struct {
 type UserInfo struct {
 	UserName string `form:"username" valid:"Required"`
 	Age      int    `form:"age" valid:"Required"`
-	Email    string `form:"email" valid:"Required"`
-	Phone    string `form:"phone" valid:"Required"`
+	Email    string `form:"email" valid:"Required;Email"`
+	Phone    string `form:"phone" valid:"Required;Phone"`
 }
 
 func (v *ValidateController) Get() {
@@ -67,6 +67,8 @@ func (v *ValidateController) Post() {
 	valid := validation.Validation{}
 	msg := map[string]string{
 		"Required": "不能为空",
+		"Phone":    "格式错误",
+		"Email":    "格式错误",
 	}
 	validation.SetDefaultMessage(msg)
 	b, err := valid.Valid(&usr) //一个是校验结果，如果校验失败，b=false；一个是前面的struct tag写的是否有问题

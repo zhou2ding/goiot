@@ -6,9 +6,9 @@
     </head>
     <body>
         一对一实战
-        <form action="{{urlfor "O2OController.Get"}}" method="POST">
-            身份证号：<input type="text" name="id_card"><br>
-            电话号码：<input type="text" name="phone"><br>
+        <form action="{{urlfor "O2OController.Post"}}" method="POST">
+            身份证号：<input type="text" name="id_card" placeholder="请输入身份证" value="{{.pf.IdCard}}"><br>
+            电话号码：<input type="text" name="phone" placeholder="请输入电话号码" value="{{.pf.Phone}}"><br>
             <input type="submit" value="提交">
         </form>
     </body>

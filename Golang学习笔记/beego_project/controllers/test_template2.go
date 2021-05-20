@@ -18,6 +18,6 @@ func (t *T2Controller) Get() {
 	t.TplName = "t2.html"
 }
 
-func T() string {
-	return ""
+func T(a int) string {
+	return "f调用"
 }

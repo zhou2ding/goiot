@@ -11,7 +11,8 @@
         {{printf "%s" .name}}<br>
         {{.name | printf "%s"}}<br>
 
-        {{call .f}}
+        <!-- 返回两个值时，第二个值用于返回error -->
+        {{call .f 10}}
 
         {{index .mapp "name"}}<br>
         {{map_get .mapp "name"}}<br>
@@ -26,7 +27,12 @@
         <!-- and是返回第一个空，如果找不到，返回最后一个；or是返回第一个非空，如果找不到，返回最后一个 -->
         <!-- {{and .A .B .C}} {{or .A .B .C}} -->
 
+        <!-- 编码URL，然后才能传递URL -->
         {{urlquery "http://www.baidu.com"}}
+
+        <!-- 必须先是比较运算符，再是参与比较的数字，eq可以传多个参数 -->
+        {{if lt 100 200}}{{end}}
+        {{if eq 100 100 100}}{{end}}
 
     </body>
 </html>

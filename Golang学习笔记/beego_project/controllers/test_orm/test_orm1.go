@@ -26,7 +26,7 @@ func (t *TestOrm1Controller) Get() {
 	// cnt, err := o.InsertMulti(100, usrs) //一次最多插入100条(不要太大)，不够的话一次性插完，超的话每次100条。返回插入的条数
 	// fmt.Println(err, cnt)
 
-	//没有则插入，有则更新。逻辑：只根据主键Id查询，有则更新成其他的字段的值，没有则插入
+	//没有则插入，有则更新。逻辑：只根据有唯一约束的字段（如Id）查询，有则更新成其他的字段的值，没有则插入
 	// usr := models.User{Id: 17, Name: "钱七", Age: 96, Addr: "江苏"} //Id这个主键字段必须带上，否则永远都是插入
 	// o.InsertOrUpdate(&usr, "Id")                                //区别于查询，这里也要带上Id
 

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+        <a href="{{urlfor "TagAddController.Get"}}">添加tag</a>
+        <thread>
+            <th>标签名称</th>
+            <th>创建时间</th>
+            <th>描述</th>
+        </thread>
+        {{range .tag}}
+            <tr>
+                <td>{{.Name}}</td>
+                <td>{{.Desc}}</td>
+                <td>{{.CreaTime}}</td>
+                <td><a href="{{urlfor "TagListController.Get"}}?id=xxx">更新</a></td>
+                <td><a href="">删除</a></td>
+
+            </tr>
+        {{end}}
+    </body>
+</html>

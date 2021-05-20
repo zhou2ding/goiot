@@ -1,17 +1,25 @@
 package models
 
-import "github.com/astaxie/beego/orm"
+import (
+	"time"
+
+	"github.com/astaxie/beego/orm"
+)
 
 type Tag struct {
-	Id   int `orm:"pk;auto"`
-	Name string
-	Post []*Post `orm:"reverse(many)"`
+	Id       int `orm:"pk;auto"`
+	Name     string
+	CreaTime time.Time `orm:"auto_now;type(datetime)"`
+	Desc     string
+	Post     []*Post `orm:"reverse(many)"`
 }
 
 type Post struct {
-	Id   int `orm:"pk;auto"`
-	Name string
-	Tag  []*Tag `orm:"rel(m2m)"`
+	Id       int `orm:"pk;auto"`
+	Name     string
+	CreaTime time.Time `orm:"auto_now;type(datetime)"`
+	Content  string
+	Tag      []*Tag `orm:"rel(m2m)"`
 }
 
 func (t *Tag) TableName() string {

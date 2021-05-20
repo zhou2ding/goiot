@@ -56,8 +56,8 @@ func (t *TestOrmM2MController) Get() {
 	// aid := 3
 	// arts := models.ArticleMany{}
 	// qs := o.QueryTable("article_many")
-	// qs.Filter("id__exact", aid).One(&arts)
-	// o.LoadRelated(&arts, "Tags") //关联查询Tags，arts是装查询结果的容器
+	// qs.Filter("id__exact", aid).One(&arts) //先把查出的其他字段扔进arts
+	// o.LoadRelated(&arts, "Tags")           //再关联查询Tags（切片），再扔进arts
 	// fmt.Println(arts, arts.Tags)
 
 	//2.已知B表id，从A表中查询B表id关联的所有A：反向查询

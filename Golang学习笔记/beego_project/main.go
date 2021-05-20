@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -31,10 +32,10 @@ func init() {
 }
 
 func main() {
-	// beego.SetViewsPath("front")	//配置文件中也可配置
+	// beego.SetViewsPath("front") //配置文件中也可配置
 	// beego.SetStaticPath("/static", "front")
-	// beego.BConfig.WebConfig.AutoRender = false //配置文件中也可配置
-	// beego.AddTemplateExt("jsp")
+	// beego.BConfig.WebConfig.AutoRender = false //关闭自动渲染。配置文件中也可配置
+	// beego.AddTemplateExt("jsp")                //把模板后缀从.tpl修改为.jsp
 	// port, _ := beego.AppConfig.Int("httpport") //就是固定读取的app.conf，改名的话就读取不到
 
 	// xsrf配置，也可在app.conf中设置
@@ -52,7 +53,7 @@ func main() {
 	beego.BConfig.WebConfig.Session.SessionOn = true //配置文件中也可配置
 	// beego.BConfig.WebConfig.Session.SessionGCMaxLifetime = 4800 // 其他session配置
 	// beego.BConfig.WebConfig.Session.SessionCookieLifeTime = 4800
-	// beego.InsertFilter("*/", beego.BeforeRouter, controllers.FilterUser)
+	beego.InsertFilter("unlogin/", beego.BeforeRouter, controllers.FilterUser)
 
 	beego.ErrorController(&controllers.ErrorController{}) //注册自定义错误的controller
 
@@ -70,6 +71,7 @@ func main() {
 	// 	fmt.Println(err)
 	// 	return
 	// }
+	logs.SetLogFuncCallDepth(3) //默认是4；直接调用logs包则改为3；对logs包封装后则是2，以此类推
 
 	beego.Run()
 }

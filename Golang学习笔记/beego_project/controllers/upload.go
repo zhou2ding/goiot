@@ -13,8 +13,8 @@ type UploadController struct {
 }
 
 func (u *UploadController) Get() {
+	// u.Data["xsrfdata"] = template.HTML(u.XSRFFormHTML())
 	u.Layout = "base.html"
-	fmt.Println(beego.URLFor("LoginController.Get", "name", "zhangsan", "age", "18"))
 	u.SetSession("username", "zhangsan") //设置session，然后在default.go的SessionController的Get方法中获取session
 	u.TplName = "upload.html"
 }

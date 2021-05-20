@@ -84,14 +84,14 @@ func (p *ParamsController) Get() {
 }
 
 func (p *ParamsController) Post() {
-	// //获取前端提交的表单，方式1
-	// //GetString里传的参数是param_test.html中的<form action="/param" method="POST">，里面的<input type="text" name="username">
+	//获取前端提交的表单，方式1
+	//GetString里传的参数是param_test.html中的<form action="/param" method="POST">，里面的<input type="text" name="username">
 	// username := p.GetString("username")   //获取单个
 	// usernames := p.GetStrings("username") //获取多个，如果前端的input，多个name都是"username"，则都传进GetStrings返回的数组中
 	// age := p.GetString("age")
 	// fmt.Printf("姓名：%v，批量姓名：%v，年龄：%v\n", username, usernames, age)
 
-	// //方式2
+	//方式2
 	// username1 := p.Input().Get("username")
 	// age1 := p.Input().Get("age")
 	// fmt.Printf("姓名：%v，年龄：%v\n", username1, age1)
@@ -131,7 +131,7 @@ func (p *ParamsController) Post() {
 // 	p.TplName = "success.html"
 // }
 
-//非ajax的其他数据类型的传输方式
+//非json的其他数据类型的传输方式
 type OtherTypeController struct {
 	beego.Controller
 }
@@ -143,16 +143,16 @@ func (o *OtherTypeController) Get() {
 	// o.ServeJSON()
 
 	//xml格式
-	// o.Data["xml"] = &usr
-	// o.ServeXML()
+	o.Data["xml"] = &usr
+	o.ServeXML()
 
 	//jsonp格式
 	// o.Data["jsonp"] = &usr
 	// o.ServeJSONP()
 
 	//yaml格式，运行时要下载一个文件，下载后打开才是yaml
-	o.Data["yml"] = &usr
-	o.ServeYAML()
+	// o.Data["yml"] = &usr
+	// o.ServeYAML()
 }
 
 type FlashController struct {
@@ -178,58 +178,58 @@ func (f *FlashController) Get() {
 
 func (f *FlashController) Post() {
 	//旧的获取数据方式
-	// username := f.GetString("username")
-	// pwd := f.GetString("pwd")
-	// fmt.Println(username, pwd)
-	// //初始化flash
-	// flash := beego.NewFlash()
-	// if len(username) == 0 {
-	// 	flash.Error("用户名不能为空")
-	// 	flash.Store(&f.Controller)
-	// 	f.Redirect("/flash", 302)
-	// } else if pwd != "123456" {
-	// 	flash.Error("密码错误")
-	// 	flash.Store(&f.Controller)
-	// 	f.Redirect("/flash", 302)
-	// } else {
-	// 	fmt.Println("成功")
-	// 	flash.Notice("成功")
-	// 	flash.Store(&f.Controller)
-	// 	f.Redirect("/flash", 302)
-	// }
+	username := f.GetString("username")
+	pwd := f.GetString("pwd")
+	fmt.Println(username, pwd)
+	//初始化flash
+	flash := beego.NewFlash()
+	if len(username) == 0 {
+		flash.Error("用户名不能为空")
+		flash.Store(&f.Controller)
+		f.Redirect("/flash", 302)
+	} else if pwd != "123456" {
+		flash.Error("密码错误")
+		flash.Store(&f.Controller)
+		f.Redirect("/flash", 302)
+	} else {
+		fmt.Println("成功")
+		flash.Notice("成功")
+		flash.Store(&f.Controller)
+		f.Redirect("/flash", 302)
+	}
 
 	//新的通过ajax获取数据方式
-	var flash_struct FlashStruc
-	body := f.Ctx.Input.RequestBody
-	err := json.Unmarshal(body, &flash_struct)
-	if err != nil {
-		fmt.Println("json解析失败：", err)
-		return
-	}
-	fmt.Printf("Name:%v, Pwd:%v\n", flash_struct.UserName, flash_struct.Password)
-	// flash := beego.NewFlash()
-	if len(flash_struct.UserName) == 0 {
-		result := map[string]interface{}{"code": "401", "message": "用户名不能为空"}
-		f.Data["json"] = result
-		f.ServeJSON()
-		// flash.Error("用户名不能为空")
-		// flash.Store(&f.Controller)
-		// f.Redirect("/flash", 302)
-	} else if flash_struct.Password != "123456" {
-		result := map[string]interface{}{"code": "401", "message": "密码错误"}
-		f.Data["json"] = result
-		f.ServeJSON()
-		// flash.Error("密码错误")
-		// flash.Store(&f.Controller)
-		// f.Redirect("/flash", 302)
-	} else {
-		result := map[string]interface{}{"code": "200", "message": "处理成功"}
-		f.Data["json"] = result
-		f.ServeJSON()
-		// flash.Notice("成功")
-		// flash.Store(&f.Controller)
-		// f.Redirect("/flash", 302)
-	}
+	// var flash_struct FlashStruc
+	// body := f.Ctx.Input.RequestBody
+	// err := json.Unmarshal(body, &flash_struct)
+	// if err != nil {
+	// 	fmt.Println("json解析失败：", err)
+	// 	return
+	// }
+	// fmt.Printf("Name:%v, Pwd:%v\n", flash_struct.UserName, flash_struct.Password)
+	// // flash := beego.NewFlash()
+	// if len(flash_struct.UserName) == 0 {
+	// 	result := map[string]interface{}{"code": "401", "message": "用户名不能为空"}
+	// 	f.Data["json"] = result
+	// 	f.ServeJSON()
+	// 	// flash.Error("用户名不能为空")
+	// 	// flash.Store(&f.Controller)
+	// 	// f.Redirect("/flash", 302)
+	// } else if flash_struct.Password != "123456" {
+	// 	result := map[string]interface{}{"code": "401", "message": "密码错误"}
+	// 	f.Data["json"] = result
+	// 	f.ServeJSON()
+	// 	// flash.Error("密码错误")
+	// 	// flash.Store(&f.Controller)
+	// 	// f.Redirect("/flash", 302)
+	// } else {
+	// 	result := map[string]interface{}{"code": "200", "message": "处理成功"}
+	// 	f.Data["json"] = result
+	// 	f.ServeJSON()
+	// 	// flash.Notice("成功")
+	// 	// flash.Store(&f.Controller)
+	// 	// f.Redirect("/flash", 302)
+	// }
 }
 
 type SessionController struct {

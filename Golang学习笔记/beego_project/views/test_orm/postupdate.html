@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+        更新文章页面
+        <form action="{{urlfor "PostUpdateController.Post"}}" method="POST">
+            <input type="hidden" value="{{.post.Id}}" name="id">
+            <input type="text" name="name" placeholder="帖子标题" value="{{.post.Name}}"><br>
+            <input type="text" name="content" placeholder="帖子内容" value="{{.post.Content}}"><br>
+            <input type="text" name="createtime" placeholder="帖子创建时间" value="{{.post.CreateTime}}"><br>
+            {{range .post.Tag}}
+                <input type="checkbox" value="{{.Id}}" name = "tag" checked>{{.Name}}
+            {{end}}
+            {{range .uncheckTag}}
+                <input type="checkbox" value="{{.Id}}" name = "tag">{{.Name}}
+            {{end}}
+            <input type="submit" value="提交">
+        </form>
+    </body>
+</html>

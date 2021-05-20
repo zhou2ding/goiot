@@ -6,8 +6,10 @@
     </head>
     <body>
         {{dateformat .nowtime "2006/01/02-15:04:05"}}<br>
+        <!-- y、m、d、h、i、s都有大小写之分，分别是不同的格式 -->
         {{date .nowtime "Y-m-d H:i:s"}}<br>
 
+        <!-- true、true、false、false、true、true -->
         {{eq 'a' 97}}<br>
         {{compare 'a' 97}}<br>
         {{compare_not 'a' 97}}<br>
@@ -16,7 +18,7 @@
         {{not_null 0}}<br>
 
         {{substr "abcdef" 0 3}}<br>
-        {{html2str "<a href='www.baidu.com'>Baidu</a>"}}<br>
+        {{html2str "<a href='www.baidu.com'>Baidu</a>"}}<br> <!--得到的是纯文本-->
         {{str2html "<a href='www.baidu.com'>Baidu</a>"}}<br>
         {{htmlquote "<a href='www.baidu.com'>Baidu</a>"}}<br>
         {{htmlunquote "&lt;a&nbsp;href=&#39;www.baidu.com&#39;&gt;Baidu&lt;/a&gt;"}}<br>

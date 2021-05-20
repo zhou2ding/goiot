@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+        添加文章页面
+        <form action="{{urlfor "PostAddController.Post"}}" method="POST">
+            <input type="text" name="name" placeholder="帖子标题"><br>
+            <input type="text" name="content" placeholder="帖子内存"><br>
+            {{range .tag}}
+                <input type="checkbox" name="tag" value="{{.Id}}">{{.Name}}<br>
+            {{end}}
+            <input type="submit" value="提交">
+        </form>
+    </body>
+</html>

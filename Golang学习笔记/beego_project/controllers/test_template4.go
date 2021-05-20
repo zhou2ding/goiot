@@ -19,6 +19,6 @@ func Hello(h string) string {
 }
 
 func SubstrAndReplace(s string, i int) (res string) {
-	res = string([]rune(s)[0:i]) + "..."
+	res = string([]rune(s)[:i]) + "..."
 	return
 }
