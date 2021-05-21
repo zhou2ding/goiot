@@ -3,12 +3,14 @@ package main
 import (
 	"beego_project/controllers"
 	_ "beego_project/routers"
+
 	"fmt"
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
+	//默认引入了models的init，如果models下面有嵌套文件夹的话，要手动引入其init
 )
 
 func init() {

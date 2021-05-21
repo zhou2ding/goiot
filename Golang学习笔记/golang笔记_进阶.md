@@ -249,3 +249,12 @@ cache引擎
 - file（不常用）
 - redis
 - memcache
+
+# 第三方库
+
+go get github.com/mojocn/base64Captcha
+
+sarama
+
+日志手机项目中补充
+

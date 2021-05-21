@@ -1,9 +1,9 @@
 package main
 
 import (
+	"crypto/md5"
 	"encoding/json"
 	"fmt"
-	"sync"
 )
 
 func f1() int {
@@ -93,17 +93,18 @@ func main() {
 	// for _ = range t {
 	// 	fmt.Println(rand.Intn(10000))
 	// }
-	m := sync.Map{}
-	m.Store("key", 0)
-	m.Store("key1", 1)
-	m.Store("key2", 2)
-	m.Store("key3", 3)
-	m.Store("key4", 4)
-	m.Store("key5", 5)
-	m.Range(func(k, v interface{}) bool {
-		fmt.Printf("key:%v,value:%v\n", k, v)
-		return true
-	})
+	// m := sync.Map{}
+	// m.Store("key", 0)
+	// m.Store("key1", 1)
+	// m.Store("key2", 2)
+	// m.Store("key3", 3)
+	// m.Store("key4", 4)
+	// m.Store("key5", 5)
+	// m.Range(func(k, v interface{}) bool {
+	// 	fmt.Printf("key:%v,value:%v\n", k, v)
+	// 	return true
+	// })
+	fmt.Println(getmd5("zhangsan"))
 
 }
 
@@ -115,5 +116,11 @@ func calc(index string, a, b int) int {
 	//AA 1 3 4
 	ret := a + b
 	fmt.Println(index, a, b, ret)
+	return ret
+}
+
+func getmd5(s string) string {
+	tmp := md5.Sum([]byte(s))
+	ret := string(tmp[:])
 	return ret
 }
