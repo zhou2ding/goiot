@@ -198,7 +198,9 @@ resisdb = redis.NewClient(&redis.Options{
    3. `nsqadmin.exe -lookupd-http-address=127.0.0.1:4161`
    4. 浏览器输入`http://127.0.0.1:4171`
 
-# Beego命令
+# Beego
+
+## 命令
 
 ```powershell
 #先main.go中添加orm.RunCommand()，且要把结构体注册一下
@@ -215,5 +217,35 @@ go run main.go orm help			#查看帮助，orm后面不带参数时默认带的he
 fi.description,
 ```
 
+## 日志模板
 
+> 设计模板步骤：
+>
+> 1. 确定是常用的目标
+> 2. 确定需要哪些字段
+> 3. 将这些字段拼成想要的格式
 
+```json
+过程进度：starttime:%v | current/count:%v/%v | use_time:%v | endtime:%v
+请求接口：url:%v | method:%v | body:%v | header:%v
+数据库连接：ip:%v | port:%v | database:%v
+抽象对象：parentStruct:%v | childStruct%v | params:%v
+耗时：starttime:%v | use_time:%v | spend:%v | endtime:%v
+```
+
+日志引擎
+
+- console
+- file
+- **multifile**
+- smtp：日志警告，邮件发送
+- conn：网络输出
+- ElasticSearch：输出到ES
+- ......
+
+cache引擎
+
+- memory
+- file（不常用）
+- redis
+- memcache

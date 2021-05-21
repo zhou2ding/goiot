@@ -2,6 +2,7 @@ package routers
 
 import (
 	"beego_project/controllers"
+	testcache "beego_project/controllers/test_cache"
 	teslog "beego_project/controllers/test_log"
 	testorm "beego_project/controllers/test_orm"
 
@@ -73,5 +74,8 @@ func init() {
 
 	beego.Router("/beelog", &teslog.TestBeeLogController{}) //beego自带日志
 	beego.Router("/mylog", &teslog.MyLogController{})       //日志模块
+	beego.Router("/teplog", &teslog.LogTepController{})     //日志目标
+
+	beego.Router("/memory", &testcache.MemoryCacheController{}) //日志目标
 
 }

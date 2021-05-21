@@ -262,7 +262,7 @@ Go语言不存在指针操作，只有取地址和取值
 
 ### defer
 
-- `defer`把跟在它后面的语句延迟到函数即将返回的时候再执行
+- `defer`把跟在它后面的语句延迟到函数即将返回的时候再执行（碰到panic的错误，会先执行发生panic的语句，然后执行defer，然后返回panic）
 - 使用场景：函数结束之前（return、panic等）释放资源
   - 关闭文件
   - 关闭socket连接
@@ -384,7 +384,7 @@ Go语言不存在指针操作，只有取地址和取值
 - `panic/recover`
   - `panic()`会让程序崩溃退出
   - 必须在`panic`之前`defer `释放连接
-  - `recover()`会把`panic`的信息保存起来，不会让程序退出（不推荐用）
+  - `recover()`会把`panic`的信息保存起来，返回一个error，不会让程序退出（不推荐用）；但发生panic的语句之后的程序都不会执行了
 
 ## fmt包
 
@@ -1812,6 +1812,8 @@ func TestSplit(t *testing.T) {
       }
   }
   ```
+  
+- goland快捷键：`ctrl+shift+F10`（运行光标所在的文件），`shift+F10`（运行上次运行的文件），`ctrl+shift+方向键`（移动选中的代码块）
 
 
 # 面试题

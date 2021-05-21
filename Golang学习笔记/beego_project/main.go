@@ -71,7 +71,26 @@ func main() {
 	// 	fmt.Println(err)
 	// 	return
 	// }
+
 	logs.SetLogFuncCallDepth(3) //默认是4；直接调用logs包则改为3；对logs包封装后则是2，以此类推
+	// logs.SetLevel(logs.LevelCritical) //设置日志级别，推荐用此方式
+
+	//console引擎；开启颜色；级别是2（或者写LevelCritical）
+	// logs.SetLogger(logs.AdapterConsole, `{"level":"2","color":true}`)
+
+	//file引擎
+	//filename：日志文件保存的路径和文件名
+	//maxlines:保存的最大行数，默认100万行，超过后覆盖前面的行
+	//maxsize：最大尺寸，默认1<<28（256MB）
+	//daily：是否每天logrotate，默认true
+	//maxdays：最多保存几天，默认7天
+	//rotate：是否开启logrotate（循环覆盖），默认true
+	//level：级别，默认Trace
+	//perm：权限，默认775
+	// logs.SetLogger(logs.AdapterFile, `{"filename":"logs/my.log"}`)
+
+	//multifile引擎，最常用；separate：把数组中给的级别分别写入不同的文件（调用log打印的函数也按照给的级别来，比如error级别往上的都用error来输出）
+	logs.SetLogger(logs.AdapterMultiFile, `{"filename":"logs/beeproject.log","separate":["error","info"]}`)
 
 	beego.Run()
 }
