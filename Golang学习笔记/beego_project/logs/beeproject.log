@@ -44,3 +44,12 @@
 2021/05/21 14:43:06.995 [D] [router.go:969]  |      127.0.0.1|[42m 200 [0m|     3.7963ms|   match|[44m GET     [0m /memory   r:/memory
 2021/05/21 14:43:07.584 [D] [router.go:969]  |      127.0.0.1|[42m 200 [0m|     2.6951ms|   match|[44m GET     [0m /memory   r:/memory
 2021/05/21 14:43:08.190 [D] [router.go:969]  |      127.0.0.1|[42m 200 [0m|     3.4977ms|   match|[44m GET     [0m /memory   r:/memory
+2021/05/23 21:40:12.646 [I] [app.go:214]  http server Running on http://:8080
+2021/05/23 21:40:14.458 [D] [router.go:969]  |      127.0.0.1|[42m 200 [0m|     7.6466ms|   match|[44m GET     [0m /     r:/
+2021/05/23 21:40:14.498 [D] [router.go:969]  |      127.0.0.1|[42m 200 [0m|      999.2µs|   match|[44m GET     [0m /static/js/reload.min.js
+2021/05/23 21:40:19.068 [D] [router.go:969]  |      127.0.0.1|[42m 200 [0m|    20.4209ms|   match|[44m GET     [0m /static/img/404.jpg
+2021/05/23 21:40:38.440 [I] [app.go:214]  http server Running on http://:8080
+2021/05/23 21:41:39.144 [I] [app.go:214]  http server Running on http://:8080
+2021/05/23 21:41:45.482 [D] [router.go:969]  |      127.0.0.1|[42m 200 [0m|     2.9919ms|   match|[44m GET     [0m /static/img/404.jpg
+2021/05/23 21:41:45.488 [D] [router.go:969]  |      127.0.0.1|[43m 404 [0m|      224.1µs| nomatch|[44m GET     [0m /favicon.ico
+2021/05/23 21:41:50.622 [D] [router.go:969]  |      127.0.0.1|[43m 404 [0m|      699.1µs| nomatch|[44m GET     [0m /favicon.ico
