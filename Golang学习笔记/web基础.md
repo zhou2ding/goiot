@@ -37,61 +37,42 @@
 - http：80，https：443
 
   - http1.0：客户端与服务器连接后，只能获得一个资源，然后断开连接
+- http2.0：可以获得多个资源
 
-  - http2.0：可以获得多个资源
-
-==http请求==
-
-- 请求行
-
-  ```java
-    Request URL: https://www.baidu.com/	//统一资源定位符
-    Request Method: GET					//请求方法
-    Status Code: 200 OK					//状态码
-    Remote Address: 14.215.177.38:443	//远程服务器地址
-  ```
-
-  - 请求方式：GET、POST，HEAD、DELETE、PUT、TRACE
-    - get：请求能够携带的参数比较少，大小有限制，会在浏览器的URL地址栏显示数据内容，不安全但高效
-    - post：请求能携带的参数无限制，大小无限制，不会在URL显示内容但高效
-
-- 消息头
-
-  ```java
-  Accept			//告诉浏览器，它所支持的数据类型
-  Accept-Encoding	//支持哪种编码，GBK、UTF-8、GB2312、ISO8859-1
-  Accept-Language	//告诉浏览器，它的语言环境
-  Cache-Control	//缓存控制
-  Connection		//告诉浏览器，请求完成是断开还是保持连接
-  HOST			//主机
-  ```
-
-
-==http响应==
-
-```java
-Cache-Control: private					//缓存控制
-Connection: keep-alive					//连接：保持连接
-Content-Encoding: gzip					//编码
-Content-Type: text/html;charset=utf-8	//类型
-```
-
-- 响应体
-
-```java
-Accept			//告诉浏览器，它所支持的数据类型
-Accept-Encoding	//支持哪种编码，GBK、UTF-8、GB2312、ISO8859-1
-Accept-Language	//告诉浏览器，它的语言环境
-Cache-Control	//缓存控制
-Connection		//告诉浏览器，请求完成是断开还是保持连接
-HOST			//主机
-Refrush			//告诉客户端，多久刷新一次
-Location		//让网页重新定位
-```
+- 请求方式：GET、POST，HEAD、DELETE、PUT、TRACE
+  - get：请求能够携带的参数比较少，大小有限制，会在浏览器的URL地址栏显示数据内容，不安全但高效
+  - post：请求能携带的参数无限制，大小无限制，不会在URL显示内容但高效
 
 - 响应状态码
 
   2xx：响应成功；4xx：资源不存在；3xx：请求重定向；5xx：服务器代码错误（502网关错误）
+
+==请求报文==
+
+```http
+行	请求类型，URL，协议版本
+头	Host: xxx.com
+	Cookie: name=zs
+	Content-type: application/x-www-form-urlencoded
+	User-Agent: chrome 83
+空行
+体	Get请求体为空；Post请求体可为空，非空的话：username=admin&psw=admin
+```
+
+==响应报文==
+
+```http
+行	协议版本，响应状态码，响应状态字符串
+头	Content-type: text/html;charset=utf-8
+    Content-length: 2048
+    Content-encoding:gzip
+空行
+体	返回的结果，html文件
+```
+
+`Query String Parameters`：URL参数
+
+`Form Data`：Post请求的请求体内容
 
 # [cookie、session](https://www.cnblogs.com/whgk/p/6422391.html)
 

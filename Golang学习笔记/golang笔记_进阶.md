@@ -250,6 +250,16 @@ cache引擎
 - redis
 - memcache
 
+## 设计思想
+
+> 多利用\<input type="hidden" id="xx" value="{{.Id}}"/>标签来获取要操作的id值
+
+- 删除：切记把`is_del`标志位改为1就行，不要直接删
+- 批量删除：前端通过哪些框被选中这个属性来得到批量id，前端把这些id通过`,`拼接成字符串，后端再split成byte切片，再遍历改`is_del`
+- 新增：
+- 修改：可以在前端urlfor时就把id通过`"?id={{.Id}}"`传给后端，后端再通过id把此条数据的值回传给前端
+- 搜索：触发搜索时就把关键字通过URL传给后端`"?kw="+kw`；后端查完后，要给前端传个kw，前端拿到后在换页的href中加上`&kw={{$.kw}}`避免换页后搜索条件被重置
+
 # 第三方库
 
 go get github.com/mojocn/base64Captcha
