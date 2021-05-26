@@ -105,6 +105,10 @@ func main() {
 	// 	return true
 	// })
 	fmt.Println(getmd5("zhangsan"))
+	var p person
+	p.Age = 12
+	p.Name = "222"
+	fmt.Println(p)
 
 }
 
