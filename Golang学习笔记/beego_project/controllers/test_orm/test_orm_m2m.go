@@ -9,6 +9,8 @@ type TestOrmM2MController struct {
 }
 
 //多对多关系中，所有的操作都能反着来
+//m2m对象是对关系表进行操作，添加新的关系、删除指定关系、清空关系、判断存在等；
+//而LoadRelated是从关系表查询关联关系，把查到的关联关系扔进容器的关系对象中（是个切片）
 func (t *TestOrmM2MController) Get() {
 	// o := orm.NewOrm()
 	//插入数据
