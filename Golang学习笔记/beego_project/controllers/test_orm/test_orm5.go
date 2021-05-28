@@ -59,7 +59,7 @@ func (t *TestOrm5Controller) Get() {
 	nums1, _ := r6.RowsToStruct(&to_struct, "name", "age")
 	nums2, _ := r6.RowsToMap(&to_map, "namge", "age")
 
-	//一次准备多次执行，类似queryseter的PrepareInsert，这个还能update和delete
+	//一次准备多次执行，类似queryseter的PrepareInsert，这个还能update和delete；但是rp.Exec只能和r7同级，不能在嵌套的{}域中
 	r7 := o.Raw("insert into article(title,author) values(?,?)")
 	rp, _ := r7.Prepare()
 	rp.Exec("小李飞刀", "古龙")

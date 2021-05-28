@@ -16,12 +16,12 @@ type TestOrm1Controller struct {
 func (t *TestOrm1Controller) Get() {
 	o := orm.NewOrm()
 	o.Using("default") //不调用这个的话默认使用default
-	//新增一条数据
+	//新增一条数据，循环插入时，如果有插入出错，要continue下，否则循环会被打破
 	// usr := models.User{Name: "张三", Age: 18, Addr: "湖南"}
 	// id, err := o.Insert(&usr)
 	// fmt.Println(err, id)
 
-	//新增多条
+	//新增多条，原子操作，中间有一条数据插入出错的话，整个都会执行失败
 	// usrs := []models.User{{Name: "李四", Age: 18, Addr: "长沙"}, {Name: "王五", Age: 22, Addr: "常德"}}
 	// cnt, err := o.InsertMulti(100, usrs) //一次最多插入100条(不要太大)，不够的话一次性插完，超的话每次100条。返回插入的条数
 	// fmt.Println(err, cnt)
