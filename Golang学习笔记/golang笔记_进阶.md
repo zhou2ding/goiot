@@ -217,6 +217,26 @@ go run main.go orm help			#查看帮助，orm后面不带参数时默认带的he
 fi.description,
 ```
 
+```bash
+bee pack -be GOOS=windows #打包完成后，安装nssm，然后nssm install <服务名>，然后启动服务即可
+#如果报错，先执行如下命令再bee pack
+SET CGO_ENABLED=0
+SET GOOS=windows
+SET GOARCH=amd64
+```
+
+```bash
+#打包成linux：
+SET CGO_ENABLED=0  // 禁用CGO
+SET GOOS=linux  // 目标平台是linux
+SET GOARCH=amd64  // 目标处理器架构是amd64
+bee pack -be GOOS=linux
+#linux上运行(&表示在后台运行)
+nohup ./要执行的文件 &
+```
+
+
+
 ## 日志模板
 
 > 设计模板步骤：
