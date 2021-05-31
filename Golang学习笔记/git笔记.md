@@ -75,12 +75,19 @@
   > 本地开发分支拉取远程开发分支用rebase，开发分支合并主干分支的时候用rebase(就是题主说的这些)，最后主干分支合并开发分支用merge，最后推送各分支。
 
   ```shell
-  git checkout master #切到master分支
-  git pull #拉取最新的master分支
-  git checkout local #切换到local分支
+  #切到master分支
+  git checkout master
+  
+  #拉取最新的master分支。如果修改过本地master，可以先stash把修改放进缓存，然后pull，然后unstash从缓存里拿出修改，有冲突的话就解决冲突（本地多分支的话就不用这样了，本地的master是永远干净的）
+  git pull
+  
+  #切换到local分支
+  git checkout local
   
   #修改代码，如果修改的时间很长，可以改完之后再pull最新的master
-  #修改完了， 就正常提交代码-------git commit
+  
+  #修改完了， 就正常提交代码
+  git commit
   
   #1. 如果有多次local分支的提交，就合并，只有一次可以不合并
   #2. 然后我们开始输入i进入编辑页面开始修改，把需要压缩的提交，前面pick关键字改成squash，注意，git squash 只支持依次修改，必须保留最上面的pick关键字不变，否则会报错，无法squash成功

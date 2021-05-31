@@ -218,7 +218,8 @@ fi.description,
 ```
 
 ```bash
-bee pack -be GOOS=windows #打包完成后，安装nssm，然后nssm install <服务名>，然后启动服务即可
+#打包成windows：打包完成后，安装nssm，然后nssm install <服务名>，然后启动服务即可
+bee pack -be GOOS=windows
 #如果报错，先执行如下命令再bee pack
 SET CGO_ENABLED=0
 SET GOOS=windows
@@ -257,7 +258,7 @@ start ions
 耗时：starttime:%v | use_time:%v | spend:%v | endtime:%v
 ```
 
-日志引擎
+==日志引擎==
 
 - console
 - file
@@ -267,7 +268,7 @@ start ions
 - ElasticSearch：输出到ES
 - ......
 
-cache引擎
+==cache引擎==
 
 - memory
 - file（不常用）
@@ -285,13 +286,151 @@ cache引擎
 - 搜索：触发搜索时就把关键字通过URL传给后端`"?kw="+kw`；后端查完后，要给前端传个kw，前端拿到后在换页的href中加上`&kw={{$.kw}}`避免换页后搜索条件被重置
 - 封装json对象：先封装成servejson
 
+# 微服务
+
+> 单体架构：MVC（model、view、controller），在同一个服务（进程）中运行
+>
+> 缺点：逻辑复杂、需求变更成本高、不好扩展、更新技术成本高、新人融入成本高、维护成本高、代码腐化越来越严重
+
+> 微服务：微服务就是一些具有足够小的粒度、能够相互协作而且自治的服务体系。
+>
+> 微服务设计：将复杂系统使用组件化的方式进行拆分，并通过通讯的方式进行整合的一种设计方法
+>
+> 特点：独立性，职能小，进程隔离，轻量型通信，灵活性高，和语言无关
+>
+> 缺点：技术难度大，运维要求高，不好调试，接口调整成本高，重复性代码多
+
+## protoBuf
+
+> 是一种语言无关、平台无关、可扩展的数据结构，是序列化的结构。
+>
+> 体积小，传输效率高，支持多平台跨语言，兼容性好，序列化和反序列化速度快
+
+### 安装
+
+- 首先下载[protoc-3.17.1-win64.zip](https://github.com/protocolbuffers/protobuf/releases/download/v3.17.1/protoc-3.17.1-win64.zip)解压后，把`protoc.exe`放到`%gopath%/bin`
+- 然后在`%gopath%/src`下面新建`google.golang.org\protobuf`
+  - 先`git clone https://github.com/protocolbuffers/protobuf-go`
+  - 再把`protobuf-go`目录下全部文件移动到`protobuf`下
+  - 最后`go get -u github.com/golang/protobuf/protoc-gen-go`在`%gopath%/bin`下生成`protoc-gen-go.exe`
+
+### 使用
+
+```powershell
+protoc my.proto --go_out=.	#把my.proto转成.go文件，转完放到当前目录下；支持通配符：*.proto；两个参数谁先谁后都行
+```
+
+### 语法
+
+```protobuf
+syntax = "proto3";					//protobuf的版本
+option go_package = "./;protoDemo";	//指定生成的.go文件的package；./必须有
+package protoDemo;					//指定package
+
+//消息类型，属于messages，另外两种类型是enum和service；一个文件能有多个，但最好是同一种类型，不要多种类型混用，否则会导致依赖性膨胀
+//可以嵌套，最外层的是level1，往里level依次增加，不同level的字段编号互不影响
+message Hello {
+    string name = 1;				//字段值只能是数字：表示字段的编号；19000~19999之间的不能用，是预留的
+    int32 age = 2;					//字段类型有string、int32、int64等，或其他message类型
+    optional string addr = 3;
+    //required int64 phone = 4;
+    repeated addr hobbies = 3;
+    RetHello ret = 6;
+}
+message RetHello {
+	int32 code = 1;
+	string msg = 2;
+}
+
+//枚举类型，字段没有类型，值必须从0开始
+enum HelloEnum {
+  RunStatus = 0;
+  StopStatus = 1;
+  DeleteStatus = 2;
+}
+```
+```go
+func main() {
+    //protoc生成的.go文件，包名是go_package中指定的pbf
+    phone := []int64{1,3,8,10}
+    name := "zhangsan"
+    helloData := &pbf.Hello{	//必须是指针
+        Name:&name,				//optional规则的字段类型是指针
+        Phone:phone,
+        Addr: "河北",
+    }
+    fmt.Println(helloData.Addr)
+    fmt.Println(*helloData.Name)
+    fmt.Println(helloData.GetName())	//其他字段都有对应的Get方法
+    
+    //编解码：Marshal和Unmarshal
+    ret,_ := proto.Marshal(helloData)
+    helloData2 := pbf.Hello{}
+    _ = proto.Unmarshal(ret,&helloData2)
+}
+```
+
+> 字段规
+>
+> - optional:字段可出现0次或1次，为空可以指定默认值 [default=10]，否则使用语言的默认值
+>
+>   - optional int32 result_per_page = 3 [default = 10];
+>
+>     字符串默认为空字符串
+>
+>     数字默认为0
+>
+>     bool默认为false
+>
+>     枚举默认为第一个列出的值，一定要注意枚举的顺序，容易有坑
+>
+> - repeated：字段可出现任意多次（包括 0），数组或列表要使用这种
+>
+> - required：字段只能也必须出现1次，proto3中已废弃
+
+### 字段类型
+
+| .proto   | 说明     | Go语言  |
+| :------- | :------- | :------ |
+| double   | 浮点类型 | float64 |
+| float    | 浮点类型 | float32 |
+| int32    |          | int32   |
+| int64    |          | int64   |
+| uint32   |          | uint32  |
+| uint64   |          | uint64  |
+| sint32   |          | int32   |
+| sint64   |          | int64   |
+| fixed32  |          | uint32  |
+| fixed64  |          | uint64  |
+| sfixed32 |          | int32   |
+| sfixed34 |          | int64   |
+| bool     |          | bool    |
+| string   |          | string  |
+| bytes    |          | []byte  |
+
+## grpc
+
+> 一种通讯协议
+
+## consul
+
+> 服务发现、健康检查、安全服务通信
+
+## micro框架
+
+> 
+
+## docker部署
+
+## 实战
+
 # 第三方库
 
 go get github.com/mojocn/base64Captcha
 
 sarama
 
-日志手机项目中补充
+日志收集项目中补充
 
-go get github.com/Luxurioust/excelize
+go get github.com/360EntSecGroup-Skylar/excelize
 
