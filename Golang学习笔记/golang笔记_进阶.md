@@ -232,10 +232,14 @@ SET GOOS=linux  // 目标平台是linux
 SET GOARCH=amd64  // 目标处理器架构是amd64
 bee pack -be GOOS=linux
 #linux上运行(&表示在后台运行)
+#方式一
 nohup ./要执行的文件 &
+#方式二：
+./nginx -c ../conf/nginx.conf
+supervisord -c /etc/supervisord.conf
+supervisorctl
+start ions
 ```
-
-
 
 ## 日志模板
 

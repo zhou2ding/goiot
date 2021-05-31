@@ -48,7 +48,7 @@
    - `sbin目录下`启动
 
      - 直接启动`./nginx`
-     - 配置文件启动`./nginx -c ../conf/nginx.cong`，启动前先用此命令跟`-t`检查下配置文件的语法错误
+     - 配置文件启动`./nginx -c ../conf/nginx.conf`，启动前先用此命令跟`-t`检查下配置文件的语法错误
 
      >  启动后两个进程，master和worker，后面worker会有多个
      >
