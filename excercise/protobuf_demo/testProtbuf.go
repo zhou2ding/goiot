@@ -21,4 +21,5 @@ func main() {
 	helloData2 := pbf.Hello{}
 	_ = proto.Unmarshal(ret,&helloData2)
 	fmt.Println(helloData2.Addr)
+	fmt.Println(helloData2.GetPhone())
 }

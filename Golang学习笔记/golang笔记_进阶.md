@@ -410,15 +410,255 @@ func main() {
 
 ## grpc
 
-> 一种通讯协议
+### rpc基础
+
+- remote procedure call：一种远程通讯协议，也是发送请求和接收响应，使用TCP
+
+- 组成和过程：发过去四步，回来四步
+  - 客户端：把调用请求发到客户端存根
+  - 客户端存根(client stud)：收到请求后把信息序列化，发到保存的服务端的地址
+  - 网络传输模块
+  - 服务端存根(server stub)：解码消息（反序列化），调用服务
+  - 服务端：提供真正的服务
+
+- go实现rpc
+
+  ```go
+  //客户端
+  func main() {
+  	//与服务端创建连接
+  	client,err := rpc.DialHTTP("tcp","127.0.0.1:8080")
+  	if err != nil { return }
+  	defer func() {
+  		_ = client.Close()
+  	}()
+  	//调用server端提供的服务，三个参数分别是提供服务的方法，方法的入参，方法的返回
+  	var output string
+  	err = client.Call("User.SayHello","张三",&output)
+  	fmt.Println("结果为：",output)
+  }
+  ```
+  
+  ```go
+  //服务端
+  type User struct {}
+  
+  func (u *User) SayHello(input string, output *string) error {
+  	*output =  "hello, " + input
+  	return nil
+  }
+  
+  func main() {
+  	usr := new(User)
+  	//把usr对象注册到rpc服务中
+  	_ = rpc.Register(usr)
+  	//把usr提供的服务注册到HTTP协议上
+  	rpc.HandleHTTP()
+  	//监听tcp连接
+  	listener,err := net.Listen("tcp","127.0.0.1:8080")
+  	if err != nil { return }
+  	//接收到监听器后服务启动
+  	_ = http.Serve(listener, nil)
+  }
+  ```
+  
+  > 注意：对外暴露的服务方法定义标准
+  >
+  > 1、对外暴露的方法有且只能有两个参数，这两个参数只能是输出类型或内建类型，两种类型中的一种。
+  > 2、方法的第二个参数必须是指针类型。
+  > 3、方法的返回类型为error。
+
+### grpc安装使用
+
+1. `git clone https://github.com/grpc/grpc-go.git`，然后把文件夹grpc-go的名字改为grpc
+
+2. `protoc hello.proto --go_out=plugins=grpc:. `，proto文件如下
+
+   ```protobuf
+   service TestService {								//服务端注册的就是这个service
+       rpc SayHello(HelloReq) returns (HelloResp) {}; //接收请求返回响应，固定写法，服务端实现的就是这个方法
+   }
+   message HelloReq {
+       string name = 1;
+   }
+   message HelloResp {
+       string ret = 1;
+   }
+   ```
+
+3. 服务端
+
+   ```go
+   //主要注意点：8行，15 16行，23 24行，30行
+   package main
+   
+   import (
+   	"context"
+   	"fmt"
+   	"google.golang.org/grpc"
+   	hello "grpc_protobuf"
+   	"net"
+   	"net/http"
+   )
+   
+   type User struct {}
+   
+   func (s *User) SayHello(ctx context.Context, input *hello.HelloReq) (output *hello.HelloResp,err error){
+   	output = &hello.HelloResp{
+   		Ret: "hello, " + input.Name,
+   	}
+   	return
+   }
+   
+   func main() {
+   	server := grpc.NewServer()
+   	hello.RegisterTestServiceServer(server,&User{})
+   	listener,err := net.Listen("tcp","127.0.0.1:8080")
+   	if err != nil { return }
+       _ = server.Serve(listener,nil)	//不能用http.Serve()，否则会报connection closed错误
+   }
+   ```
+
+4. 客户端
+
+   ```go
+   func main() {
+   	//WithInsecure：跳过证书的验证
+   	conn,err := grpc.Dial("127.0.0.1:8080",grpc.WithInsecure())
+   	if err != nil { return }
+   	client := hello.NewTestServiceClient(conn)
+   	resp, err := client.SayHello(context.Background(),&hello.HelloReq{
+   		Input: "张三",
+   	})
+   	if err != nil { return }
+   	fmt.Println(resp.Output)
+   }
+   ```
 
 ## consul
 
-> 服务发现、健康检查、安全服务通信
+> 介绍：一个开源工具，是一个用来实现分布式系统的服务发现与配置的开源工具
+>
+> 特性：服务发现、健康检查、键值对存储、多数据中心等
+>
+> 术语：代理是consul集群中每个成员的守护进程；数据中心是一个私有、低延迟和高带宽的网络环境
 
-## micro框架
+### 安装使用
 
-> 
+1. 下载后把exe放到`gopath/bin`下即可
+
+2. ==配置conf.json==（服务注册）
+
+   >  checks配置完成后启动consul，然后启动server.go即可把此server注册到consul的service中了
+
+   ```json
+   {
+       "service":{
+           id:节点id，name相同时靠id区分
+           name:节点name，UI界面最外层的区分依据
+           address:节点IP
+           port:节点端口
+           tags:节点标签，是个列表
+           checks:服务检查
+           //如下是TCP+ Interval方式，还有HTTP+ Interval和Script+ Interval的方式
+           [{
+               {	//一般只配置tcp和interval（每隔多少秒检查一次）就行
+                   "id": "ssh",
+                   "name": "SSHTCP on port 22",
+                   "tcp": "192.168.0.105:8080",
+                   "interval": "10s",
+                   "timeout": "1s"
+               }
+           }
+       }
+   }
+   
+   //datacenter：同命令行参数-datacenter；data_dir：同命令行参数-data_dir；bootstrap：同命令行参数-bootstrap；bootstrap_expect：同命令行参数-bootstrap_expect；bind_addr：同命令行参数-bind；enable_syslog：同命令行参数-syslog；log_level：同命令行参数-log_level；node_name：同命令行参数node；server：是否是server节点
+   ```
+
+3. 启动consul：要使用consul必须运行agent，它可以运行为server或client模式，每个数据中心至少一个server，一般一个集群3~5个server
+
+   ```powershell
+   #启动服务端，可以多起几个，其中一个server的ip和集群的ip相同
+   consul agent -server -bootstrap-expect 5 -data-dir /tmp/consul -node=s1 -bind=192.168.0.110 -ui -rejoin -client 0.0.0.0 -join 192.168.0.105
+   
+   #启动客户端：不用加-bootstrap、-server和-client
+   consul agent -data-dir /tmp/consul -node=c1 -bind=192.168.0.116 -ui -rejoin -join 192.168.0.105
+   
+   consul members		#查看成员
+   consul leave		#停止agent
+   consul kv get <key>	#查看键值对
+   ```
+
+- ==命令行参数介绍==
+    - server ：定义agent运行在server模式
+    - bootstrap-expect ：在一个datacenter中期望提供的server节点数目，当该值提供的时候，consul一直等到达到指定sever数目的时候才会引导整个集群
+    - data-dir=/tmp/consul：数据存放目录，windows是在c:\tmp\consul
+    - node=s1 节点在集群中的名称，在一个集群中必须是唯一的，默认是该节点的主机名
+    - bind：该服务器节点名,该地址用来在集群内部的通讯，集群内的所有节点到地址都必须是可达的，默认是0.0.0.0
+    - -ui：能使用ui界面
+    - rejoin：使consul忽略先前的离开，在再次启动后仍旧尝试加入集群中。
+    - `config-dir`：配置文件目录，里面所有以.json结尾的文件都会被加载。一般都要按配置文件启动
+    - client：consul服务侦听地址，这个地址提供HTTP、DNS、RPC等服务，默认是127.0.0.1所以不对外提供服务，如果你要对外提供服务改成0.0.0.0
+    - join：节点要加到哪个集群中，后面跟集群的ip（如本机ip）（可以在server都启动后再统一consul join把几个节点的ip都加进来，但要先启动和集群ip一样的那个server）
+
+- ui界面介绍(127.0.0.1:8500)
+
+  - Services：所有的服务（以配置文件中的name区分）
+  - Nodes:所有的节点，包括服务端和客户端，以及健康情况
+  - Key/Value：进行Consul KV的管理，使用命令consul kv get username可以获取key
+  - ACL：访问控制列表，对UI、API、CLI以及服务通信进行安全上的保证，用于生产环境
+  - Intentions：可以通过此页面对Intention进行增删改查的操作
+
+- consul members查看到的字段介绍
+
+  | Node | Address        | Status | Type   | Build | Protocol | DC       | Segment |
+  | ---- | -------------- | ------ | ------ | ----- | -------- | -------- | ------- |
+  | 节点 | 地址           | 状态   | 类型   | 版本  | 协议     | 数据中心 | 分管    |
+  | s1   | 127.0.0.1:8301 | alive  | server | 1.9.5 | 2        | dc1      | all     |
+
+- ==leader职责==
+
+  - 同步注册信息给其他server
+  - 负责各节点的健康检查
+
+4. 各个服务器上的consul启动后，继续启动各个服务器上的server.go。把client.go放到以client方式启动consul的服务器上，并在client.go中添加服务发现的代码
+
+   > client端能获取所有服务地址，当健康检查发现一个service挂掉后，client能切换到健康的节点上去
+
+     ~~实现方法一：每个服务器都启动一个server，把所有节点的ip放进数组中，client中遍历数组进行拨号连接~~
+
+     ==实现方法二==：用consul提供的方法，过滤掉不健康的（还可以加其他过滤条件，如使用量等），client只连接健康的
+
+   ```go
+   //在grpc章节的client实现的基础上新增如下
+   config := api.DefaultConfig()
+   config.Address = "127.0.0.1:8500"
+   
+   var waitIndex uint64
+   cliApi, _ := api.NewClient(config)
+   //获取符合筛选条件的所有服务实体。
+   //前三个参数分别是配置文件中的name、tag，和"是否只保留通过筛选的服务"
+   services,_,_ := cliApi.Health().Service("sayHello","sayhello",true,&api.QueryOptions{
+       WaitIndex: waitIndex,
+   })
+   //services[0]还可以获得Node、Checks的具体信息
+   url := fmt.Sprintf("%v:%v",services[0].Service.Address,services[0].Service.Port)
+   
+   //WithInsecure：跳过证书的验证
+   conn,err := grpc.Dial(url,grpc.WithInsecure())
+   ```
+
+5. 最后把consul设为自启动即可
+
+## micro
+
+> 一个采用了微服务体系结构模式的开源框架，隐藏了分布式系统的复杂性
+
+### 使用
+
+1. `git clone https://github.com/micro/micro.git`，然后`go build`，把exe放到`gopath/bin`下
+2. `micro new micro_project`，然后去
 
 ## docker部署
 
