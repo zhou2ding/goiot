@@ -41,7 +41,7 @@ func main() {
 	// port, _ := beego.AppConfig.Int("httpport") //就是固定读取的app.conf，改名的话就读取不到
 
 	// xsrf配置，也可在app.conf中设置
-	// beego.BConfig.WebConfig.EnableXSRF = true
+	beego.BConfig.WebConfig.EnableXSRF = true
 	// 设为true后，POST请求时必须携带xsrf参数
 	// 接上，携带方法：先在html增加一个post表单和submit，然后在Get方法中增加：
 	// （1）t.Data["xsfrdata"] = template.HTML(t.XSRFFormHTML())
@@ -51,6 +51,8 @@ func main() {
 	// beego.BConfig.WebConfig.XSRFExpire = 4800                                    //默认值3600秒
 
 	beego.BConfig.MaxMemory = 1 << 22 //文件上传后是放在系统的内存里，设置缓存中的内存大小
+
+	// beego.BConfig.WebConfig.TemplateLeft = "(("	//修改模板文件的标识符{{，改为((
 
 	beego.BConfig.WebConfig.Session.SessionOn = true //配置文件中也可配置
 	// beego.BConfig.WebConfig.Session.SessionGCMaxLifetime = 4800 // 其他session配置

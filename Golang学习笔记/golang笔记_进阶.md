@@ -655,10 +655,22 @@ func main() {
 
 > 一个采用了微服务体系结构模式的开源框架，隐藏了分布式系统的复杂性
 
+### 命令
+
+```powershell
+ new命令：
+   --namespace "go.micro"	Namespace for the service e.g com.example
+   --type "srv"				Type of service e.g api, fnc, srv, web
+   --fqdn					全限定域名
+   --alias					给项目名称起别名
+   --plugin [--plugin option --plugin option]
+```
+
 ### 使用
 
 1. `git clone https://github.com/micro/micro.git`，然后`go build`，把exe放到`gopath/bin`下
-2. `micro new micro_project`，然后去
+2. `micro new micro_project`，然后去//.
+3. 
 
 ## docker部署
 
