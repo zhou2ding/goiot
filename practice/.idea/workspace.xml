@@ -2,24 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6fe987a7-4425-4636-b2a1-7a6965ebf0a2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/practice.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Golang学习笔记/beego_project/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/../Golang学习笔记/beego_project/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Golang学习笔记/golang笔记_进阶.md" beforeDir="false" afterPath="$PROJECT_DIR$/../Golang学习笔记/golang笔记_进阶.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../excercise/micro_demo/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../excercise/micro_demo/Dockerfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../excercise/micro_demo/Makefile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../excercise/micro_demo/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../excercise/micro_demo/generate.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../excercise/micro_demo/go.mod" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../excercise/micro_demo/handler/micro_demo.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../excercise/micro_demo/main.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../excercise/micro_demo/micro.mu" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../excercise/micro_demo/proto/micro_demo.proto" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,6 +53,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />

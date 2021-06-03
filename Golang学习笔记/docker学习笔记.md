@@ -313,15 +313,11 @@ rm -rf /var/lib/docker # 删除资源
 
 - `docker history 镜像id`：查看镜像的构建过程
 
->  docker可视化（不推荐用）
->
->  - `portainer`提供一个后台面板供我们操作
->
->  - ```shell
->   docker run -d -p 8088:9000 \
->   --restart=always -v /var/run/docker.sock:/var/run/docker.sock --privileged=true portainer/portainer
->   ```
->  - 然后访问`https://linux的ip:8088`
+- 保存导入
+
+  - 把容器导出为tar：`docker export container id/name  > latest.tar`
+  - 把镜像保存为tar：` docker save nginx > nginx.tar`
+  - import和load则为导入和加载
 
 ## 小结
 
@@ -398,13 +394,19 @@ docker commit -m="提交的描述信息" -a"作者" 容器id 目标镜像名:TAG
 
 - 挂载的时候指定了宿主机的目录
 
-### 具名挂载
+  `docker run -v 主机目录:容器目录 xxx`：容器目录带`/`
 
-- 挂载的时候指定了卷名，不指定本机的目录（即没有`/`这个代表路径的符号）
+### 具名挂载（指定卷名）
+
+- 挂载的时候指定了卷名，不指定本机的目录：卷名不带`/`
+
+  `docker run -v 卷名:容器目录 xxx`
 
 ### 匿名挂载
 
 - 挂载的时候不指定本机的目录，也不指定卷名，只写了容器内的目录（最终的卷名是一堆哈希值）
+  - `docker run -v 主机目录:容器目录 xxx`
+  - `docker run -v 容器目录 xxx`
 
 ## 挂载方式2（常用）
 

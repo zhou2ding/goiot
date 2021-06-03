@@ -73,7 +73,7 @@
 
     | 字符串 | text,keyword（keyword类型的字符串不会被分词器解析）          |
     | ------ | ------------------------------------------------------------ |
-    | 数值   | long,integer,shord,byte,double,float,half floatm,scaled float |
+    | 数值   | long,integer,short,byte,double,float,half float,scaled float |
     | 日期   | date                                                         |
     | 布尔   | boolean                                                      |
     | 二进制 | binary                                                       |
