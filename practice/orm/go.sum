@@ -1,0 +1,6 @@
+github.com/go-orm/gorm v0.0.0-20161201081620-eb06255b667d h1:IWcTZUmcTWWnRyJKCOKuB1/NUNC6fIZ3UmT1Cmpc844=
+github.com/go-orm/gorm v0.0.0-20161201081620-eb06255b667d/go.mod h1:HY3HXpKSQoOpQnJ7fE44qIjWV69C9Q5Z6poQAtbeMX8=
+github.com/go-sql-driver/mysql v1.6.0 h1:BCTh4TKNUYmOmMUcQ3IipzF5prigylS7XXjEkfCHuOE=
+github.com/go-sql-driver/mysql v1.6.0/go.mod h1:DCzpHaOWr8IXmIStZouvnhqoel9Qv2LBy8hT2VhHyBg=
+github.com/jinzhu/inflection v1.0.0 h1:K317FqzuhWc8YvSVlFMCCUb36O/S9MCKRDI7QkRKD/E=
+github.com/jinzhu/inflection v1.0.0/go.mod h1:h+uFLlag+Qp1Va5pdKtLDYj+kHp5pxUVkryuEj+Srlc=
