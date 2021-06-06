@@ -1,15 +1,13 @@
 package main
 
 import (
-	"database/sql"
-	"fmt"
 	"github.com/go-orm/gorm"
 	_ "github.com/go-orm/gorm/dialects/mysql"
 )
 
 type User struct {
 	Id   int64
-	Name sql.NullString	`gorm:"default:'张三'"`
+	Name string
 	Age  int64
 }
 
@@ -24,9 +22,10 @@ func main() {
 		panic(err)
 	}
 	defer db.Close()
+	db.LogMode(true)
 
 	////2. 模型迁移
-	//db.AutoMigrate(&User{})
+	db.AutoMigrate(&User{})
 	//
 	////3. 插入数据
 	//u := User{Name: sql.NullString{String: "张三", Valid: true},Age: 18}
@@ -35,10 +34,12 @@ func main() {
 	//db.Create(&User{Name: sql.NullString{String: "李四", Valid: true},Age: 23})
 
 	//4. 查询
-	var usrs []User
-	db.Debug().Select("name,age").Find(&usrs)
-	var usr2 User
-	db.Table("user_info").Select("name").Where("name=?","李四").Scan(&usr2)
-	fmt.Println("usrs: ",usrs)
-	fmt.Println(usr2)
+	//var usrs []User
+	//db.Debug().Select("name,age").Find(&usrs)
+	//var usr2 User
+	//db.Table("user_info").Select("name").Where("name=?","李四").Scan(&usr2)
+	tb := db.Table("user_info")
+	//5. 修改
+	usr := User{Id: 1}
+	tb.Model(&usr).Updates(User{Age: 123})
 }

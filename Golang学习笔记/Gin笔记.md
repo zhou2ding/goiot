@@ -177,7 +177,7 @@ func json2(c. *gin.Context) {
 	}
     c.JSON(200,data)
 }
-func man() {
+func main() {
     r := gin.Default()
     r.GET("/json",json)
     r.GET("/json2",json2)
@@ -787,6 +787,7 @@ type User struct {
   Name string
   Age  sql.NullInt64  // sql.NullInt64 实现了 Scanner/Valuer 接口
 }
+db.Where(&User{Name: "jinzhu", Age: sql.NullInt64{0,true}}).Find(&users)
 ```
 
 ### Not 条件
@@ -1104,7 +1105,7 @@ db.Joins("JOIN emails ON emails.user_id = users.id AND emails.email = ?", "jinzh
 
 ### Pluck
 
-Pluck，查询 model 中的一个列作为切片，如果您想要查询多个列，您应该使用 [`Scan`](https://www.liwenzhou.com/posts/Go/gorm_crud/#Scan)
+Pluck，查询 model 中的一个列作为切片
 
 ```go
 var ages []int64
@@ -1234,6 +1235,10 @@ SELECT count(*) FROM users WHERE name LIKE 'jinzhu%'
 
 ## 更新
 
+> DML语句要么是db.Table()要么是db.Model()，否则操作数据的时候找不到对应的表
+>
+> 用db.Model()是，传进来的对象如果为空或没有给ID赋值，则是对所有数据进行操作。想指定操作某条数据的话就给ID赋值或先查询，把查到的数据扔进此对象，再去操作指定的数据
+
 ### 更新所有字段
 
 `Save()`默认会更新该对象的所有字段，即使你没有赋值。
@@ -1253,28 +1258,28 @@ db.Save(&user)
 如果你只希望更新指定字段，可以使用`Update`或者`Updates`
 
 ```go
-// 更新单个属性，如果它有变化
-db.Model(&user).Update("name", "hello")
-//// UPDATE users SET name='hello', updated_at='2013-11-17 21:34:10' WHERE id=111;
+// 更新单个属性，如果它有变化，model里的结构体必须所有字段都有值
+db.Model(&User{}).Update("name", "hello")
+//// UPDATE users SET name='hello', updated_at='2013-11-17 21:34:10';
 
 // 根据给定的条件更新单个属性
-db.Model(&user).Where("active = ?", true).Update("name", "hello")
-//// UPDATE users SET name='hello', updated_at='2013-11-17 21:34:10' WHERE id=111 AND active=true;
+db.Model(&User{}).Where("active = ?", true).Update("name", "hello")
+//// UPDATE users SET name='hello', updated_at='2013-11-17 21:34:10' WHERE active=true;
 
 // 使用 map 更新多个属性，只会更新其中有变化的属性
-db.Model(&user).Updates(map[string]interface{}{"name": "hello", "age": 18, "active": false})
-//// UPDATE users SET name='hello', age=18, active=false, updated_at='2013-11-17 21:34:10' WHERE id=111;
+db.Model(&User{}).Updates(map[string]interface{}{"name": "hello", "age": 18, "active": false})
+//// UPDATE users SET name='hello', age=18, active=false, updated_at='2013-11-17 21:34:10' WHERE;
 
 // 使用 struct 更新多个属性，只会更新其中有变化且为非零值的字段
-db.Model(&user).Updates(User{Name: "hello", Age: 18})
-//// UPDATE users SET name='hello', age=18, updated_at = '2013-11-17 21:34:10' WHERE id = 111;
+db.Model(&User{}).Updates(User{Name: "hello", Age: 18})
+//// UPDATE users SET name='hello', age=18, updated_at = '2013-11-17 21:34:10' WHERE;
 
 // 警告：当使用 struct 更新时，GORM只会更新那些非零值的字段
 // 对于下面的操作，不会发生任何更新，"", 0, false 都是其类型的零值
-db.Model(&user).Updates(User{Name: "", Age: 0, Active: false})
+db.Model(&User{}).Updates(User{Name: "", Age: 0, Active: false})
 ```
 
-### 更新选定字段
+### 更新选定字段(给了多个要更新的字段，又不想对这些字段全部更新)
 
 如果你想更新或忽略某些字段，你可以使用 `Select`，`Omit`
 
@@ -1358,7 +1363,7 @@ db.Model(&user).Set("gorm:update_option", "OPTION (OPTIMIZE FOR UNKNOWN)").Updat
 
 ## 删除
 
-### 删除记录
+### 用结构体对象删除
 
 **警告** 删除记录时，请确保主键字段有值，GORM 会通过主键去删除记录，如果主键为空，GORM 会删除该 model 的所有记录。
 
@@ -1372,7 +1377,7 @@ db.Set("gorm:delete_option", "OPTION (OPTIMIZE FOR UNKNOWN)").Delete(&email)
 //// DELETE from emails where id=10 OPTION (OPTIMIZE FOR UNKNOWN);
 ```
 
-### 批量删除
+### 用where删除
 
 删除全部匹配的记录
 

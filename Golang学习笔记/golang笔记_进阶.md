@@ -333,8 +333,7 @@ message Hello {
     string name = 1;				//字段值只能是数字：表示字段的编号；19000~19999之间的不能用，是预留的
     int32 age = 2;					//字段类型有string、int32、int64等，或其他message类型
     optional string addr = 3;
-    //required int64 phone = 4;
-    repeated addr hobbies = 3;
+    repeated addr hobbies = 4;
     RetHello ret = 6;
 }
 message RetHello {
