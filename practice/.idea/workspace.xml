@@ -2,9 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6fe987a7-4425-4636-b2a1-7a6965ebf0a2" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../Golang学习笔记/Gin笔记.md" beforeDir="false" afterPath="$PROJECT_DIR$/../Golang学习笔记/Gin笔记.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lesson199/go.mod" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lesson199/go.sum" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lesson199/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Golang学习笔记/golang笔记_进阶.md" beforeDir="false" afterPath="$PROJECT_DIR$/../Golang学习笔记/golang笔记_进阶.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Golang学习笔记/redis笔记.md" beforeDir="false" afterPath="$PROJECT_DIR$/../Golang学习笔记/redis笔记.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/orm/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/orm/main.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,7 +52,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../../go-code/src/bubble" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="go.vgo" />
   </component>
   <component name="RecentsManager">

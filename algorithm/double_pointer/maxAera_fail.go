@@ -1,5 +1,6 @@
 // 11. 盛最多水的容器
 // https://leetcode-cn.com/problems/container-with-most-water/
+// 自己写的暴力解法超时，过了53 / 60 个测试用例
 
 package main
 
@@ -8,7 +9,7 @@ import (
 	"sort"
 )
 
-func maxArea(height []int) int {
+func maxAreaFail(height []int) int {
 	var (
 		ret int
 		maxVolume int

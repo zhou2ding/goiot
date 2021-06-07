@@ -1,5 +1,11 @@
 package main
 
+import (
+	"fmt"
+	"time"
+)
+
 func main() {
-	$END$
+	start := time.Now()
+	fmt.Println(time.Since(start).String())
 }
