@@ -685,3 +685,5 @@ sarama
 
 go get github.com/360EntSecGroup-Skylar/excelize
 
+go get -u go.uber.org/zap
+
