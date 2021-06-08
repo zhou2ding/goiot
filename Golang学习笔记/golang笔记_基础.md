@@ -1780,7 +1780,7 @@ func TestSplit(t *testing.T) {
   }
   ```
 
-# tags
+# IDEA相关
 
 - vscode添加快捷函数：`ctrl+shift+p` -> `snippets`->`go.json`
 
@@ -1815,8 +1815,50 @@ func TestSplit(t *testing.T) {
   
 - goland快捷键：`ctrl+shift+F10`（运行光标所在的文件），`shift+F10`（运行上次运行的文件），`ctrl+shift+方向键`（移动选中的代码块）,`ctrl+shift+"-"`折叠所有代码块，`ctrl+"+"`打开折叠的代码块
 
-![image-20210608105610382](golang笔记_基础.assets/image-20210608105610382.png)
+- 开始前添加如下两个工具，添加失败可以`go get -u -v golang.org/x/tools/cmd/goimports`
 
+  ![image-20210608185548027](golang笔记_基础.assets/image-20210608185548027.png)
+
+- IDEA连接mysql
+
+  - 设置代理
+
+    ![image-20210608185341873](golang笔记_基础.assets/image-20210608185341873.png)
+
+  - 添加并下载mysql驱动
+
+    ![image-20210608185413455](golang笔记_基础.assets/image-20210608185413455.png)
+
+    ![image-20210608185448913](golang笔记_基础.assets/image-20210608185448913.png)
+
+  - 修改mysql时区
+
+    ```mysql
+    # 设置全局时区 mysql> set global time_zone = '+8:00';
+    Query OK, 0 rows affected (0.00 sec) 
+    # 设置时区为东八区 mysql> set time_zone = '+8:00'; 
+    Query OK, 0 rows affected (0.00 sec) 
+    # 刷新权限使设置立即生效 mysql> flush privileges; 
+    Query OK, 0 rows affected (0.00 sec)
+    mysql> show variables like '%time_zone%';
+     +------------------+--------+
+     | Variable_name | Value |
+     +------------------+--------+
+     | system_time_zone | EST |
+     | time_zone | +08:00 | 
+     +------------------+--------+
+     2 rows in set (0.00 sec)
+    ```
+
+  - 在url后添加：?serverTimezone=GMT%2B8
+
+    ![image-20210608185255699](golang笔记_基础.assets/image-20210608185255699.png)
+
+- 自定义代码补全
+
+  ![image-20210608221342532](golang笔记_基础.assets/image-20210608221342532.png)
+
+  ![image-20210608221357592](golang笔记_基础.assets/image-20210608221357592.png)
 
 # 面试题
 

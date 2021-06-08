@@ -691,5 +691,9 @@ go get -u github.com/spf13/viper
 go get -u -v golang.org/x/tools/cmd/goimports
 go get -u -v golang.org/x/lint/golint
 go get -u -v github.com/golangci/golangci-lint/cmd/golangci-lint
+
+github.com/go-playground/locales
+github.com/go-playground/universal-translator
+github.com/go-playground/validator/v10
 ```
 
