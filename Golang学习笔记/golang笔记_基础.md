@@ -1815,6 +1815,8 @@ func TestSplit(t *testing.T) {
   
 - goland快捷键：`ctrl+shift+F10`（运行光标所在的文件），`shift+F10`（运行上次运行的文件），`ctrl+shift+方向键`（移动选中的代码块）,`ctrl+shift+"-"`折叠所有代码块，`ctrl+"+"`打开折叠的代码块
 
+![image-20210608105610382](golang笔记_基础.assets/image-20210608105610382.png)
+
 
 # 面试题
 

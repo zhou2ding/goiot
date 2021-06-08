@@ -677,6 +677,7 @@ func main() {
 
 # 第三方库
 
+```csharp
 go get github.com/mojocn/base64Captcha
 
 sarama
@@ -684,6 +685,11 @@ sarama
 日志收集项目中补充
 
 go get github.com/360EntSecGroup-Skylar/excelize
-
 go get -u go.uber.org/zap
+go get -u github.com/natefinch/lumberjack
+go get -u github.com/spf13/viper
+go get -u -v golang.org/x/tools/cmd/goimports
+go get -u -v golang.org/x/lint/golint
+go get -u -v github.com/golangci/golangci-lint/cmd/golangci-lint
+```
 

@@ -8,7 +8,7 @@ func login(w http.ResponseWriter, r *http.Request){
 //ListenAndServe监听端口，接收两个参数：ip端口；一个handler(一般置为nil)
 func main() {
     _,_ = http.HandleFunc("/login",login)
-    http.ListenAndServe("127.0.0.1:8080",nil)
+    http.ListenAndServe("127.0.0.1:8080",handler)
 }
 ```
 
