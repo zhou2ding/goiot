@@ -115,6 +115,40 @@
 >
 > 恰恰是由于关闭浏览器不会导致session被删除，迫使服务器为seesion设置了一个失效时间，一般是30分钟，当距离客户端上一次使用session的时间超过这个失效时间时，服务器就可以认为客户端已经停止了活动，才会把session删除以节省存储空间
 
+> ==Session的缺陷==
+>
+> ![image-20210609162432999](web基础.assets/image-20210609162432999.png)
+>
+> ==Token代替Session==
+>
+> ![image-20210609162504486](web基础.assets/image-20210609162504486.png)
+>
+> ![image-20210609162549571](web基础.assets/image-20210609162549571.png)
+>
+> ==Token的优势==
+>
+> ![image-20210609162709414](web基础.assets/image-20210609162709414.png)
+
+# JWT
+
+![image-20210609162824075](web基础.assets/image-20210609162824075.png)
+
+![image-20210609163033525](web基础.assets/image-20210609163033525.png)
+
+![image-20210609163312377](web基础.assets/image-20210609163312377.png)
+
+![image-20210609163334362](web基础.assets/image-20210609163334362.png)
+
+![image-20210609163432436](web基础.assets/image-20210609163432436.png)
+
+# 解决JWT的缺点
+
+![image-20210609180616091](web基础.assets/image-20210609180616091.png)
+
+![image-20210609180624726](web基础.assets/image-20210609180624726.png)
+
+
+
 # URI URL
 
 > URL就是用定位的方式实现的URI

@@ -2,17 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6fe987a7-4425-4636-b2a1-7a6965ebf0a2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../Golang学习笔记/golang笔记_基础.assets/20200515233922.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Golang学习笔记/golang笔记_基础.assets/image-20210608185255699.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Golang学习笔记/golang笔记_基础.assets/image-20210608185341873.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Golang学习笔记/golang笔记_基础.assets/image-20210608185413455.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Golang学习笔记/golang笔记_基础.assets/image-20210608185448913.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Golang学习笔记/golang笔记_基础.assets/image-20210608185548027.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Golang学习笔记/golang笔记_基础.assets/image-20210608221342532.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Golang学习笔记/golang笔记_基础.assets/image-20210608221357592.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Golang学习笔记/golang笔记_基础.md" beforeDir="false" afterPath="$PROJECT_DIR$/../Golang学习笔记/golang笔记_基础.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Golang学习笔记/golang笔记_进阶.md" beforeDir="false" afterPath="$PROJECT_DIR$/../Golang学习笔记/golang笔记_进阶.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -58,7 +47,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../algorithm" />
     <property name="settings.editor.selected.configurable" value="go.vgo" />
   </component>
   <component name="RecentsManager">

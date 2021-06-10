@@ -695,5 +695,7 @@ go get -u -v github.com/golangci/golangci-lint/cmd/golangci-lint
 github.com/go-playground/locales
 github.com/go-playground/universal-translator
 github.com/go-playground/validator/v10
+    
+go get -u github.com/dgrijalva/jwt-go
 ```
 

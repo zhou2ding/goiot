@@ -716,6 +716,14 @@ func main() {
         fmt.Println(p2)
     }
     ```
+  
+- 小技巧
+
+  - 在struct tag中`json:"user_name,string"`，即可直接把其他类型转成string传给前端
+
+    > 有时后端的int64类型会超多js能接收的范围（如雪花算法生成id），Int64范围是-2^63^~2^63^-1，而js能接收的范围是-2^53^~2^53^-1，因此需要在后端转成string再给前端，有这个tag就不用手动strconv.FormatInt()
+
+  - `json:"user_name,omitempty"`是当此字段的值为空时，前端就不显示了
 
 # day3
 
