@@ -204,6 +204,7 @@
   zrem <key> <val>					#删除指定集合中val和它的score
   zcard <key>							#获取数量
   zcount <key> min max				#获取指定score区间范围的数量
+  zscore <key> <val>					#获取指定元素的分数
   ```
 
 # key的特殊数据类型

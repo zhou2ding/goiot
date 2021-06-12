@@ -677,25 +677,46 @@ func main() {
 
 # 第三方库
 
-```csharp
-go get github.com/mojocn/base64Captcha
+```bash
+#生成验证码图片
+go get -u github.com/mojocn/base64Captcha
 
-sarama
+#go操作kafka ES etcd
+go get -u github.com/Shopify/sarama	
+go get -u github.com/olivere/elastic
+go get -u github.com/etcd-io/etcd/clientv3
+#tail用来跟踪日志文件，每新增一行日志就往kafka写一条消息
+go get -u github.com/hpcloud/tail
 
-日志收集项目中补充
+#操作表格；解析ini配置文件
+go get -u github.com/360EntSecGroup-Skylar/excelize
+go get -u github.com/go-ini/ini
 
-go get github.com/360EntSecGroup-Skylar/excelize
+#goland的三个工具，goimports常用
+go get -u golang.org/x/tools/cmd/goimports
+go get -u golang.org/x/lint/golint
+go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
+
+
+#论坛项目
+#zap日志，luberjac分割日志文件，，
 go get -u go.uber.org/zap
 go get -u github.com/natefinch/lumberjack
+#viper读取配置
 go get -u github.com/spf13/viper
-go get -u -v golang.org/x/tools/cmd/goimports
-go get -u -v golang.org/x/lint/golint
-go get -u -v github.com/golangci/golangci-lint/cmd/golangci-lint
 
-github.com/go-playground/locales
-github.com/go-playground/universal-translator
-github.com/go-playground/validator/v10
-    
+#validator校验,locales和universal-translator把校验结果翻译成中文
+go get -u github.com/go-playground/validator/v10
+go get -u github.com/go-playground/locales/zh
+go get -u github.com/go-playground/locales/en
+go get -u github.com/go-playground/universal-translator
+
+#jwt（json web token），代替session的用户认证和鉴权，详见web基础.md
 go get -u github.com/dgrijalva/jwt-go
+#雪花算法
+go get -u github.com/bwmarrin/snowflake
+
+#swag生成接口文档
+go get -u github.com/swaggo/swag/cmd/swag
 ```
 

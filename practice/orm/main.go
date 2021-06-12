@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/go-orm/gorm"
 	_ "github.com/go-orm/gorm/dialects/mysql"
 )
@@ -25,7 +27,7 @@ func main() {
 	db.LogMode(true)
 
 	////2. 模型迁移
-	db.AutoMigrate(&User{})
+	// db.AutoMigrate(&User{})
 	//
 	////3. 插入数据
 	//u := User{Name: sql.NullString{String: "张三", Valid: true},Age: 18}
@@ -38,8 +40,19 @@ func main() {
 	//db.Debug().Select("name,age").Find(&usrs)
 	//var usr2 User
 	//db.Table("user_info").Select("name").Where("name=?","李四").Scan(&usr2)
-	tb := db.Table("user_info")
+	// tb := db.Table("user_info")
 	//5. 修改
-	usr := User{Id: 1}
-	tb.Model(&usr).Updates(User{Age: 123})
+	// usr := User{Id: 1}
+	// tb.Model(&usr).Updates(User{Age: 123})
+	sqlstr := `select * from user_info where id in(?) order by field(id,?);`
+	ids := []int{10, 4, 11, 1, 5, 33}
+	usr := make([]UserInfo, 0, 100)
+	db.Raw(sqlstr, ids, ids).Find(&usr)
+	fmt.Println(usr)
+}
+
+type UserInfo struct {
+	Id   int
+	Name string
+	Age  int
 }
