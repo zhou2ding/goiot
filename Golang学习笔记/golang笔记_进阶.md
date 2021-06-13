@@ -718,5 +718,11 @@ go get -u github.com/bwmarrin/snowflake
 
 #swag生成接口文档
 go get -u github.com/swaggo/swag/cmd/swag
+
+#支持跨域请求
+go get -u github.com/gin-contrib/cors
+
+#单元测试
+go get -u github.com/stretchr/testify/assert
 ```
 

@@ -3,13 +3,24 @@
 ## 常用命令
 
 - `go build`
+
 - `go build -o xxx`
+
 - `go mod init`
+
 - `go mod init xxx（文件夹）`
+
 - `go doc builtin.delete(函数名，builtin是内置函数的意思)`
-- 待补充
 
+- 完整部署命令
 
+  ```powershell
+  SET CGO_ENABLED=0
+  SET GOOS=linux
+  SET GOARCH=amd64
+  go build -ldflags "-s -w" -o myproject	#-ldflags "-s -w"是去掉符号表和调试信息 ，编译出来的二进制文件小点
+  #可继续使用upx对二进制文件进一步压缩
+  ```
 
 ## 引用类型
 
@@ -719,7 +730,7 @@ func main() {
   
 - 小技巧
 
-  - 在struct tag中`json:"user_name,string"`，即可直接把其他类型转成string传给前端
+  - 在struct tag中`json:"user_name,string"`，即可直接把其他类型转成string传给前端；而前端传来的必须是string
 
     > 有时后端的int64类型会超多js能接收的范围（如雪花算法生成id），Int64范围是-2^63^~2^63^-1，而js能接收的范围是-2^53^~2^53^-1，因此需要在后端转成string再给前端，有这个tag就不用手动strconv.FormatInt()
 
@@ -1004,6 +1015,12 @@ func assign(a interface{}) {
   s, _ = reader.ReadString('\n')
   fmt.Printf("你输入了:%s", s)
   ```
+
+==创建reader对象==
+
+```go
+bytes.NewReader([]byte(str))
+```
 
 ### seek
 

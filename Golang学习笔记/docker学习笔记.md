@@ -480,31 +480,51 @@ docker commit -m="提交的描述信息" -a"作者" 容器id 目标镜像名:TAG
 - 使用dockerfile来构建目标镜像，构建的结果是在当前目录下，版本号是可选的
 - dockerfile的国际通用命名`Dockerfile`，按这个命名的话就不需要`-f`参数了
 
-```shell
-FROM centos
-MAINTAINER zhou2ding<458405826@qq.com>
+```dockerfile
+# 分阶段构建，不需要依赖资源等等。先把构建过程作为builder
+FORM golang:alpine AS builder
 
-COPY readme.txt /usr/local/readme.txt
+# 环境变量
+ENV GO111MODULE=on \
+    CGO_ENABLED=0 \
+    GOOS=linux \
+    GOARCH=amd64 \
+    
+# 移动工作目录到/build
+WORKDIR /build
 
-ADD jdk-8u11-linux-x64.tar.gz /usr/local/
-ADD apache-tomcat-9.0.22.tar.gz /usr/local/
+# 把dockerfile所在目录的相关内容拷贝到镜像的当前目录（当前目录在上一步已移动到/build)
+COPY go.mod .
+COPY go.sum .
+RUN go mod download
 
-RUN yum -y install vim
-RUN yum -y install net-tools
+# docker run时跟的命令，指定可执行文件名为web_app，可执行文件在当前目录下
+RUN go build -o bluebell_app .
 
-ENV MYPATH /usr/local
-WORKDIR $MYPATH
+#创建一个小镜像，debian是为了执行wait-for.sh脚本
+FROM debian:stretch-slim
 
-ENV JAVA_HOME /usr/local/jdk1.8.0_11
-ENV CLASSPATH $JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
-ENV CATALINA_HOME /usr/local/apache-tomcat-9.0.22
-ENV CATALINA_BASH /usr/local/apache-tomcat-9.0.22
-ENV PATH $PATH:$JAVA_HOME/bin:$CATALINA_HOME/lib:$CATALINA_HOME/bin
+#拷贝静态资源，第四个是docker-compose.yaml中要执行的脚本
+COPY ./templates /templates
+COPY ./static /static
+COPY ./conf /conf
+COPY ./wait-for.sh /
 
-EXPOSE 8080
-CMD echo $MYPATH
-CMD echo "-----end-----"
-CMD /bin/bash
+#拷贝builder中编译好的可执行文件到镜像的根目录下
+COPY --from=builder /build/bluebell_app /
+
+#暴露端口
+EXPOSE 8888
+
+#执行wait-for.sh所需要的环境和配置
+RUN set -eux; \
+	apt-get update; \
+	apt-get install -y \
+		--no-install-recommends \
+		netcat; \
+		chmod 755 wait-for.sh
+		
+#ENTRYPOINT ["bluebell_app"] 不需要了，后续使用docker-compose up运行
 ```
 
 ### 发布
@@ -593,9 +613,135 @@ CMD /bin/bash
 - `docker network mynet1 containerB`
   - 连通之后，直接把`containerB`放到`mynet1`下，`docker network inspect mynet1`可以看到``containerB`的信息
 
-# IDEA整合Docker
-
 # Docker Compose
+
+除了像上面一样使用`--link`的方式来关联两个容器之外，我们还可以使用`Docker Compose`来定义和运行多个容器。
+
+`Compose`是用于定义和运行多容器 Docker 应用程序的工具。通过 Compose，你可以使用 YML 文件来配置应用程序需要的所有服务。然后，使用一个命令，就可以从 YML 文件配置中创建并启动所有服务。
+
+使用Compose基本上是一个三步过程：
+
+1. 使用`Dockerfile`定义你的应用环境以便可以在任何地方复制。
+2. 定义组成应用程序的服务，`docker-compose.yml` 以便它们可以在隔离的环境中一起运行。
+3. 执行 `docker-compose up`命令来启动并运行整个应用程序。
+
+我们的项目需要两个容器分别运行`mysql`和`bubble_app`，我们编写的`docker-compose.yml`文件内容如下：
+
+```yaml
+# yaml 配置
+version: "3.7"
+services:
+  mysql8019:
+    image: "mysql:8.0.19"
+  #端口，本机端口是33061，容器端口是3306
+    ports:
+      - "33061:3306"
+  #使用默认密码，使用init.sql进行数据库的初始化
+    command: "--default-authentication-plugin=mysql_native_password --init-file /data/application/init.sql"
+    environment:
+      MYSQL_ROOT_PASSWORD: "564710"
+      MYSQL_DATABASE: "bluebell"
+      MYSQL_PASSWORD: "564710"
+  #本地的init.sql挂载到容器中
+    volumes:
+      - ./init.sql:/data/application/init.sql
+      
+  redis507:
+  	image:"redis:5.0.7"
+  	ports:
+  		- "26379:6379"
+  bluebell_app:
+  #使用本地的dockerfile来构建
+    build: .
+  #执行脚本：等待mysql和redis都启动后，再启动bluebell
+    command: sh -c "./wait-for.sh mysql8019:3306 redis507:6379 -- ./bluebell_app ./conf/config.yaml"
+    depends_on:
+      - mysql8019
+      - redis507
+    ports:
+      - "8888:8888"
+```
+
+这个 Compose 文件定义了两个服务：`bubble_app` 和 `mysql8019`。其中：
+
+##### bubble_app
+
+使用当前目录下的`Dockerfile`文件构建镜像，并通过`depends_on`指定依赖`mysql8019`服务，声明服务端口8888并绑定对外8888端口。
+
+##### mysql8019
+
+mysql8019 服务使用 Docker Hub 的公共 mysql:8.0.19 镜像，内部端口3306，外部端口33061。
+
+这里需要注意一个问题就是，我们的`bubble_app`容器需要等待`mysql8019`容器正常启动之后再尝试启动，因为我们的web程序在启动的时候会初始化MySQL连接。这里共有两个地方要更改，第一个就是我们`Dockerfile`中要把最后一句注释掉：
+
+```dockerfile
+# Dockerfile
+...
+# 需要运行的命令（注释掉这一句，因为需要等MySQL启动之后再启动我们的Web程序）
+# ENTRYPOINT ["/bubble", "conf/config.ini"]
+```
+
+第二个地方是在`bubble_app`下面添加如下命令，使用提前编写的`wait-for.sh`脚本检测`mysql8019:3306`正常后再执行后续启动Web应用程序的命令：
+
+```bash
+command: sh -c "./wait-for.sh mysql8019:3306 -- ./bubble ./conf/config.ini"
+```
+
+当然，因为我们现在要在`bubble_app`镜像中执行sh命令，所以不能在使用`scratch`镜像构建了，这里改为使用`debian:stretch-slim`，同时还要安装`wait-for.sh`脚本用到的`netcat`，最后不要忘了把`wait-for.sh`脚本文件COPY到最终的镜像中，并赋予可执行权限哦。更新后的`Dockerfile`内容如下：
+
+```dockerfile
+FROM golang:alpine AS builder
+
+# 为我们的镜像设置必要的环境变量
+ENV GO111MODULE=on \
+    CGO_ENABLED=0 \
+    GOOS=linux \
+    GOARCH=amd64
+
+# 移动到工作目录：/build
+WORKDIR /build
+
+# 复制项目中的 go.mod 和 go.sum文件并下载依赖信息
+COPY go.mod .
+COPY go.sum .
+RUN go mod download
+
+# 将代码复制到容器中
+COPY . .
+
+# 将我们的代码编译成二进制可执行文件 bubble
+RUN go build -o bubble .
+
+###################
+# 接下来创建一个小镜像
+###################
+FROM debian:stretch-slim
+
+COPY ./wait-for.sh /
+COPY ./templates /templates
+COPY ./static /static
+COPY ./conf /conf
+
+
+# 从builder镜像中把/dist/app 拷贝到当前目录
+COPY --from=builder /build/bubble /
+
+RUN set -eux; \
+	apt-get update; \
+	apt-get install -y \
+		--no-install-recommends \
+		netcat; \
+        chmod 755 wait-for.sh
+
+# 需要运行的命令
+# ENTRYPOINT ["/bubble", "conf/config.ini"]
+```
+
+所有的条件都准备就绪后，就可以执行下面的命令跑起来了：
+
+```bash
+docker-compose up
+```
 
 # Docker Swarm
 
