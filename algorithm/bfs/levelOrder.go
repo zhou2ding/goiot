@@ -4,8 +4,8 @@
 package main
 
 type TreeNode struct {
-	Val int
-	Left *TreeNode
+	Val   int
+	Left  *TreeNode
 	Right *TreeNode
 }
 
@@ -22,14 +22,13 @@ func levelOrder(root *TreeNode) []int {
 		}
 		node = queue[0]
 		queue = queue[1:]
-		ret = append(ret,node.Val)
+		ret = append(ret, node.Val)
 		if node.Left != nil {
-			queue = append(queue,node.Left)
+			queue = append(queue, node.Left)
 		}
 		if node.Right != nil {
-			queue = append(queue,node.Right)
+			queue = append(queue, node.Right)
 		}
 	}
 	return ret
 }
-

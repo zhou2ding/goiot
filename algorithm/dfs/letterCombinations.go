@@ -18,7 +18,7 @@ func letterCombinations(digits string) []string {
 	if len(digits) == 0 {
 		return []string{}
 	}
-	ret = []string{}	// 全局变量，leetcode，要手动重新初始化一下
+	ret = []string{} // 全局变量，leetcode，要手动重新初始化一下
 	dfs(digits, 0, "")
 	return ret
 }
@@ -33,7 +33,7 @@ func dfs(digits string, index int, combination string) {
 	letterLen := len(letters)
 	for i := 0; i < letterLen; i++ {
 		tmp := combination + string(letters[i])
-		dfs(digits,index+1,tmp)
+		dfs(digits, index+1, tmp)
 	}
 }
 
