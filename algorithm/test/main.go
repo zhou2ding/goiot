@@ -7,6 +7,8 @@ import (
 	"time"
 )
 
+// 主程等待子协程指定时间，超时后就不等了
+
 var wg sync.WaitGroup
 
 func main() {
@@ -26,3 +28,4 @@ func f(ctx context.Context) {
 		return
 	}
 }
+
