@@ -126,6 +126,9 @@ $ git config -e [--global]
 # 设置提交代码时的用户信息
 $ git config [--global] user.name "[name]"
 $ git config [--global] user.email "[email address]"
+
+# git bash终端中文乱码
+$ git config --global core.quotepath false
 ```
 
 ## 增加/删除文件
