@@ -1884,6 +1884,8 @@ func TestSplit(t *testing.T) {
   ![image-20210608221342532](golang笔记_基础.assets/image-20210608221342532.png)
 
   ![image-20210608221357592](golang笔记_基础.assets/image-20210608221357592.png)
+  
+- 设置选中后高亮
 
 # 面试题
 
