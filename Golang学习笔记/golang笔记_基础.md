@@ -734,7 +734,11 @@ func main() {
 
     > 有时后端的int64类型会超多js能接收的范围（如雪花算法生成id），Int64范围是-2^63^~2^63^-1，而js能接收的范围是-2^53^~2^53^-1，因此需要在后端转成string再给前端，有这个tag就不用手动strconv.FormatInt()
 
-  - `json:"user_name,omitempty"`是当此字段的值为空时，前端就不显示了
+  - `json:"user_name,omitempty"`：当此字段的值为空时，前端就不显示了
+  
+  - `json:"-"`：忽略此字段
+  
+  - `json.RawMessage`：定义结构体时不确定此字段的类型，用它。在Unmarshal后此字段仍未`[]byte`，可继续Unmarshal
 
 # day3
 
@@ -1276,7 +1280,7 @@ type StructField struct {
       defer wg.done() //函数结束后，计数器减1
       ...
   }
-func main() {
+  func main() {
       for i := 0; i < 10; i++ {
           wg.Add(1) //开启一个goroutine前，先给计数器加1
           go f(i)
@@ -1284,7 +1288,6 @@ func main() {
       wg.Wait() //等待wg的计数器减为0
   }
   ```
-  
 
 ### GMP
 
