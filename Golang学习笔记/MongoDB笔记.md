@@ -27,6 +27,8 @@
   - `ObjectId()`：手动生成`_id`字段（或称为数据域）
     - 是MongoDB自动根据时间戳和机器码计算生成的，文档的唯一标识
     - 此属性可以自己指定，但最好不这样做
+  - `typeof db.<collection>.findOne().<field>`
+  - `db.<collection>.update({},{$rename:{old:"new"}},false,true)`
   
 - 插入
   - `db.createCollection("xxxx")`
@@ -243,7 +245,7 @@
   > 底层是B-Tree结构，mysql是B+Tree
 
   ```javascript
-db.student.createIndex({name:1,age:-1},{unique:true}) //创建一个name升序和age降序的复合索引，且是唯一索引
+  db.student.createIndex({name:1,age:-1},{unique:true}) //创建一个name升序和age降序的复合索引，且是唯一索引
   ```
   
   复制别人的博客
@@ -361,9 +363,10 @@ db.student.createIndex({name:1,age:-1},{unique:true}) //创建一个name升序�
   
   "stage" : "IXSCAN", 基于索引的扫描
   
+
 4.4.2 涵盖的查询
   当查询条件和查询的投影仅包含索引字段是, MongoDB 直接从索引返回结果, 而不扫描任何文档或将 带入内存, 这些覆盖的查询十分有效
-  
+
   https:#docs.mongodb.com/manual/core/query-optimization/#covered-query
   ```
   
