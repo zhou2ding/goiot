@@ -129,6 +129,9 @@ $ git config [--global] user.email "[email address]"
 
 # git bash终端中文乱码
 $ git config --global core.quotepath false
+
+# 报错fatal: the remote end hung up unexpectedly
+git config http.postBuffer 524288000
 ```
 
 ## 增加/删除文件
@@ -385,6 +388,23 @@ $ git revert [commit]
 暂时将未提交的变化移除，稍后再移入
 $ git stash
 $ git stash pop
+
+建立追踪关系的三种方式
+1.1 手动建立追踪关系
+ $ git branch --set-upstream-to=<远程主机名>/<远程分支名> <本地分支名>
+1
+1.2 push时建立追踪关系
+ $ git push -u <远程主机名> <本地分支名>
+1
+加上-u参数，这样push时，本地指定分支就和远程主机的同名分支建立追踪关系。
+
+1.3 新建分支时建立跟踪关系
+ $ git checkout -b <本地分支名> <远程主机名>/<远程分支名>
+1
+新分支指针指向 <远程主机名>/<远程分支名> 所指的位置。具体位置可用 git log --oneline --graph 查看。
+
+注意：
+使用 1 和 3 命令前要先确保本地有名为 <远程主机名>/<远程分支名> 的远程跟踪分支，没有就要先用 git fetch 或 git pull 命令从远程主机上抓取，抓取后自动产生。远程跟踪分支是远程分支状态的引用， 它们是你不能移动的本地引用。用 git branch 看不到，用 git branch -r 才可以看到。
 ```
 
 ### 其他

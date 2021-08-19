@@ -137,6 +137,13 @@
 - `yum remove 软件全名`：卸载
 - `yum -y installed 软件名`：安装，不手动确认了
 
+# 环境变量
+
+- env，export，或者echo $path,来查看当前环境变量的值
+- export PATH=$PATH:/要添加的路径
+- export PATH=/要添加的路径$PATH
+- 修改/ect/profile后，`source ~/.bashrc`，`source ~/.profile`
+
 # 常用命令
 
 > 所有的文件名、目录名都有相对和绝对两种写法
@@ -153,6 +160,8 @@
 - `man <command>`，`help <command>`，`<command> --help`
 
 - `uname -r`查看内核版本
+
+- `lsb_release -a`查看发行版本
 
 - `ifconfig`查看ip地址
 
@@ -172,7 +181,7 @@
 
 - `head`查看文件的头10行，加`-n 3`则是显示头3行
 
-- `ttail`查看文件的后10行，其余类似
+- `tail`查看文件的后10行，其余类似
 
 - `echo`输出系统变量或某常量的值，`$`表示引用某变量/常量（`echo $path`）；输出字符串到控制台`echo hello`
 
