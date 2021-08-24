@@ -132,6 +132,9 @@ $ git config --global core.quotepath false
 
 # 报错fatal: the remote end hung up unexpectedly
 git config http.postBuffer 524288000
+
+# 忽略chmod引起的变化
+git config --add core.filemode false
 ```
 
 ## 增加/删除文件
