@@ -66,9 +66,11 @@
   
 - 查询
   - `db.<collection>.find()`或`db.<collection>.find({})`：查询所有文档
+  
   - `db.<collection>.find({<field>:"<value>"})`
     - 查询所有符合此条件的文档，有多个条件时在大括号中用逗号隔开
     - 返回的是一个数组，可以根据数组下标获取数组中的文档
+    
   - `db.<collection>.findOne({<field>:"<value>"})`
     - 查询符合此条件的第一个文档，返回的是一个文档对象
     
@@ -81,6 +83,7 @@
           age:{$gt:50}
           })
       ```
+    
   - `db.<collection>.find().count()`或`db.<collection>.find().length()`返回查询结果的数量，一般用`count()`
   
 - 修改
@@ -248,8 +251,29 @@
   db.student.createIndex({name:1,age:-1},{unique:true}) //创建一个name升序和age降序的复合索引，且是唯一索引
   ```
   
-  复制别人的博客
-  
+# 命令汇总
+
+```javascript
+// 根据ID查询
+db.<collections>.find({"_id":ObjectId("612f161091c1255d1ec93fdc")})
+
+// 嵌套查询
+db.<collections>.find({"user.name":"张三"})
+
+// 分组查询
+
+// 批量操作
+db.<collections>.bulkWrite([
+{updateOne :{"filter": {"_id":ObjectId("612f161091c1255d1ec93fdc")},"update":{$set:{phone:2}}}},
+{updateOne :{"filter": {"_id":ObjectId("612f161091c1255d1ec93fdd")},"update":{$set:{phone:2}}}},
+{updateOne :{"filter": {"_id":ObjectId("612f161091c1255d1ec93fde")},"update":{$set:{phone:2}}}},
+{updateOne :{"filter": {"_id":ObjectId("612f161091c1255d1ec93fde")},"update":{$set:{phone:2}}}},
+])
+```
+
+
+
+
   ```shell
   4.1 概述
   索引支持在 MongoDB 中高效地执行查询.如果没有索引, MongoDB 必须执行全集合扫描, 即扫描集合中的每个文档, 以选择与查询语句 匹配的文档.这种扫描全集合的查询效率是非常低的, 特别在处理大量的数据时, 查询可以要花费几十秒甚至几分钟, 这对网站的性能是非常致命的.
@@ -369,15 +393,135 @@
 
   https:#docs.mongodb.com/manual/core/query-optimization/#covered-query
   ```
+
+| Parameter              | Type          | Description                                                  |
+| :--------------------- | :------------ | :----------------------------------------------------------- |
+| background             | Boolean       | 建索引过程会阻塞其它数据库操作，background可指定以后台方式创建索引，即增加 "background" 可选参数。 "background" 默认值为**false**。 |
+| **unique**（比较重要） | **Boolean**   | **建立的索引是否唯一。指定为true创建唯一索引。默认值为false.** |
+| name                   | string        | 索引的名称。如果未指定，MongoDB的通过连接索引的字段名和排序顺序生成一个索引名称。 |
+| sparse                 | Boolean       | 对文档中不存在的字段数据不启用索引；这个参数需要特别注意，如果设置为true的话，在索引字段中不会查询出不包含对应字段的文档.。默认值为 **false**. |
+| expireAfterSeconds     | integer       | 指定一个以秒为单位的数值，完成 TTL设定，设定集合的生存时间。 |
+| v                      | index version | 索引的版本号。默认的索引版本取决于mongod创建索引时运行的版本。 |
+| weights                | document      | 索引权重值，数值在 1 到 99,999 之间，表示该索引相对于其他索引字段的得分权重。 |
+| default_language       | string        | 对于文本索引，该参数决定了停用词及词干和词器的规则的列表。 默认为英语 |
+| language_override      | string        | 对于文本索引，该参数指定了包含在文档中的字段名，语言覆盖默认的language，默认值为 language. |
+
+# 优化
+
+> explain有三种模式，分别是：queryPlanner、executionStats、allPlansExecution。现实开发中，常用的是executionStats模式
+
+- `db.getCollection('person').find({"age":{"$lte":2000}}).explain("executionStats")`
+
+  ```bash
+  对queryPlanner分析
   
-  | Parameter              | Type          | Description                                                  |
-  | :--------------------- | :------------ | :----------------------------------------------------------- |
-  | background             | Boolean       | 建索引过程会阻塞其它数据库操作，background可指定以后台方式创建索引，即增加 "background" 可选参数。 "background" 默认值为**false**。 |
-  | **unique**（比较重要） | **Boolean**   | **建立的索引是否唯一。指定为true创建唯一索引。默认值为false.** |
-  | name                   | string        | 索引的名称。如果未指定，MongoDB的通过连接索引的字段名和排序顺序生成一个索引名称。 |
-  | sparse                 | Boolean       | 对文档中不存在的字段数据不启用索引；这个参数需要特别注意，如果设置为true的话，在索引字段中不会查询出不包含对应字段的文档.。默认值为 **false**. |
-  | expireAfterSeconds     | integer       | 指定一个以秒为单位的数值，完成 TTL设定，设定集合的生存时间。 |
-  | v                      | index version | 索引的版本号。默认的索引版本取决于mongod创建索引时运行的版本。 |
-  | weights                | document      | 索引权重值，数值在 1 到 99,999 之间，表示该索引相对于其他索引字段的得分权重。 |
-  | default_language       | string        | 对于文本索引，该参数决定了停用词及词干和词器的规则的列表。 默认为英语 |
-  | language_override      | string        | 对于文本索引，该参数指定了包含在文档中的字段名，语言覆盖默认的language，默认值为 language. |
+      queryPlanner: queryPlanner的返回
+  
+      queryPlanner.namespace:该值返回的是该query所查询的表
+  
+      queryPlanner.indexFilterSet:针对该query是否有indexfilter
+  
+      queryPlanner.winningPlan:查询优化器针对该query所返回的最优执行计划的详细内容。
+  
+      queryPlanner.winningPlan.stage:最优执行计划的stage，这里返回是FETCH，可以理解为通过返回的index位置去检索具体的文档（stage有数个模式，将在后文中进行详解）。
+  
+      queryPlanner.winningPlan.inputStage:用来描述子stage，并且为其父stage提供文档和索引关键字。
+  
+      queryPlanner.winningPlan.stage的child stage，此处是IXSCAN，表示进行的是index scanning。
+  
+      queryPlanner.winningPlan.keyPattern:所扫描的index内容，此处是did:1,status:1,modify_time: -1与scid : 1
+  
+      queryPlanner.winningPlan.indexName：winning plan所选用的index。
+  
+      queryPlanner.winningPlan.isMultiKey是否是Multikey，此处返回是false，如果索引建立在array上，此处将是true。
+  
+      queryPlanner.winningPlan.direction：此query的查询顺序，此处是forward，如果用了.sort({modify_time:-1})将显示backward。
+  
+      queryPlanner.winningPlan.indexBounds:winningplan所扫描的索引范围,如果没有制定范围就是[MaxKey, MinKey]，这主要是直接定位到mongodb的chunck中去查找数据，加快数据读取。
+  
+      queryPlanner.rejectedPlans：其他执行计划（非最优而被查询优化器reject的）的详细返回，其中具体信息与winningPlan的返回中意义相同，故不在此赘述。
+  
+  对executionStats返回逐层分析
+  
+      第一层，executionTimeMillis
+  
+      最为直观explain返回值是executionTimeMillis值，指的是我们这条语句的执行时间，这个值当然是希望越少越好。
+  
+      其中有3个executionTimeMillis，分别是：
+  
+      executionStats.executionTimeMillis
+  
+      该query的整体查询时间。
+  
+      executionStats.executionStages.executionTimeMillisEstimate
+  
+      该查询根据index去检索document获得2001条数据的时间。
+  
+      executionStats.executionStages.inputStage.executionTimeMillisEstimate
+  
+      该查询扫描2001行index所用时间。
+  
+      第二层，index与document扫描数与查询返回条目数
+  
+      这个主要讨论3个返回项，nReturned、totalKeysExamined、totalDocsExamined，分别代表该条查询返回的条目、索引扫描条目、文档扫描条目。
+  
+      这些都是直观地影响到executionTimeMillis，我们需要扫描的越少速度越快。
+  
+      对于一个查询，我们最理想的状态是：
+  
+      nReturned=totalKeysExamined=totalDocsExamined
+  
+      第三层，stage状态分析
+  
+      那么又是什么影响到了totalKeysExamined和totalDocsExamined？是stage的类型。类型列举如下：
+  
+      COLLSCAN：全表扫描
+  
+      IXSCAN：索引扫描
+  
+      FETCH：根据索引去检索指定document
+  
+      SHARD_MERGE：将各个分片返回数据进行merge
+  
+      SORT：表明在内存中进行了排序
+  
+      LIMIT：使用limit限制返回数
+  
+      SKIP：使用skip进行跳过
+  
+      IDHACK：针对_id进行查询
+  
+      SHARDING_FILTER：通过mongos对分片数据进行查询
+  
+      COUNT：利用db.coll.explain().count()之类进行count运算
+  
+      COUNTSCAN：count不使用Index进行count时的stage返回
+  
+      COUNT_SCAN：count使用了Index进行count时的stage返回
+  
+      SUBPLA：未使用到索引的$or查询的stage返回
+  
+      TEXT：使用全文索引进行查询时候的stage返回
+  
+      PROJECTION：限定返回字段时候stage的返回
+  
+      对于普通查询，我希望看到stage的组合(查询的时候尽可能用上索引)：
+  
+      Fetch+IDHACK
+  
+      Fetch+ixscan
+  
+      Limit+（Fetch+ixscan）
+  
+      PROJECTION+ixscan
+  
+      SHARDING_FITER+ixscan
+  
+      COUNT_SCAN
+  
+      不希望看到包含如下的stage：
+  
+      COLLSCAN(全表扫描),SORT(使用sort但是无index),不合理的SKIP,SUBPLA(未用到index的$or),COUNTSCAN(不使用index进行count)
+  ```
+
+  

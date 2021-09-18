@@ -18,11 +18,28 @@
 # vim快捷键
 
 - 一般模式拷贝当前行(yy) , 拷贝当前行向下的5行(5yy)，并粘贴(p)
-- 一般模式删除当前行(dd) , 删除当前行向下的5行(5dd)。一般模式下，在文件中查找某个单词，[命令模式下：(/关键字)，回车查找, 输入(n) 就是查找下一个]
+
+- 一般模式删除当前行(dd) , 删除当前行向下的5行(5dd)。
+
+- 一般模式下，在文件中查找某个单词，[命令模式下：(/关键字)，回车查找, 输入(n) 就是查找下一个]
+
+  - 取消高亮：命令模式下，输入:nohlsearch，当然，可以简写，noh
+
 - 一般模式下，使用快捷键到达文档的最首行[gg]和最末行[G]
+
 - 一般模式下，在一个文件中输入"xxxx" ,然后又撤销这个动作(u)
+
 - 一般模式下，并将光标移动到10行，输入10，输入shift+g，回车
+
 - 命令行模式下，设置文件的行号，取消文件的行号.[命令行下(: set nu) 和(:set nonu)]
+
+- > 如果想让vim永久显示行号，则需要修改vim配置文件vimrc。如果没有此文件可以创建一个。在启动vim时，当前用户根目录下的vimrc文件会被自动读取，因此一般在当前用户的根目录下创建vimrc文件，即使用下面的命令：
+  >
+  > ![这里写图片描述](https://img-blog.csdn.net/20180111155902419?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZWxlY3Ryb2NyYXp5/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+  >
+  > 在打开的vimrc文件中最后一行输入：set number ，然后保存退出。再次用vim打开文件时，就会显示行号了。
+  >
+  > ![这里写图片描述](https://img-blog.csdn.net/20180111155928196?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZWxlY3Ryb2NyYXp5/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 
 # 用户
 
