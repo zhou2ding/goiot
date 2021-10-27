@@ -251,6 +251,108 @@
   db.student.createIndex({name:1,age:-1},{unique:true}) //创建一个name升序和age降序的复合索引，且是唯一索引
   ```
   
+
+# 聚合查询
+
+- > match：用于对数据进行筛选
+
+  - `db.<collections>.aggregate({"$match":{"字段":"条件"}})`
+
+- > project：将一个数据结果映射为另一个结果，过程中可以对某些数据进行修改（修改查询的结果而不是修改数据） ，控制其最终显示的结果
+
+  - `db.<collections>.aggregate({"$project":{"要保留的字段名":1,"要去掉的字段名":0,"查询结果中新增的字段名":"表达式"}})`
+
+  - ```bash
+    表达式之数学表达式，参加运算的字段不能被隐藏
+    
+    {"$add":[expr1,expr2,...,exprN]} #相加
+    {"$subtract":[expr1,expr2]} #第一个减第二个
+    {"$multiply":[expr1,expr2,...,exprN]} #相乘
+    {"$divide":[expr1,expr2]} #第一个表达式除以第二个表达式的商作为结果
+    {"$mod":[expr1,expr2]} #第一个表达式除以第二个表达式得到的余数作为结果
+    ```
+
+  - ```bash
+    表达式之日期表达式:$year,$month,$week,$dayOfMonth,$dayOfWeek,$dayOfYear,$hour,$minute,$second
+    
+    #例如查看每个员工的工作多长时间
+    db.emp.aggregate(
+        {"$project":{"name":1,"hire_period":{
+            "$subtract":[
+                {"$year":new Date()},
+                {"$year":"$hire_date"}
+            ]
+        }}}
+    )
+    ```
+
+  - ```bash
+    字符串表达式
+    
+    {"$substr":[字符串/$值为字符串的字段名,起始位置,截取几个字节]}
+    {"$concat":[expr1,expr2,...,exprN]} #指定的表达式或字符串连接在一起返回,只支持字符串拼接
+    {"$toLower":expr}
+    {"$toUpper":expr}
+    ```
+
+  - ```bash
+    逻辑表达式
+    
+    $and
+    $or
+    $not
+    ```
+
+- > group用于分组
+
+  - 单个字段分组：`db.<collections>.aggregate({"$group":{_id:"$字段"}})`
+
+  - 多个字段联合分组：`db.<collections>.aggregate({"$group":{_id:{字段1:"$字段1",字段2:"$字段2"}}})`
+
+    ```bash
+    聚合函数
+    $sum、$avg、$max、$min、$first、$last
+    
+    数组操作符
+    {"$addToSet":expr}：不重复
+    {"$push":expr}：重复
+    ```
+
+- > sort，skip，limit，用法和普通查询的用法一样
+
+# Go MongoDB Driver
+
+- 创建索引
+
+  ```go
+  func Start() error {
+      opts := options.CreateIndexes()
+      // 复合索引
+      pidItIndex := mongo.IndexModel{Keys: bsonx.Doc{
+          {Key: "pd", Value: bsonx.Int32(1)},
+          {Key: "it", Value: bsonx.Int32(-1)},
+      }}
+      
+      // 唯一索引
+      tnIndex := mongo.IndexModel{
+          Keys:    bsonx.Doc{{Key: "tn", Value: bsonx.Int32(1)}},
+          Options: options.Index().SetUnique(true),
+      }
+  
+      // 创建单个索引
+      collection.Indexes().CreateOne(context.Background(), pidItIndex, opts)
+      
+      // 创建多个索引
+     	collection.Indexes().CreateMany(context.Background(), []mongo.IndexModel{trIndex, pidItIndex}, opts)
+  }
+  ```
+
+- 聚合查询
+
+  ```go
+  // todo 待更新
+  ```
+
 # 命令汇总
 
 ```javascript
