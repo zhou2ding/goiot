@@ -188,6 +188,8 @@ $ git commit --amend [file1] [file2] ...
 
 ## 分支
 
+> remote一般是origin，branch是对应的分支名
+
 ```
 # 列出所有本地分支
 $ git branch
@@ -208,7 +210,7 @@ $ git checkout -b [branch]
 $ git branch [branch] [commit]
 
 # 新建一个分支，与指定的远程分支建立追踪关系
-$ git branch --track [branch] [remote-branch]
+$ git branch --track [branch] [remote/branch]
 
 # 切换到指定分支，并更新工作区
 $ git checkout [branch-name]
@@ -217,7 +219,7 @@ $ git checkout [branch-name]
 $ git checkout -
 
 # 建立追踪关系，在现有分支与指定的远程分支之间
-$ git branch --set-upstream [branch] [remote-branch]
+$ git branch --set-upstream [branch] [remote/branch]
 
 # 合并指定分支到当前分支
 $ git merge [branch]
