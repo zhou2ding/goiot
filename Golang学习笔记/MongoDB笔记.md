@@ -570,9 +570,11 @@ db.<collections>.bulkWrite([
       这些都是直观地影响到executionTimeMillis，我们需要扫描的越少速度越快。
   
       对于一个查询，我们最理想的状态是：
+      nReturned=totalKeysExamined 且 totalDocsExamined=0（cover index，仅仅使用到了index，无需文档扫描，这是最理想状态）
   
-      nReturned=totalKeysExamined=totalDocsExamined
-  
+      nReturned=totalKeysExamined=totalDocsExamined（正常index利用，无多余index扫描与文档扫描）
+      如果有sort的时候，为了使得sort不在内存中进行，我们可以在保证nReturned=totalDocsExamined 的基础上，totalKeysExamined可以大于totalDocsExamined与nReturned，因为量级较大的时候内存排序非常消耗性能。
+      
       第三层，stage状态分析
   
       那么又是什么影响到了totalKeysExamined和totalDocsExamined？是stage的类型。类型列举如下：
@@ -624,6 +626,8 @@ db.<collections>.bulkWrite([
       不希望看到包含如下的stage：
   
       COLLSCAN(全表扫描),SORT(使用sort但是无index),不合理的SKIP,SUBPLA(未用到index的$or),COUNTSCAN(不使用index进行count)
+      
+      executionStages.Stage为Sort，在内存中进行排序了，这个在生产环境中尤其是在数据量较大的时候，是非常消耗性能的，这个千万不能忽视了，我们需要改进这个点。
   ```
-
+  
   

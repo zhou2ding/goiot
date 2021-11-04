@@ -219,7 +219,9 @@ $ git checkout [branch-name]
 $ git checkout -
 
 # 建立追踪关系，在现有分支与指定的远程分支之间
-$ git branch --set-upstream [branch] [remote/branch]
+$ git branch --set-upstream-to=origin/branch branch
+
+# 创建远程分支并建立追踪关系
 
 # 合并指定分支到当前分支
 $ git merge [branch]
