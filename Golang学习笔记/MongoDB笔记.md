@@ -2,6 +2,7 @@
 
 - 安装后，在安装路径的data目录下新建db文件夹
 - `mongod.cfg`中设置相关配置
+- 登录（不用账户密码登录的话无法使用命令）：`mongo --host 127.0.0.1 --port 27017 -u "isvcloud" -p "isvcloud2019_cloud_isv_cn" --authenticationDatabase "admin"`
 
 # 基本概念
 
@@ -260,7 +261,7 @@ db.<collections>.bulkWrite([
 {updateOne :{"filter": {"_id":ObjectId("612f161091c1255d1ec93fde")},"update":{$set:{phone:2}}}},
 ])
 ```
-  
+
 
 # 聚合查询
 
