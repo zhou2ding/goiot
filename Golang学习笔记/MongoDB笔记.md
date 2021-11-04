@@ -243,13 +243,23 @@
   - `find({},{<field1>:1,<field2>:1})`：只想显示field1和field2的信息
   - 默认`_id`会显示出来，不想看的话强制设为0
 
-- 索引
+```javascript
+// 根据ID查询
+db.<collections>.find({"_id":ObjectId("612f161091c1255d1ec93fdc")})
 
-  > 底层是B-Tree结构，mysql是B+Tree
+// 嵌套查询
+db.<collections>.find({"user.name":"张三"})
 
-  ```javascript
-  db.student.createIndex({name:1,age:-1},{unique:true}) //创建一个name升序和age降序的复合索引，且是唯一索引
-  ```
+// 分组查询
+
+// 批量操作
+db.<collections>.bulkWrite([
+{updateOne :{"filter": {"_id":ObjectId("612f161091c1255d1ec93fdc")},"update":{$set:{phone:2}}}},
+{updateOne :{"filter": {"_id":ObjectId("612f161091c1255d1ec93fdd")},"update":{$set:{phone:2}}}},
+{updateOne :{"filter": {"_id":ObjectId("612f161091c1255d1ec93fde")},"update":{$set:{phone:2}}}},
+{updateOne :{"filter": {"_id":ObjectId("612f161091c1255d1ec93fde")},"update":{$set:{phone:2}}}},
+])
+```
   
 
 # 聚合查询
@@ -353,36 +363,16 @@
   // todo 待更新
   ```
 
-# 命令汇总
-
-```javascript
-// 根据ID查询
-db.<collections>.find({"_id":ObjectId("612f161091c1255d1ec93fdc")})
-
-// 嵌套查询
-db.<collections>.find({"user.name":"张三"})
-
-// 分组查询
-
-// 批量操作
-db.<collections>.bulkWrite([
-{updateOne :{"filter": {"_id":ObjectId("612f161091c1255d1ec93fdc")},"update":{$set:{phone:2}}}},
-{updateOne :{"filter": {"_id":ObjectId("612f161091c1255d1ec93fdd")},"update":{$set:{phone:2}}}},
-{updateOne :{"filter": {"_id":ObjectId("612f161091c1255d1ec93fde")},"update":{$set:{phone:2}}}},
-{updateOne :{"filter": {"_id":ObjectId("612f161091c1255d1ec93fde")},"update":{$set:{phone:2}}}},
-])
-```
-
-
+# 索引
 
 
   ```shell
   4.1 概述
-  索引支持在 MongoDB 中高效地执行查询.如果没有索引, MongoDB 必须执行全集合扫描, 即扫描集合中的每个文档, 以选择与查询语句 匹配的文档.这种扫描全集合的查询效率是非常低的, 特别在处理大量的数据时, 查询可以要花费几十秒甚至几分钟, 这对网站的性能是非常致命的.
+  索引支持在MongoDB中高效地执行查询.如果没有索引, MongoDB必须执行全集合扫描, 即扫描集合中的每个文档, 以选择与查询语句匹配的文档.这种扫描全集合的查询效率是非常低的, 特别在处理大量的数据时, 查询可以要花费几十秒甚至几分钟, 这对网站的性能是非常致命的.
   
-  如果查询存在适当的索引, MongoDB 可以使用该索引限制必须检查的文档数.
+  如果查询存在适当的索引, MongoDB可以使用该索引限制必须检查的文档数.
   
-  索引是特殊的数据结构, 它以易于遍历的形式存储集合数据集的一小部分.索引存储特定字段或一组字段的值, 按字段值排序.索引项的排 序支持有效的相等匹配和基于范围的查询操作.此外, MongoDB 还可以使用索引中的排序返回排序结果.
+  索引是特殊的数据结构, 它以易于遍历的形式存储集合数据集的一小部分.索引存储特定字段或一组字段的值, 按字段值排序.索引项的排序支持有效的相等匹配和基于范围的查询操作.此外, MongoDB还可以使用索引中的排序返回排序结果.
   
   MongoDB 使用的是 B Tree, MySQL 使用的是 B+ Tree
   
@@ -406,7 +396,7 @@ db.<collections>.bulkWrite([
   db.<collection_name>.dropIndexes()
   4.2 索引的类型
   4.2.1 单字段索引
-  MongoDB 支持在文档的单个字段上创建用户定义的升序/降序索引, 称为单字段索引 Single Field Index
+  MongoDB支持在文档的单个字段上创建用户定义的升序/降序索引, 称为单字段索引 Single Field Index
   
   对于单个字段索引和排序操作, 索引键的排序顺序（即升序或降序）并不重要, 因为 MongoDB 可以在任何方向上遍历索引.
   
