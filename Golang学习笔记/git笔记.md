@@ -135,6 +135,9 @@ git config http.postBuffer 524288000
 
 # 忽略chmod引起的变化
 git config --add core.filemode false
+
+# 忽略CRLF(windows)自动转换成LF(linux)
+git config core.autocrlf false
 ```
 
 ## 增加/删除文件
