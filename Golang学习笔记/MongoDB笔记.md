@@ -1,8 +1,26 @@
 # 安装配置
 
 - 安装后，在安装路径的data目录下新建db文件夹
+
 - `mongod.cfg`中设置相关配置
-- 登录（不用账户密码登录的话无法使用命令）：`mongo --host 127.0.0.1 --port 27017 -u "isvcloud" -p "isvcloud2019_cloud_isv_cn" --authenticationDatabase "admin"`
+
+- 登录（不用账户密码登录的话无法使用命令）：`mongo --host 127.0.0.1 --port 27017 -u "用户名" -p "密码" --authenticationDatabase "admin"`
+
+  - `mongod.cfg`中有如下配置的话才需要使用账户密码来登录
+
+    ```
+    security:
+      authorization: enabled
+    ```
+
+  - 如果登录时没带账户密码，也可在连接后再认证
+
+    ```json
+    use admin
+    db.auth("用户名","密码")
+    ```
+
+    
 
 # 基本概念
 
@@ -30,6 +48,7 @@
     - 此属性可以自己指定，但最好不这样做
   - `typeof db.<collection>.findOne().<field>`
   - `db.<collection>.update({},{$rename:{old:"new"}},false,true)`
+  - `load(e:\tsmp.sql)`或`load(e:\faults_360.js)`运行脚本文件
   
 - 插入
   - `db.createCollection("xxxx")`
@@ -330,6 +349,26 @@ db.<collections>.bulkWrite([
     ```
 
 - > sort，skip，limit，用法和普通查询的用法一样
+
+# 权限
+
+> 在任何数据库都可创建用户，创建后此`db.getUsers()`就是查的当前数据库的用户
+
+- 添加admin用户：`db.createUser({user:"admin",pwd:"admin",roles:[{ role: "userAdminAnyDatabase", db: "admin" }]})`
+
+- 添加root用户：`db.createUser({user:"root",pwd:"root",roles:["root"]})`
+
+- 给用户添加权限：`db.grantRolesToUser( "admin" , [{ "role": "clusterAdmin", "db": "admin" }])`
+
+- 查看所有用户：`db.getUsers()`
+
+- 权限认证：`db.auth("admin","admin")`
+
+- 其他命令
+
+  ![image-20211207165904316](C:\Users\ZHOUDONGBIN\AppData\Roaming\Typora\typora-user-images\image-20211207165904316.png)
+
+  ![image-20211207165912263](C:\Users\ZHOUDONGBIN\AppData\Roaming\Typora\typora-user-images\image-20211207165912263.png)
 
 # Go MongoDB Driver
 
