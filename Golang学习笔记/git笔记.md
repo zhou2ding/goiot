@@ -422,6 +422,9 @@ $ git stash pop
 ```
 # 生成一个可供发布的压缩包
 $ git archive
+
+# 获取最新commit id或sha的简短结果
+$ git rev-parse --short HEAD
 ```
 
 以上常用命令来自阮一峰老师的博客文章《常用 Git 命令清单》，感谢阮老师！
