@@ -372,6 +372,21 @@ db.<collections>.bulkWrite([
 
 # Go MongoDB Driver
 
+- 连接mongo
+
+  ```go
+  func main() {
+     // options一般都要加上retryWrites=false，否则会报错：this MongoDB deployment does not support retryable writes
+      host := "mongodb://[username:password@]host1[:port1][,...hostN[:portN]][/[defaultauthdb][?options]]"
+      clientOptions := options.Client().ApplyURI(host)
+      client, err := mongo.Connect(context.TODO(), clientOptions)
+      err = client.Ping(context.TODO(), nil)
+      collection := client.Database("db").Collection("collection") 
+  }
+  ```
+
+  
+
 - 创建索引
 
   ```go
@@ -540,6 +555,8 @@ db.<collections>.bulkWrite([
 
 # 优化
 
+## explain
+
 > explain有三种模式，分别是：queryPlanner、executionStats、allPlansExecution。现实开发中，常用的是executionStats模式
 
 - `db.getCollection('person').find({"age":{"$lte":2000}}).explain("executionStats")`
@@ -660,4 +677,16 @@ db.<collections>.bulkWrite([
       executionStages.Stage为Sort，在内存中进行排序了，这个在生产环境中尤其是在数据量较大的时候，是非常消耗性能的，这个千万不能忽视了，我们需要改进这个点。
   ```
   
-  
+
+## 分片
+
+> 详细参加《mongodb分片.md》
+
+概述：
+
+- 多个Router(mongos)，一个Config Server（配成副本集），多个Shard（每个Shard都是副本集）
+  - Router(mongos)：区别于mongod（mongodb的守护进程）。应用层读写数据的唯一接口，把从Config Server读来的元数据缓存后，将请求路由到对应的分片。mongos要么是向所有分片广播查询，要么将包含片键或复核片键前缀的查询路由到特定的分片
+  - Config Server：保存分片的元数据、鉴权，管理分布式锁。鉴权除了用户名和密码，还要使用秘钥文件或x.509证书进行集群内部各个节点成员之间的认证（openssh生成的keyfile）。
+  - Shard：一个Shard包含多个Chunk。Chunk大小1~1024MB，默认64MB。初始的时候数据库只有一个primary shard，数据量超过chunk大小后发生chunk分裂。chunk间数据量不均衡时（最多的和最少的差值超过阈值），发生chunk迁移（从primary shard迁移到其他shard）
+- 分片策略：范围分片，哈希分片
+- Zone：是基于特定tag集的一组分片。将特定数据隔离到特定的分片，或应用程序在不同地理位置上使用且希望查询路由到最近的分片进行读写，则分区可能很有用
