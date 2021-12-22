@@ -690,3 +690,11 @@ db.<collections>.bulkWrite([
   - Shard：一个Shard包含多个Chunk。Chunk大小1~1024MB，默认64MB。初始的时候数据库只有一个primary shard，数据量超过chunk大小后发生chunk分裂。chunk间数据量不均衡时（最多的和最少的差值超过阈值），发生chunk迁移（从primary shard迁移到其他shard）
 - 分片策略：范围分片，哈希分片
 - Zone：是基于特定tag集的一组分片。将特定数据隔离到特定的分片，或应用程序在不同地理位置上使用且希望查询路由到最近的分片进行读写，则分区可能很有用
+
+| 方法名                                     | 描述                                     |
+| ------------------------------------------ | ---------------------------------------- |
+| sh.addShard(host)                          | #将分片添加到分片集群中,host（ip：端口） |
+| sh.status()                                | #分片群集的状态                          |
+| sh.enableSharding(““)                      | #配置需要分片的数据库                    |
+| sh.shardCollection(“.“, shard-key-pattern) | #shards the collection                   |
+
