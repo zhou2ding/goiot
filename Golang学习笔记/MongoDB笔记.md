@@ -4,6 +4,9 @@
 
 - `mongod.cfg`中设置相关配置
 
+  - 外部机器要连接的话，`bindIP`改成`0.0.0.0`
+  - `mongo.keyfile`的权限只能是400才行
+
 - 登录（不用账户密码登录的话无法使用命令）：`mongo --host 127.0.0.1 --port 27017 -u "用户名" -p "密码" --authenticationDatabase "admin"`
 
   - `mongod.cfg`中有如下配置的话才需要使用账户密码来登录
