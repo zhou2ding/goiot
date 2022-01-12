@@ -968,12 +968,12 @@ db.getMongo().setReadPref("secondary") //secondary表示只从从节点读取数
 
 ### 4.2 使用MongoDB Compass客户端实现读写分离
 * 连接参数设置界面如下
-![compass_capture][image_6]
+![image-20220112142428746](E:\study\studygo\Golang学习笔记\mongodb副本集.assets\image-20220112142428746.png)
 注意，上图红框标出的内容，Read Preference设置了Secondary。
 * 使用compass查询到结果
-![compass_result][image_7]
+![image-20220112142442505](E:\study\studygo\Golang学习笔记\mongodb副本集.assets\image-20220112142442505.png)
 * 抓包
-![compass_read_capture][image_8]
+![image-20220112142453204](E:\study\studygo\Golang学习笔记\mongodb副本集.assets\image-20220112142453204.png)
 从抓包中可以看到，确实是从从节点读取了数据，即实现了读写分离。
 
 ### 4.3 其它客户端
