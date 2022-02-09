@@ -201,7 +201,7 @@
 
   > MongoDB会自动调整skip和limit调用的顺序，这两个的前后顺序不影响结果
 
-  - `limit(n)`：只显示n条
+  - `limit(n)`：只显示n条，为0的时候查所有
   - `skip(n)`：跳过前n条
   - 显示k条数据：`db.<collections>.find().skip((pagenumber-1)*pagesize).limit(pagesize)`
 
