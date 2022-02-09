@@ -351,7 +351,7 @@ db.<collections>.bulkWrite([
     {"$push":expr}：重复
     ```
 
-- > sort，skip，limit，用法和普通查询的用法一样
+- > sort，skip，limit，用法和普通查询的用法一样，但是skip必须在limit之前，否则会查询不到结果
 
 # 权限
 
