@@ -421,6 +421,13 @@ db.<collections>.bulkWrite([
   // todo 待更新
   ```
 
+- 备份欢迎
+
+  ```go
+  // 使用-q的查询语句时，必须有-c指定集合名称；分片集群不能有oplog参数
+  mongodump -h ip:port -u root -p 123456 -o /home/zhoudongbin -d tsmp --authenticationDatabase admin -c train_records -q {_id:123} --oplog gzip
+  ```
+
 # 索引
 
 
