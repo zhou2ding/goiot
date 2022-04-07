@@ -76,6 +76,8 @@ DCL：grant revoke
 
 `mysql -uroot -p564710` 登录
 
+先`docker exec 容器名  -it /bin/bash`，再`mysql -uroot -p564710` 登录mysql容器
+
 `exit` 退出
 
 `show databases;` 显示数据库
@@ -1104,8 +1106,15 @@ rollback;
 
   - 使用条件：数据量庞大，具体还要看硬件环境，需要测试；该字段经常出现在`where`后面，即该字段总是被扫描；该字段有很少的DML操作（因为DML之后索引需要重新排序）
   - 不要随便添加索引，索引多了系统性能反而会降低；建议通过主键或unique约束的字段来查询
-  - `create index emp_ename_index on emp(ename);`在ename字段上创建索引
-  - `drop index emp_ename_index on emp;`删除ename对象上的索引
+  - `show index from emp;`查看所有的索引
+  - 方式一：
+    - `create index emp_ename_index on emp(ename);`在ename字段上创建索引
+    - `create unique index emp_ename_index emp(ename);`在ename字段上创建唯一索引
+    - `drop index emp_ename_index on emp;`删除ename对象上的索引
+  - 方式二：
+    - `ALTER TABLE table_name ADD INDEX index_name (column_list)`
+    - `ALTER TABLE table_name ADD UNIQUE (column_list)`
+    - `ALTER TABLE table_name ADD PRIMARY KEY (column_list)`
   - `explain select * from emp where ename='KING';`查看一个SQL语句是否使用了索引进行检索，如果输出的结果中`type`是`ALL`的话，就没有使用索引；是`ref`的话就是用了索引
 
 - 索引的失效
