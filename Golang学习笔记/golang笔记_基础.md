@@ -3,24 +3,23 @@
 ## 常用命令
 
 - `go build`
-
 - `go build -o xxx`
-
 - `go mod init`
-
 - `go mod init xxx（文件夹）`
-
 - `go doc builtin.delete(函数名，builtin是内置函数的意思)`
-
+- `go tool compile -S -N -l main.go`查看汇编指令
 - 完整部署命令
 
-  ```powershell
-  SET CGO_ENABLED=0
-  SET GOOS=linux
-  SET GOARCH=amd64
-  go build -ldflags "-s -w" -o myproject	#-ldflags "-s -w"是去掉符号表和调试信息 ，编译出来的二进制文件小点
-  #可继续使用upx对二进制文件进一步压缩
-  ```
+```bash
+# windows
+SET CGO_ENABLED=0
+SET GOOS=linux
+SET GOARCH=amd64
+go build -ldflags "-s -w" -o myproject	#-ldflags "-s -w"是去掉符号表和调试信息 ，编译出来的二进制文件小点。可继续使用upx对二进制文件进一步压缩
+
+# linux
+go env -w GOPROXY=https://goproxy.cn,direct
+```
 
 ## 引用类型
 
@@ -904,6 +903,12 @@ func assign(a interface{}) {
   
 
   ![1616591517045](D:\资料\Go\src\studygo\Golang学习笔记\golang笔记_基础.assets\1616591517045.png)
+  
+- module replace
+
+  - `go mod edit -replace=github.com/xuri/excelize/v2@v2.5.0=github.com/360EntSecGroup-Skylar/excelize/v2@v2.3.0`
+  - 在`go.mod`中添加`replace github.com/xuri/excelize/v2 v2.5.0 => github.com/360EntSecGroup-Skylar/excelize/v2 v2.3.0`
+
 
 ## 文件操作
 

@@ -1149,7 +1149,7 @@ rollback;
 
 ## DBA常用命令
 
-- `create user xxx identified by 'password'`
+- `create user 'xxx' identified by 'password'`
 - `grant/revoke`：授权/撤销权限
 - 重点掌握：数据的导入和导出
   - 导出，在CMD中而非登入mysql：`mysqldump 数据库名>D:\xxx.sql -uroot -p123`
