@@ -31,8 +31,8 @@
   - `:s/str1/str2/`g：替换当前行所有str1为str2
   - `:n,$s/str1/str2/`：替换第 n 行开始到最后一行中，每一行的第一个str1为str2
   - `:n,$s/str1/str2/g`：替换第 n 行开始到最后一行中，每一行的所有str1为str2
-  - `:%s/str1/str2/`：替换当每一行的第一个str1为str2
-  - `:%s/str1/str2/`：替换当每一行的所有str1为str2
+  - `:%s/str1/str2/`：替换每一行的第一个str1为str2
+  - `:%s/str1/str2/g`：替换每一行的所有str1为str2
 
 - 一般模式下，使用快捷键到达文档的最首行[gg]和最末行[G]
 
@@ -186,6 +186,12 @@
 - export PATH=/要添加的路径$PATH
 - 修改/ect/profile后，`source ~/.bashrc`，`source ~/.profile`
 
+# 日志(待补充)
+
+- journal日志
+- logrotate
+- Rsyslog
+
 # 常用命令
 
 > 所有的文件名、目录名都有相对和绝对两种写法
@@ -269,6 +275,14 @@
   - 固定用法：`tar -zcvf`，`tar -zxvf`
 
     ![image-20210508183228470](D:\资料\Go\src\studygo\Golang学习笔记\linux笔记.assets\image-20210508183228470.png)
+  
+- 查看服务器的系统信息
+
+  - `uname -a`
+  - `cat /etc/issue`，适用于所有的`Linux`发行版；`cat /etc/redhat-release`，只适用于`Redha`t系列
+  - `lsb_release -a`
+
+- 查看服务器的硬件信息(待补充)
 
 # lsof神器
 
