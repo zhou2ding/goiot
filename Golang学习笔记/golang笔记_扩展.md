@@ -343,3 +343,4 @@ func main() {
 - `replace`：`go mod edit -replace [old git package]@[version]=[new git package]@[version]`
 - 待补充...
 
+# Websocket
