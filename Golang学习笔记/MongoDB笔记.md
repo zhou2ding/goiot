@@ -690,7 +690,7 @@ db.<collections>.bulkWrite([
 
 ## 分片
 
-> 详细参加《mongodb分片.md》
+> 详细参考《mongodb分片.md》
 
 概述：
 
@@ -712,7 +712,7 @@ db.<collections>.bulkWrite([
 | 方法名                                     | 描述                                     |
 | ------------------------------------------ | ---------------------------------------- |
 | sh.addShard(host)                          | #将分片添加到分片集群中,host（ip：端口） |
-| sh.status()                                | #分片群集的状态                          |
+| sh.status()                                | #分片群集的状态，包括balace是否在运行    |
 | sh.enableSharding(““)                      | #配置需要分片的数据库                    |
 | sh.shardCollection(“.“, shard-key-pattern) | #shards the collection                   |
 
