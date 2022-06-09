@@ -61,13 +61,42 @@
 
 ## 报文传输
 
-为了提高数据的传输效率，`HTTP`中使用了以下几种技术
+为了提高数据的传输效率，`HTTP`中使用了以下几种编码技术
 
-- 内容编码
-- 分块传输编码
-- `MIME`机制
-- 范围请求
-- 内容协商
+- 内容编码：将实体主体压缩后发送，客户端接收并解码
+
+  > 常用的内容编码包括：gZip、compress、deflate、identity
+
+- 分块传输编码：将实体主体分块后发送，客户端通过接收数据块并解码后逐步显示页面
+
+- 多部分对象集合：参考了`MIME`机制中的`Multipart`方法，允许报文的实体主体中包含多种文本、图片、视频等多份不同类型的数据
+
+  - `MIME`机制：`Multipurpose Internet Mail Extensions`机制，允许邮件处理文本、图片、视频等类型的数据，其中的`Multipart`的方法允许容纳多份不同类型的数据
+
+  - 多部分对象集合在报文的`Content-Type`首部字段分为如下两种
+
+    - `multipart/form-data`：请求报文中使用
+    - `multipart/byteranges`：状态码为206的响应报文中使用
+
+  - 多部分对象集合在`Content-Type`首部字段中使用`boundary=字符串`和`--`标记来划分不同类型的实体，每个实体都可以含有首部字段，实体中也可以嵌套多部分对象集合
+
+    ```http
+    GET /example HTTP/1.1
+    Content-Type: multipart/form-data; boundary=AaB03x
+    
+    --AaB03x
+    Content-Disposition: form-data; name="field1"
+    
+    --AaB03x
+    Content-Disposition: form-data; name="Img"; filename="pic.jpg"
+    Content-Type: image/jpeg
+    
+    --AaB03x--
+    ```
+
+- 范围请求：
+
+- 内容协商：
 
 ## URI
 
@@ -76,6 +105,10 @@
 - 格式
 
   ![img][i2]
+  
+- 请求报文中的请求`URI`可以是完整的`URI`；也可省略服务器地址，然后在`Host`中写明域名或`IP`地址
+
+- 如果不访问指定资源而只对服务器发起请求，可以用`*`来代替`URI`
 
 ## 方法
 
@@ -91,7 +124,7 @@
 
 - `DELETE`：删除指定的资源
 
-- `OPTIONS`：获取`URI`指定的资源支持哪些方法
+- `OPTIONS`：获取`URI`指定的资源支持哪些方法，`URI`为`*`时则获取服务器端支持的`HTTP`方法种类
 
 - `TRACE`：将消息的通信路径返回给客户端（发送请求时在`Max-Forwards`字段中填入数字，每经过一个中转服务器就减1，等于0时停止传输并返回响应）
 
