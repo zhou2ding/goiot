@@ -23,15 +23,18 @@
 
 **方法1： 用ALTER USER命令** 
 
- `ALTER USER 'root'@'localhost' IDENTIFIED BY '你的新密码'; `
+1. rpm或dpkg安装mysql
+2. `grep 'temporary password' /var/log/mysqld.log`查看初始的临时密码
+3. `ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password  BY '你的新密码'`
+   - 如果报错`Your password does not satisfy the current policy requirements`，则修改密码强度等级的配置：`set global validate_password_policy=LOW;`
 
 **方法2：如果忘记密码,强行修改:**
 
 1. 停止Mysql服务 `sudo /usr/local/mysql/support-files/mysql.server stop`
 
-2. 进入终端输入：`cd /usr/local/mysql/bin/ `回车后;
-   登录管理员权限`sudo su `回车后;
-   输入以下命令来禁止mysql验证功能 `./mysqld_safe --skip-grant-tables &  回车`后mysql会自动重启（偏好设置中mysql的状态会变成running）
+   2. 进入终端输入：`cd /usr/local/mysql/bin/ `回车后;
+      登录管理员权限`sudo su `回车后;
+      输入以下命令来禁止mysql验证功能 `./mysqld_safe --skip-grant-tables`后mysql会自动重启（偏好设置中mysql的状态会变成running）
 
 3. 输入命令` ./mysql` 回车后，输入命令`FLUSH PRIVILEGES`;
 
@@ -158,7 +161,7 @@ where
 
 1. and和or同时出现，先执行and；不确定优先级的话，加小括号
    
-2. 模糊查询：liketb := db.Table("post")
+2. 模糊查询：like
    * %代表任意多个字符
    * _代表任意一个字符
    * \可以转义特殊字符
@@ -187,7 +190,7 @@ mysql> select
 - 省略：默认升序
 
 - order by后可以跟多个字段，用`,`隔开（第一个字段主导，当第一个字段值相等时，再启用第二个字段）
-- order by 必须在wher后面
+- order by 必须在where后面
 
 ## 单行处理函数（数据处理函数）
 
@@ -305,7 +308,7 @@ order by
 
 但是执行效率较低，可以先筛选（根据不同字段筛选而不是分组函数），再分组；优先where，再having，where用不了的情况下再having，比如筛选的条件是要用分组函数操作的。
 
-eg：`select deptno, max(sal) from emp where sal > 3000 group by deptno;`
+eg：`select deptno, max(sal) as ms from emp group by deptno having ms > 3000;`可以优化成`select deptno, max(sal) from emp where sal > 3000 group by deptno;`
 
 # day02-1
 
@@ -518,7 +521,7 @@ on
   	salgrade s
   on
   	e.sal between s.losal and hisal
-  left join
+  right join
   	emp e2
   on
   	e.mgr = e2.empno;
