@@ -6,7 +6,7 @@
 >
 > 为什么用NoSQL？数据爆发式增长，位置信息、热榜、图片等等，web2.0的诞生，超大规模的高并发，传统的关系型数据库无法对付
 
-![image-20210430111738570](D:\资料\Go\src\studygo\Golang学习笔记\redis笔记.assets\image-20210430111738570.png)
+![image-20210430111738570](E:\study\studygo\Golang学习笔记\redis笔记.assets\image-20210430111738570.png)
 
 - 概念
 
@@ -40,7 +40,7 @@
 - 文档型数据库（bson格式）：MongoDB，ConthDB
 - 图关系数据库：存储的是关系，如社交网络、广告推荐等，Neo4j、InfoGrid
 
-![image-20210430160658134](D:\资料\Go\src\studygo\Golang学习笔记\redis笔记.assets\image-20210430160658134.png)
+![image-20210430160658134](E:\study\studygo\Golang学习笔记\redis笔记.assets\image-20210430160658134.png)
 
 ## CAP
 
@@ -66,7 +66,7 @@
 
 - `redis-benchmark`性能测试：`redis-benchmark -h localhost -p 6379 -c 100 -n 100000`，测试结果如下
 
-  ![image-20210430172506575](D:\资料\Go\src\studygo\Golang学习笔记\redis笔记.assets\image-20210430172506575.png)
+  ![image-20210430172506575](E:\study\studygo\Golang学习笔记\redis笔记.assets\image-20210430172506575.png)
 
 | 序号 | 选项      | 描述                                       | 默认值    |
 | :--- | :-------- | :----------------------------------------- | :-------- |
@@ -339,7 +339,7 @@
 - 把rdb放到redis的启动目录即可，会自动检查dump.rdb并恢复其中的数据
 - 默认目录根据配置文件中的`dir`来，默认值就是redis的启动目录
 
-![image-20210503162343047](D:\资料\Go\src\studygo\Golang学习笔记\redis笔记.assets\image-20210503162343047.png)
+![image-20210503162343047](E:\study\studygo\Golang学习笔记\redis笔记.assets\image-20210503162343047.png)
 
 ## AOF（Append Only File）
 
@@ -349,7 +349,7 @@
 - 只追加文件不改写文件，redis启动时会读取此文件来重新构建数据库
 - 手动修改`appendonly.aof`的话，启动redis会失败，可以运行`redis-check-aof --fix`来修复
 
-![image-20210503214656330](D:\资料\Go\src\studygo\Golang学习笔记\redis笔记.assets\image-20210503214656330.png)
+![image-20210503214656330](E:\study\studygo\Golang学习笔记\redis笔记.assets\image-20210503214656330.png)
 
 # 事务
 
@@ -394,7 +394,7 @@
 - 三个角色：消息发送者，频道，消息接收者
 - 命令：`subscribe <chann>`订阅频道，`publish <channel> <msg>`向频道发送消息，`unsubscribe <chann>`取消订阅频道
 
-![image-20210503221505925](D:\资料\Go\src\studygo\Golang学习笔记\redis笔记.assets\image-20210503221505925.png)
+![image-20210503221505925](E:\study\studygo\Golang学习笔记\redis笔记.assets\image-20210503221505925.png)
 
 # 主从复制
 
@@ -437,7 +437,7 @@
 
 - 实际开发不用命令配置，而是修改配置文件中`REPLICATION`部分的配置项
 
-![image-20210503232030687](D:\资料\Go\src\studygo\Golang学习笔记\redis笔记.assets\image-20210503232030687.png)
+![image-20210503232030687](E:\study\studygo\Golang学习笔记\redis笔记.assets\image-20210503232030687.png)
 
 # 哨兵模式
 
@@ -451,9 +451,9 @@
    - `sentinel monitor 被监控的主机名称 host port quorum`，quorum代表多少个哨兵认为主机失联时就客观确认主机失联
 2. 启动哨兵`redis-sentinel sentinel.conf`
 
-![image-20210504105343034](D:\资料\Go\src\studygo\Golang学习笔记\redis笔记.assets\image-20210504105343034.png)
+![image-20210504105343034](E:\study\studygo\Golang学习笔记\redis笔记.assets\image-20210504105343034.png)
 
-![image-20210504104856796](D:\资料\Go\src\studygo\Golang学习笔记\redis笔记.assets\image-20210504104856796.png)
+![image-20210504104856796](E:\study\studygo\Golang学习笔记\redis笔记.assets\image-20210504104856796.png)
 
 缺点
 
