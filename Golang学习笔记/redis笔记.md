@@ -117,8 +117,8 @@
   STRLEN <key>						#key对应的字符串值的长度
   incr <key> / decr <key>				#key对应的值自增1/自减1
   INCRBY <key> n / DECRBY <key> n		#key对应的值增加n/减少n
-  GETRANGE <key> start end			#查看值的下标start到end的内容（闭区间），end是-1的话就是到尾
-  SETRANGE <key> idx <val>			#修改指定下标位置的字符，把下标为idx开始的等长字符串替换成val
+  GETRANGE <key> start end			#查看值的下标start到end的内容（闭区间），end是-1的话就是到尾，第一个字符下标是0
+  SETRANGE <key> idx <val>			#修改指定下标位置的字符，把下标为idx开始的等长字符串（和val）替换成val
   setex <key> sec <val>				#设置过期时间（原子操作，设置值和设置过期实际一起完成）
   setnx <key> <val>					#如果不存在则设置（set if not exists）,成功返回1；如果key存在则返回0
   mset <key1> <val1> <key2> <val2>	#批量设置键值对
@@ -138,15 +138,15 @@
   > 所有的list命令都是L开头，LPUSH LPOP则是栈，LPUSH RPOP则是队列
 
   ```bash
-  LPUSH <key1> <val1>	<val2>		#把val塞入key这个list；入栈
-  LPOP <key>								#弹出栈顶元素，可以跟数字，弹出几个；出栈
-  RPOP <key>								#移除栈底元素，可以跟数字，移除几个；出队
+  LPUSH <key1> <val1>	<val2>				#把val塞入key这个list；入栈
+  LPOP <key>								#弹出栈顶元素，可以跟数字（6.2以上版本才支持），弹出几个；出栈
+  RPOP <key>								#移除栈底元素，可以跟数字（6.2以上版本才支持），移除几个；出队
   RPUSH <key> <val>						#从另一个方向塞入list（从栈底塞进去）
-  LRANGE <key> start end					#获取下标区间内的值，按出栈顺序获取
-  LINDEX <key> idx						#查看idx下标对应的值，下标顺序是从栈顶到栈底
+  LRANGE <key> start end					#获取下标区间内的值，按出栈顺序获，第一个元素下标是0，end为-1表示到栈底
+  LINDEX <key> idx						#查看idx下标对应的值，下标顺序是从栈顶（下标0）到栈底（-1或栈底的实际下标）
   LLEN <key>								#查看长度
   LREM <key> <count> <val>				#移除指定个数的某个值，是从栈顶往下移除的
-  LTRIM <key> start end					#截取指定长度区间的一串值。如果是截取1~0，则清空list
+  LTRIM <key> start end					#截取指定长度区间的一串值，其余的值删掉。如果是截取1~0，则清空list
   RPOPLPUSH <src> <dst>					#把src的栈底元素移动到dst中，dst不存在的话新建一个dst
   LSET <key> idx <val>					#把指定下标处的值替换为val，key或val不存在的话都会报错
   LINSERT <key> direction <val> <newval>	#把newval插入val的前面或后面，direction是before/after
@@ -395,6 +395,18 @@
 - 命令：`subscribe <chann>`订阅频道，`publish <channel> <msg>`向频道发送消息，`unsubscribe <chann>`取消订阅频道
 
 ![image-20210503221505925](E:\study\studygo\Golang学习笔记\redis笔记.assets\image-20210503221505925.png)
+
+## 过期后通知
+
+订阅通知的一个典型场景：key过期后通知客户端
+
+```bash
+config set notify-keyspace-events Ex	#过期时间监听生效
+
+#以下两种方法二选一
+PSUBSCRIBE __keyevent@*__:expired	#订阅一个或者多个符合pattern格式的频道
+SUBSCRIBE __keyevent@0__:expired	#0是第几个数据库，如果监听的是第二个数据库就改为1
+```
 
 # 主从复制
 
