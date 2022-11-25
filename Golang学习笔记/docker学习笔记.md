@@ -26,7 +26,7 @@
   >
   > 比如VMWare、VirtualBox等虚拟机
 
-  ![image-20210423115436360](E:\study\studygo\Golang学习笔记\docker学习笔记.assets\image-20210423115436360.png)
+  ![image-20210423115436360](docker学习笔记.assets\image-20210423115436360.png)
 
 - 操作系统级虚拟化
 
@@ -69,7 +69,7 @@
 
 # Docker环境搭建
 
-![image-20210423161121905](E:\study\studygo\Golang学习笔记\docker学习笔记.assets\image-20210423161121905.png)
+![image-20210423161121905](docker学习笔记.assets\image-20210423161121905.png)
 
 ## 名词介绍
 
@@ -173,7 +173,7 @@ docker version
 docker run hello-world
 ```
 
-![image-20210425134834378](E:\study\studygo\Golang学习笔记\docker学习笔记.assets\image-20210425134834378.png)
+![image-20210425134834378](docker学习笔记.assets\image-20210425134834378.png)
 
 ```shell
 # 8.查看下载的镜像
@@ -193,7 +193,7 @@ rm -rf /var/lib/docker # 删除资源
 
 - docker-server接收到docker-client的命令，就会执行
 
-![image-20210425135559996](E:\study\studygo\Golang学习笔记\docker学习笔记.assets\image-20210425135559996.png)
+![image-20210425135559996](docker学习笔记.assets\image-20210425135559996.png)
 
 >  docker为什么比VM快？
 >
@@ -321,7 +321,7 @@ rm -rf /var/lib/docker # 删除资源
 
 ## 小结
 
-![image-20210426164918133](D:\资料\Go\src\studygo\Golang学习笔记\docker学习笔记.assets\image-20210426164918133.png)
+![image-20210426164918133](docker学习笔记.assets\image-20210426164918133.png)
 
 # Docker镜像
 
@@ -329,7 +329,7 @@ rm -rf /var/lib/docker # 删除资源
 
 > 镜像是一种轻量级、可执行的独立软件包，用来打包软件运行环境和基于运行环境开发的软件，包含运行某个软件所需的所有内容，包括代码、运行时、库、环境变量和配置文件
 
-![image-20210427145001669](D:\资料\Go\src\studygo\Golang学习笔记\docker学习笔记.assets\image-20210427145001669.png)
+![image-20210427145001669](docker学习笔记.assets\image-20210427145001669.png)
 
 - 所有的应用，直接打包成docker镜像，就可以直接跑起来
 - 获取镜像方法

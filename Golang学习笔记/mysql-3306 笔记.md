@@ -980,19 +980,19 @@ rollback;
 
 `A`：原子性
 
-- 事务是最小的工作单元，不可再分
+- 一个事务要么全部提交成功，要么全部失败回滚，不能只执行其中的一部分操作，这就是事务的原子性
 
 `C`：一致性
 
-- 在同一个事务当中，所有操作必须同时成功，或同时失败，以保证数据的一致性
+- 事务的执行不能破坏数据库数据的完整性和一致性，一个事务在执行之前和执行之后，数据库都必须处于一致性状态。
 
 `I`：隔离性
 
-- A事务和B事务之间具有一定的隔离
+- 在并发环境中，并发的事务是相互隔离的，一个事务的执行不能不被其他事务干扰。
 
 `D`：持久性
 
-- 事务最终结束的一个保障。事务提交就相当于没有保存到硬盘上的数据保存进硬盘
+- 一旦事务提交，那么它对数据库中的对应数据的状态的变更就会永久保存到数据库中。
 
 ### 事务的隔离级别
 
@@ -1031,9 +1031,11 @@ rollback;
 
 - 修改隔离级别，重启mysql后生效
 
-  - `set transaction_isolation READ-UNCOMMITTED;`
-  - `set session transaction_isolation READ-UNCOMMITTED;`
-  - `set global transaction_isolation READ-UNCOMMITTED`
+  > session是当前会话立即生效；global是全局，不包含当前连接，之后的新连接都会生效
+
+  - `set transaction isolation level READ-UNCOMMITTED;`
+  - `set session transaction isolation level READ-UNCOMMITTED;`
+  - `SET GLOBAL TRANSACTION ISOLATION LEVEL READ-UNCOMMITTED`
 
 - 验证`read uncommited`：先修改全局隔离级别，再重启mysql
 
@@ -1153,7 +1155,8 @@ rollback;
 ## DBA常用命令
 
 - `create user 'xxx'@'localhost' identified by 'password'`
-- `grant/revoke`：授权/撤销权限
+- `grant/revoke`：授权/撤销权限：`GRANT ALL ON *.* TO 'xxx'@'localhost';`
+  - 权限列表包括：all 所有权限；usage 无权限；select,update,insert 个别权限；select,update(字段1,....，字段N) 指定字段的权限
 - 重点掌握：数据的导入和导出
   - 导出，在CMD中而非登入mysql：`mysqldump 数据库名>D:\xxx.sql -uroot -p123`
     - 数据库名之后跟`空格和表名`，可以导出指定表
