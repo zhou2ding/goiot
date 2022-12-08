@@ -636,3 +636,8 @@ mark {
     /* Highlight 高亮 */
     background: #CEEC8C;
 }
+
+em {
+    /* Italian 斜体字 */
+    color: #5f34e7;
+}
