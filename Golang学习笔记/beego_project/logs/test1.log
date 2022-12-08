@@ -1,9 +1,0 @@
-2021/05/20 22:03:35.151 [M] [test_beelog.go:15]  Emergency 
-2021/05/20 22:03:35.151 [A] [test_beelog.go:16]  Alert 
-2021/05/20 22:03:35.151 [C] [test_beelog.go:17]  Critical 
-2021/05/20 22:03:40.704 [M] [test_beelog.go:15]  Emergency 
-2021/05/20 22:03:40.704 [A] [test_beelog.go:16]  Alert 
-2021/05/20 22:03:40.704 [C] [test_beelog.go:17]  Critical 
-2021/05/20 22:03:41.233 [M] [test_beelog.go:15]  Emergency 
-2021/05/20 22:03:41.233 [A] [test_beelog.go:16]  Alert 
-2021/05/20 22:03:41.233 [C] [test_beelog.go:17]  Critical 

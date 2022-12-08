@@ -1,3 +1,0 @@
-2021/05/21 10:41:18.796 [M] [mylog.go:13]  this is a Emergency
-2021/05/21 10:41:18.810 [A] [mylog.go:14]  this is a Alert
-2021/05/21 10:41:18.810 [C] [mylog.go:15]  this is a Critical
