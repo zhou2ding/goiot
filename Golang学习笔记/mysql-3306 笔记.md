@@ -726,7 +726,11 @@ create table t_student(
 ## 表结构的增删改（实际开发很少出现）
 
 - 添加字段、删除字段、修改字段
-- 使用alter：`alter table 表名 change 旧字段 新字段 类型;`，类型后面可以继续跟默认值、注释
+- 使用alter
+  - 修改字段名：`alter table 表名 change 旧字段 新字段 类型;`，类型后面可以继续跟默认值、注释
+  - 添加字段：`alter table 表名 add 字段名 类型;`
+  - 修改字段类型：`alter table 表名 modify column 字段名 类型;`
+  - 删除字段：`alter table 表名 drop column 字段名;`
 - 了解，一般用工具操作
 
 # day02-3
