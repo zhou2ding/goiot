@@ -164,6 +164,10 @@ func main() {
 }
 ```
 
+## 反序列化
+
+- go中`json.Unmarshal()`会自动把嵌套的json转成`map[string]interface{}`，而不是`[]byte`
+
 ## 待补充...
 
 # CGO
