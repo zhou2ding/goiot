@@ -327,11 +327,8 @@ mkdir /etc/docker
 
 cat > /etc/docker/daemon.json <<EOF
 {
-"exec-opts": ["native.cgroupdriver=systemd"],
-"log-driver": "json-file",
-"log-opts": {
-"max-size": "100m"
-}
+	"exec-opts": ["native.cgroupdriver=systemd"],
+	"registry-mirrors": ["https://kn0t2bca.mirror.aliyuncs.com"]
 }
 EOF
 mkdir -p /etc/systemd/system/docker.service.d
@@ -418,7 +415,7 @@ enabled=1
 gpgcheck=0
 repo_gpgcheck=0
 gpgkey=http://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg
-http://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
+       http://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
 EOF
 
 yum install -y kubelet kubeadm kubectl && systemctl enable kubelet
