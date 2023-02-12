@@ -564,7 +564,7 @@ on t.avgSal between s.losal and s.hisal;
 
 ```mysql
 #找出每个员工的部门名称，要求显示员工名，部门名
-#缺陷：对于select后面的子查询，这个子查询只能一次返回一条结果，多于一条及报错
+#缺陷：对于select后面的子查询，这个子查询只能一次返回一条结果，多于一条就报错
 select
 	e.ename,(select d.dname from dept d where e.deptno = d.deptno) as dname
 from
