@@ -341,17 +341,17 @@ rm -rf /var/lib/docker # 删除资源
 
 ### UFS(联合文件系统)
 
-![image-20210427093301969](D:\资料\Go\src\studygo\Golang学习笔记\docker学习笔记.assets\image-20210427093301969.png)
+![image-20210427093301969](.\docker学习笔记.assets\image-20210427093301969.png)
 
 ### docker镜像加载原理
 
-![image-20210427093452844](D:\资料\Go\src\studygo\Golang学习笔记\docker学习笔记.assets\image-20210427093452844.png)
+![image-20210427093452844](.\docker学习笔记.assets\image-20210427093452844.png)
 
 ### 分层理解
 
-![image-20210427094658700](D:\资料\Go\src\studygo\Golang学习笔记\docker学习笔记.assets\image-20210427094658700.png)
+![image-20210427094658700](.\docker学习笔记.assets\image-20210427094658700.png)
 
-![image-20210427094751568](D:\资料\Go\src\studygo\Golang学习笔记\docker学习笔记.assets\image-20210427094751568.png)
+![image-20210427094751568](.\docker学习笔记.assets\image-20210427094751568.png)
 
 ## 特点
 
@@ -359,7 +359,7 @@ Docker镜像层都是只读的，当容器启动时（docker run xxx），一个
 
 这一层就是容器层，容器之下的都叫镜像层
 
-![image-20210427095624983](D:\资料\Go\src\studygo\Golang学习笔记\docker学习笔记.assets\image-20210427095624983.png)
+![image-20210427095624983](.\docker学习笔记.assets\image-20210427095624983.png)
 
 ## commit容器
 
@@ -542,7 +542,7 @@ RUN set -eux; \
 
 # Docker流程总结
 
-![image-20210427170953776](D:\资料\Go\src\studygo\Golang学习笔记\docker学习笔记.assets\image-20210427170953776.png)
+![image-20210427170953776](.\docker学习笔记.assets\image-20210427170953776.png)
 
 # Docker网络
 
@@ -552,7 +552,7 @@ RUN set -eux; \
 
 - `ip addr`
 
-![image-20210429170025017](D:\资料\Go\src\studygo\Golang学习笔记\docker学习笔记.assets\image-20210429170025017.png)
+![image-20210429170025017](.\docker学习笔记.assets\image-20210429170025017.png)
 
 - `docker run`时追加`ip addr`命令，得到的就是本机地址和docker内部地址
 
@@ -564,17 +564,17 @@ RUN set -eux; \
 
   ==直接查看ip==：linux上的Ip对
 
-![image-20210429172945934](D:\资料\Go\src\studygo\Golang学习笔记\docker学习笔记.assets\image-20210429172945934.png)
+![image-20210429172945934](.\docker学习笔记.assets\image-20210429172945934.png)
 
 ==查看容器的ip==：容器内部的ip对，和linux上的ip对是一致的
 
-![image-20210429173027541](D:\资料\Go\src\studygo\Golang学习笔记\docker学习笔记.assets\image-20210429173027541.png)
+![image-20210429173027541](.\docker学习笔记.assets\image-20210429173027541.png)
 
 > veth-pair技术：一对的虚拟设备接口，都是成对出现的，一段连着协议，一段彼此相连
 >
 > veth-pair来充当桥梁，容器之间可以互相ping同，linux服务器可以ping同它创建的容器
 
-![image-20210429174300557](D:\资料\Go\src\studygo\Golang学习笔记\docker学习笔记.assets\image-20210429174300557.png)
+![image-20210429174300557](.\docker学习笔记.assets\image-20210429174300557.png)
 
 ## 容器互联
 
@@ -587,7 +587,7 @@ RUN set -eux; \
 
 ==自定义网络==（网卡）
 
-  ![image-20210429203047263](D:\资料\Go\src\studygo\Golang学习笔记\docker学习笔记.assets\image-20210429203047263.png)
+  ![image-20210429203047263](.\docker学习笔记.assets\image-20210429203047263.png)
 
 - 网络模式
   - bridge：桥接，在docker上搭桥（多个容器把docker0当做桥）（自定义网络用此模式）
