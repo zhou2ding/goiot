@@ -405,8 +405,8 @@ docker commit -m="提交的描述信息" -a"作者" 容器id 目标镜像名:TAG
 ### 匿名挂载
 
 - 挂载的时候不指定本机的目录，也不指定卷名，只写了容器内的目录（最终的卷名是一堆哈希值）
-  - `docker run -v 主机目录:容器目录 xxx`
-  - `docker run -v 容器目录 xxx`
+
+  `docker run -v 容器目录 xxx`
 
 ## 挂载方式2（常用）
 
