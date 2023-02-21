@@ -121,7 +121,7 @@
 >
 > DNS要改成DNS1
 >
-> ![image-20210509210739421](D:\资料\Go\src\studygo\Golang学习笔记\linux笔记.assets\image-20210509210739421.png)
+> ![image-20210509210739421](.\linux笔记.assets\image-20210509210739421.png)
 
 # 进程
 
@@ -133,9 +133,9 @@
 
   - `ps -e`查看所有进程，`ps -ef`以全格式显示所有进程，`grep --color=auto redis`是grep本身的进程
 
-    > ![image-20210509213040886](D:\资料\Go\src\studygo\Golang学习笔记\linux笔记.assets\image-20210509213040886.png)
+    > ![image-20210509213040886](.\linux笔记.assets\image-20210509213040886.png)
     >
-    > ![image-20210509213047524](D:\资料\Go\src\studygo\Golang学习笔记\linux笔记.assets\image-20210509213047524.png)
+    > ![image-20210509213047524](.\linux笔记.assets\image-20210509213047524.png)
 
   - `kill pid`杀掉进程；`killall 进程名称(支持通配符)`杀死指定进程名称的所有进程；`kill -9 pid`强迫进程立即停止
 
@@ -274,7 +274,7 @@
 
   - 固定用法：`tar -zcvf`，`tar -zxvf`
 
-    ![image-20210508183228470](D:\资料\Go\src\studygo\Golang学习笔记\linux笔记.assets\image-20210508183228470.png)
+    ![image-20210508183228470](.\linux笔记.assets\image-20210508183228470.png)
   
 - 查看服务器的系统信息
 
