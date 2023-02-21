@@ -1,11 +1,22 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
-	"time"
+	"os"
+	"strconv"
+	"strings"
 )
 
 func main() {
-	start := time.Now()
-	fmt.Println(time.Since(start).String())
+	sc := bufio.NewScanner(os.Stdin)
+	for sc.Scan() {
+		arrStr := strings.Split(sc.Text(), " ")
+		var arr []int
+		for _, v := range arrStr {
+			num, _ := strconv.Atoi(v)
+			arr = append(arr, num)
+		}
+		fmt.Println(maxArea(arr))
+	}
 }

@@ -11,24 +11,21 @@ import "math"
 
 func maxArea(height []int) int {
 	length := len(height)
-	maxVolume := (length - 1) * min(height[0], height[length-1])
 
 	j := length - 1
 	i := 0
-	for {
-		if i == j {
-			break
-		}
+	volume := (length - 1) * min(height[i], height[j])
+	for i < j {
 		if height[i] < height[j] {
 			i++
-			maxVolume = cal(i, j, maxVolume, height)
+			volume = cal(i, j, volume, height)
 		} else {
 			j--
-			maxVolume = cal(i, j, maxVolume, height)
+			volume = cal(i, j, volume, height)
 		}
 	}
 
-	return maxVolume
+	return volume
 }
 
 func cal(i, j, maxVolume int, height []int) int {
