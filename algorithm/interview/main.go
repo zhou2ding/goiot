@@ -1,12 +1,17 @@
 package main
 
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
 // 10个任务，每个任务按指定时间周期执行
-func job(input interface{}, duration time.Duration) {}
+func job(input interface{}) {
+	fmt.Printf("working on %v", input)
+}
 
 func main() {
-	jobChan := make(chan func(interface{}, time.Duration))
+	jobChan := make(chan func(interface{}))
 	var (
 		input    int
 		duration time.Duration
@@ -19,11 +24,11 @@ func main() {
 	}
 }
 
-func work(jobChan chan func(interface{}, time.Duration), input interface{}, duration time.Duration) {
+func work(jobChan chan func(interface{}), input interface{}, duration time.Duration) {
 	t := time.Tick(duration)
-	for _ = range t {
-		job := <-jobChan
-		job(input, duration)
+	for range t {
+		j := <-jobChan
+		j(input)
 	}
 }
 

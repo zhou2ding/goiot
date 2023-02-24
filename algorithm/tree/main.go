@@ -1,27 +1,56 @@
 package main
 
-import "fmt"
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strconv"
+)
 
 func main() {
-	t1 := &treeNode{val: 4}
-	insert1(t1, 2)
-	insert1(t1, 5)
-	insert1(t1, 1)
-	insert1(t1, 3)
-	inorder(t1)
-
-	t2 := &treeNode{val: 4}
-	insert2(t2, 2)
-	insert2(t2, 5)
-	insert2(t2, 1)
-	insert2(t2, 3)
-	inorder(t2)
+	sc := bufio.NewScanner(os.Stdin)
+	for sc.Scan() {
+		n, _ := strconv.Atoi(sc.Text())
+		t1 := &treeNode{}
+		t2 := &treeNode{}
+		for i := 0; i < n; i++ {
+			insert1(t1, i)
+			insert2(t2, i)
+		}
+		inorder(t1)
+		inorder(t2)
+	}
 }
 
 type treeNode struct {
 	val   int
 	left  *treeNode
 	right *treeNode
+}
+
+func createNode(val int) *treeNode {
+	return &treeNode{val: val}
+}
+
+func (t *treeNode) insert(n *treeNode, val int) {
+	cur := n
+	for cur != nil {
+		if val > cur.val {
+			if cur.right == nil {
+				cur.right = createNode(val)
+				return
+			} else {
+				cur = cur.right
+			}
+		} else {
+			if cur.left == nil {
+				cur.left = createNode(val)
+				return
+			} else {
+				cur = cur.left
+			}
+		}
+	}
 }
 
 func insert1(node *treeNode, val int) *treeNode {
@@ -71,8 +100,8 @@ func preorder(node *treeNode) {
 		return
 	}
 	fmt.Print(node.val, " ")
-	inorder(node.left)
-	inorder(node.right)
+	preorder(node.left)
+	preorder(node.right)
 }
 
 func inorder(node *treeNode) {
