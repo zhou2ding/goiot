@@ -215,6 +215,7 @@ func main() {
 - windows平台也可使用此方法，`.a`文件换成`.lib`即可
 
 ```go
+/*
 #cgo CFLAGS: -I../../lib
 #cgo LDFLAGS: -L../../lib -lhi
 #include "demo.h"

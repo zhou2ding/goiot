@@ -2,34 +2,60 @@ package main
 
 import (
 	"fmt"
+	"sync"
 	"time"
 )
 
-// 10个任务，每个任务按指定时间周期执行
-func job(input interface{}) {
-	fmt.Printf("working on %v", input)
+type Pool struct {
+	wg   sync.WaitGroup
+	work chan func()
+}
+
+func NewPool(workers int) *Pool {
+	p := &Pool{
+		wg:   sync.WaitGroup{},
+		work: make(chan func()),
+	}
+	p.wg.Add(workers)
+	for i := 0; i < workers; i++ {
+		go func() {
+			defer func() {
+				if err := recover(); err != nil {
+					fmt.Println(err)
+					p.wg.Done()
+				}
+			}()
+			for fn := range p.work {
+				fn()
+			}
+			p.wg.Done()
+		}()
+	}
+	return p
+}
+
+func (p *Pool) Add(fn func()) {
+	p.work <- fn
+}
+
+func (p *Pool) Run() {
+	close(p.work)
+	p.wg.Wait()
+}
+
+func parseTask(i int) func() {
+	return func() {
+		time.Sleep(time.Second)
+		fmt.Println("finish parse ", i)
+	}
 }
 
 func main() {
-	jobChan := make(chan func(interface{}))
-	var (
-		input    int
-		duration time.Duration
-	)
-	for i := 0; i < 10; i++ {
-		go work(jobChan, input, duration)
+	p := NewPool(20)
+	for i := 0; i < 100; i++ {
+		p.Add(parseTask(i))
 	}
-	for i := 0; i < 10; i++ {
-		jobChan <- job
-	}
-}
-
-func work(jobChan chan func(interface{}), input interface{}, duration time.Duration) {
-	t := time.Tick(duration)
-	for range t {
-		j := <-jobChan
-		j(input)
-	}
+	p.Run()
 }
 
 // 一个表有三列：人名、课程、分数，查找每个课程最高分数的人名
