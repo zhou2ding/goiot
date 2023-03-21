@@ -57,11 +57,48 @@
 
 # day01
 
-## 命令行启停服务
+## 安装启动步骤
 
-`net start 服务名称`
+- 安装目录下的bin目录加入环境变量
 
-`net stop 服务名称`
+- 配置文件
+
+  ```bash
+  [mysqld]
+  # 设置3306端口
+  port=3306
+  # 设置mysql的安装目录
+  basedir=D:\Software\mysql-8.0.31-winx64
+  # 设置mysql数据库的数据的存放目录
+  datadir=D:\Software\mysql-8.0.31-winx64\data
+  # 允许最大连接数
+  max_connections=200
+  # 允许连接失败的次数。
+  max_connect_errors=10
+  # 服务端使用的字符集默认为utf8mb4
+  character-set-server=utf8mb4
+  # 创建新表时将使用的默认存储引擎
+  default-storage-engine=INNODB
+  # 默认使用“mysql_native_password”插件认证
+  default_authentication_plugin=mysql_native_password
+  [mysql]
+  # 设置mysql客户端默认字符集
+  default-character-set=utf8mb4
+  [client]
+  # 设置mysql客户端连接服务端时默认使用的端口
+  port=3306
+  default-character-set=utf8mb4
+  ```
+
+- 安装服务：`mysqld --install mysql`
+
+  > 删除服务：`sc delete mysql `
+
+- 启动服务：`net start mysql`
+
+  > 停止服务：`net stop mysql`
+
+- 初始化服务：`mysqld --initialize --console`，记得保存初始密码
 
 ## 语句分类
 
@@ -1190,9 +1227,11 @@ rollback;
 
 - 面试问到了除了回答三范式，还要说：只是理论，最终是为了满足客户的需求，有时会拿冗余换执行速度，因为表的连接次数越多，效率越低（笛卡尔积），对于开发人员来说，编写SQL语句的难度也会降低。
 
+# 面试技巧
 
+## 表连接
 
-
+![image-20230320201909985](mysql-3306 笔记.assets/image-20230320201909985.png)
 
 
 

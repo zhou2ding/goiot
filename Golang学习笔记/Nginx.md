@@ -8,7 +8,7 @@
 
 - 反向代理：代理服务端，用户访问固定的域名，代理再把请求转发到相应的服务器，即使服务器动态扩容了，用户也感知不到。不用配置代理服务器地址，用户不知道实际提供服务的服务端
 
-  ![image-20210504151053963](E:\study\studygo\Golang学习笔记\Nginx.assets\image-20210504151053963.png)
+  ![image-20210504151053963](Nginx.assets\image-20210504151053963.png)
 
 # 功能
 
@@ -25,7 +25,7 @@
 
 - 动静分离
 
-  ![image-20210429214757132](E:\study\studygo\Golang学习笔记\Nginx.assets\image-20210429214757132.png)
+  ![image-20210429214757132](Nginx.assets\image-20210429214757132.png)
 
 # 安装
 
@@ -138,13 +138,13 @@
 
     > 按照上面的配置两个服务器轮流访问，要保证多个机器的性能、处理事务要一致
     >
-    > ![image-20210504213828308](E:\study\studygo\Golang学习笔记\Nginx.assets\image-20210504213828308.png)
+    > ![image-20210504213828308](Nginx.assets\image-20210504213828308.png)
 
   - 权重
 
     > 也是交替请求的
     >
-    > ![image-20210504215034093](E:\study\studygo\Golang学习笔记\Nginx.assets\image-20210504215034093.png)
+    > ![image-20210504215034093](Nginx.assets\image-20210504215034093.png)
 
   - ip hash
 
@@ -160,7 +160,7 @@
 
     > 谁的请求数量少，就把请求给谁
     >
-    > ![image-20210504215128435](E:\study\studygo\Golang学习笔记\Nginx.assets\image-20210504215128435.png)
+    > ![image-20210504215128435](Nginx.assets\image-20210504215128435.png)
 
 ## 静态代理
 
