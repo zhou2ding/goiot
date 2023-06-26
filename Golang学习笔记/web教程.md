@@ -1089,7 +1089,7 @@ div {
 - display，设置一个元素应如何显示，显示隐藏相关的值
 
   - none，隐藏元素，元素也不再占有原来的位置
-  - block，除了把元素转成块级元素，还有显示元素的左右
+  - block，除了把元素转成块级元素，还有显示元素的作用
 
 - visibility，指定元素的可见性
 
@@ -1149,9 +1149,9 @@ div {
 
   - 使用
 
-    - 下载字体图标：[icomoon](https://icomoon.io/)，[阿里iconfont](https://www.iconfont.cn/)
+    - 下载字体图标：[icomoon](https://icomoon.io/)，[阿里iconfont](https://www.iconfont.cn/)，选择需要的图标，生成，下载
 
-    - 把下载的包里的fonts文件夹放到页面根目录，把如下代码复制到目录中（从下载包中的style.css中截取）
+    - 把下载的包里的fonts文件夹放到页面根目录，把如下代码复制到style标签中（从下载包中的style.css中截取）
 
       ```css
       @font-face {
@@ -1167,9 +1167,9 @@ div {
       }
       ```
 
-    - 在下载包中的demo.html找到需要的图标，复制它的小方框：，然后把盒子的font-family设成如上的icomoon
+    - 在下载包中的demo.html找到需要的图标，复制它的小方框：，然后把盒子的font-family设成icomoon
 
-    - 追加字体图标：把已下载包里的selection.json上传，选择需要的新图标再重新下载
+    - 追加字体图标：把已下载包里的selection.json上传到icomoon网站，选择需要的新图标再重新下载
 
 - 三角：网页中一些三角形直接使用css就能画出来，不用做成图片或字体图标
 
@@ -1190,7 +1190,7 @@ div {
 
   - 表单轮廓线，给表单元素添加`outline: 0;`或`outline: none;`后，可以去掉默认的蓝色边框
 
-  - 防止表单域拖拽，给表单元素添加`resize: none;`，可以禁止文本域被拖拽放大缩小
+  - 防止textarea被拖拽，给表单元素添加`resize: none;`，可以禁止文本域被拖拽放大缩小；textarea标签最好写在同一行
 
 - 垂直居中，vertical-align，只针对行内元素或行内块元素，修改元素的垂直对齐方式 ，值如下
 
