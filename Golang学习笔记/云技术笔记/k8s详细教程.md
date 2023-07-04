@@ -1261,7 +1261,7 @@ spec:
 
 ![image-20200408193950807](Kubenetes.assets/image-20200408193950807.png)
 
-##### 4.4.1待操作。。。。。
+##### 4.4.1 命令方式
 
 ```yaml
 # 命令格式: kubectl create deployment 名称  [参数] 
@@ -1269,6 +1269,8 @@ spec:
 # --port   指定端口
 # --replicas  指定创建pod数量
 # --namespace  指定namespace
+# 适合创建复杂的deployment，有更多的配置灵活性：kubectl create deploy nginx --image=nginx:latest --port=80 --replicas=3 -n dev
+# kubectl run适合快速创建简单的deployment，run也能创建job、cronjob等
 [root@master ~]# kubectl run nginx --image=nginx:latest --port=80 --replicas=3 -n dev
 deployment.apps/nginx created
 
@@ -1412,10 +1414,15 @@ svc-nginx1   ClusterIP   10.109.179.231   <none>        80/TCP    3m51s   run=ng
 ```yacas
 # 上面创建的Service的type类型为ClusterIP，这个ip地址只用集群内部可访问
 # 如果需要创建外部也可以访问的Service，需要修改type为NodePort
+# port 参数用于指定 Service 的端口号，表示服务的入口端口，客户端可以通过该端口与服务进行通信。它是外部用户或其他服务访问 Service 的入口。
+# target-port 参数用于指定要映射到 Service 的后端 Pod 的端口号。它是将流量从 Service 路由到后端 Pod 的端口。
+# --node-port参数用于NodePort类型的service暴露对外端口
 [root@master ~]# kubectl expose deploy nginx --name=svc-nginx2 --type=NodePort --port=80 --target-port=80 -n dev
 service/svc-nginx2 exposed
 
 # 此时查看，会发现出现了NodePort类型的Service，而且有一对Port（80:31928/TC）
+# 没有指定type时，默认为ClusterIP，还有LoadBalancer、ExternalName等其他类型
+# NodePort类型的service会动态分配一个高于30000的随机端口（在范围 30000-32767 内），如果希望是固定端口，把--port换成--node-port
 [root@master ~]# kubectl get svc  svc-nginx2  -n dev -o wide
 NAME          TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE    SELECTOR
 svc-nginx2    NodePort    10.100.94.0      <none>        80:31928/TCP   9s     run=nginx
@@ -1628,8 +1635,6 @@ FIELDS:
 #### 5.2 Pod配置
 
 本小节主要来研究`pod.spec.containers`属性，这也是pod配置中最为关键的一项配置。
-
-
 
 ```yaml
 [root@k8s-master01 ~]# kubectl explain pod.spec.containers
