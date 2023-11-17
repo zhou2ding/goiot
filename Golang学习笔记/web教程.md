@@ -5,7 +5,7 @@
 
 - html：超文本标记语言，是一种标记语言，是一套标记标签(markup tag)，html文档的后缀名必须是html或htm
 - 浏览器：firefox、chrome、edge、safari、opera
-- 浏览器内核：解释网页的语法并渲染，Trident(IE、猎豹、360、百度)，Gecko(firefox)、Webkit(safari)、Blink(chrome、opera、yandex，来源于Webkit)
+- 浏览器内核：解释网页的语法并渲染，Trident(IE)，Gecko(firefox)、Webkit(safari)、Blink(chrome、opera、yandex、edge，来源于Webkit)
 - web标准：W3C指定的标准，由结构、表现、行为组成
   - 结构(Structure)：用于对网页元素进行整理和分类，HTML
   - 表现(Presentation)：用于设置网页元素的版式、颜色、大小等外观样式，CSS
