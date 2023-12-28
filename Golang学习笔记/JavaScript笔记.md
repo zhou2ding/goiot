@@ -1,4 +1,4 @@
-# 简介
+## 简介
 
 ## 是什么
 
@@ -344,7 +344,7 @@ fun()
 
 ## arguments
 
-不确定有多个参数传递时，用arguments来获取。JS中，arguments是当前函数的一个内置对象，所有函数都内置了一个arguments对象，**存储了传递的所有实参**。
+不确定有多少个参数传递时，用arguments来获取。JS中，arguments是当前函数的一个内置对象，所有函数都内置了一个arguments对象，**存储了传递的所有实参**。
 
 arguments展示形式是一个伪数组，有以下特点
 
@@ -387,7 +387,7 @@ arguments展示形式是一个伪数组，有以下特点
 
 js引擎运行js过程：
 
-1. 预解析：js引擎会把js里面所有的var和function提升到当前作用域的最前面
+1. 预解析：js引擎会把js里面所有的var和function声明提升到当前作用域的最前面
 2. 执行代码：按照代码顺序从上往下执行
 
 ## 变量预解析
@@ -474,13 +474,100 @@ new 构造函数名();
 
 ## 遍历对象
 
-for ... in循环
+### for...in 循环：
+
+`for...in` 循环可以遍历对象的可枚举属性，包括对象的原型链上的属性。在遍历时，需要使用 `hasOwnProperty` 方法来确保只获取对象自身的属性，而不包括继承的属性。
 
 ```js
-for (var 变量 in 对象) {
-  变量;				// 得到的是属性名
-  obj[变量];	// 得到的是属性值
+javascriptCopy code
+var person = {
+  name: 'Alice',
+  age: 25,
+  job: 'Engineer'
+};
+
+for (var key in person) {
+  if (person.hasOwnProperty(key)) {
+    console.log(key + ': ' + person[key]);
+  }
 }
+```
+
+### Object.keys 方法：
+
+`Object.keys` 方法返回一个包含对象自身可枚举属性名称的数组。可以遍历这个数组来访问对象的属性。
+
+```js
+javascriptCopy code
+var person = {
+  name: 'Alice',
+  age: 25,
+  job: 'Engineer'
+};
+
+var keys = Object.keys(person);
+
+for (var i = 0; i < keys.length; i++) {
+  var key = keys[i];
+  console.log(key + ': ' + person[key]);
+}
+```
+
+### Object.values 方法：
+
+`Object.values` 方法返回一个包含对象自身可枚举属性值的数组。
+
+```js
+javascriptCopy code
+var person = {
+  name: 'Alice',
+  age: 25,
+  job: 'Engineer'
+};
+
+var values = Object.values(person);
+
+for (var i = 0; i < values.length; i++) {
+  console.log(values[i]);
+}
+```
+
+### Object.entries 方法：
+
+`Object.entries` 方法返回一个包含对象自身可枚举属性键值对的数组。
+
+```js
+javascriptCopy code
+var person = {
+  name: 'Alice',
+  age: 25,
+  job: 'Engineer'
+};
+
+var entries = Object.entries(person);
+
+for (var i = 0; i < entries.length; i++) {
+  var key = entries[i][0];
+  var value = entries[i][1];
+  console.log(key + ': ' + value);
+}
+```
+
+### forEach 方法：
+
+对于数组形式的对象，可以使用 `forEach` 方法来遍历。
+
+```js
+javascriptCopy code 
+var person = {
+  name: 'Alice',
+  age: 25,
+  job: 'Engineer'
+};
+
+Object.keys(person).forEach(function(key) {
+  console.log(key + ': ' + person[key]);
+});
 ```
 
 # 内置对象
@@ -529,8 +616,242 @@ for (var 变量 in 对象) {
 
 - 日期格式化
 
+  var now = new Date();
+
+  | 方法名            | 说明                     |
+  | ----------------- | ------------------------ |
+  | now.getFullYear() | 获取当年                 |
+  | now.getMonth()    | 获取当月（0-11）         |
+  | now.getDate()     | 获取当天日期             |
+  | now.getDay()      | 获取周几（周日0到周六6） |
+  | now.getHours()    | 获取当前小时             |
+  | now.getMinutes()  | 获取当前分钟             |
+  | now.getSeconds()  | 获取当前秒钟             |
+
+- 1970年1月1日至今的总的毫秒数（时间戳）
+
+  - var now = new Date();
+
+    - now.valueOf()
+
+    - now.getTime()
+
+  - 最常用写法：var now = +new Date();
+
+    > +new Date()可以传参数
+
+  - H5新增方法：Date.now()
+
+  ![image-20231220155726510](./JavaScript笔记.assets/image-20231220155726510.png)
+
+## 数组对象
+
+- 创建
+
+  - 数组字面量：var arr = [];	
+
+  - new Array()
+
+    - 创建一个空数组：var arr = new Array();
+
+    - 创建长度为2且有两个空元素的数组：var arr = new Array(2);
+
+    - 创建有元素的数组：至少传两个参数 var arr = new Array(2, 3);
+
+      > 等价于 var arr = [2, 3];
+
+- 检测是否为数组
+
+  - instanceof：if (arr instanceof Array) {}
+
+  - Array.isArray()：if (Array.isArray(arr)) {}
+
+    > H5新增的方法 
+
+- 添加元素
+
+  - push：在末尾添加元素，返回push后数组的长度，var arr = []; arr.push(1, 'abc');
+  - unshift：在开头添加元素，返回unshift后数组的长度
+
+- 删除元素
+
+  - pop：删除最后一个元素，返回被删除的元素
+  - shift：删除第一个元素，返回被删除的元素
+
+- 排序
+
+  - reverse()：翻转数组
+
+  - sort() 
+
+    - 排序，默认按照元素转换为字符串的各字符的Unicode位点进行排序（和mysql的排序一样）
+
+    - 自定义排序：
+
+      ```js
+      arr.sort(function(a, b) {
+        return a - b;	// 升序排序，b-a则是降序
+      })
+      ```
+
+- 索引
+
+  - indexof()：查找给定元素的第一个索引，不存在则返回-1
+  - lastIndexOf()：查找给定元素的最后一个索引，不存在则返回-1
+
+- 转换为字符串
+
+  - toString()：得到的字符串，数组元素间用逗号分隔
+  - join(分隔符)：默认分隔符是逗号 
+
+- 其他
+
+  - concat()：连接两个或多个数组，返回连接后的数组，不影响原数组
+  - slice(begin, end)：截取数组，返回begin到end之间的新数组
+  - splice(begin, n)：从begin开始删除n个元素，返回被删除元素后的新数组，会影响原数组
+
+## 字符串对象
+
+> 所有字符串的方法都不会修改字符串本身
+
+- 根据字符返回索引：indexof(target, [start])和lastIndexof(target, [start])
+  - str.indexOf('a'); 默认从0开始查找，lastIndexof一样
+  - str.indexOf('a', 3); 从索引3的位置开始查找，lastIndexof一样
+- 根据索引返回字符
+  - charAt(index)，返回index位置的字符
+  - charCodeAt(index)，返回index位置的字符的ASCII码，作用：**判断用户按了哪个键**
+  - str[index]，H5新增，和charAt等效
+- 操作字符串
+  - concat，拼接字符串，用+拼接更常用
+  - substr(start,length)，从start开始，截取length长度的字符串
+  - slice(start,end)，从start开始截取到end，不包括end
+  - substring(start,end)，基本和slice相同，不接受负值
+  - replace('被替换的字符', '替换为的字符')，替换字符，只替换第一个出现的字符
+  - split，把字符串转换为数组
+
+# 数据类型总结
+
+## 简单类型
+
+> 也叫基本数据类型或值类型
+
+- string、number、boolean、undefined、null（空的object）  
+- 如果有个变量以后打算存储为对象，暂时没想好放什么，就给null
+
+## 复杂类型
+
+> 也叫引用类型
+
+- 用new关键字创建，Object、Array、Date等
+
+## 堆栈
+
+- 栈：操作系统自动分配释放内存，存放参数、局部变量等变量的值
+- 堆：手动分配释放内存，复杂数据类型的值存在堆里，若不手动释放，由垃圾回收机制回收
+- 简单数据类型的值存在栈里；复杂数据类型的地址存在在栈里，值存放在堆里
+
 # Web API
 
-# DOM
+## 简介
 
-# BOM
+### API
+
+Application Programming Interface，应用程序编程接口，一些预先定义的函数，目的是提供应用程序与开发人员基于软件或硬件得以访问一组例程的能力，而无需访问源码或理解内部工作机制的细节。
+
+### Web APIs
+
+是浏览器提供的一套操作浏览器功能和页面元素的API（BOM和DOM）
+
+## DOM
+
+Document Object Model，文档对象模型，通过DOM接口可以改变网页的内容、结构和样式
+
+### DOM树
+
+![image-20231221155833823](./JavaScript笔记.assets/image-20231221155833823.png)
+
+- 文档：一个页面就是一个文档，DOM中用document表示
+- 元素：所有的标签就是元素，DOM中有element表示
+- 节点：网页中的所有内容都是节点（标签、属性、文本、注视等），DOM中用node表示
+- DOM中把以上内容都看做对象
+
+### 获取元素
+
+> 以下函数的传参都是字符串
+
+- 根据ID获取：document.getElementById(id)，id是大小写敏感的字符串，找到则返回DOM的element对象，否则返回null
+- 根据标签名获取
+  - document.getElementsByTagName(name)，找到则返回一组对象（伪数组的形式存储），否则返回null，得到的元素是动态的（原始元素中的内容发生变化，得到的就会变化）
+  - element.getElementsByTagName(name)
+    - document.getElementsByTagName(name)[index].getElementsByTagName(name)
+    - document.getElementById(id).getElementsByTagName(name)
+- 通过H5新增的方法获取
+  - document.getElementsByClassName(name)
+  - document.querySelector(选择器)，返回指定选择器选中的第一个元素
+  - document.querySelectorAll(选择器)，返回指定选择器选中的所有元素
+- 特殊元素获取
+  - document.body，获取body标签
+  - document.documentElement，获取html标签
+
+
+### 事件
+
+触发-响应机制，网页中的每个元素都可以产生某些可以触发js的事件，事件由三部分组成
+
+- 事件源，触发事件的对象，html中的元素
+- 事件类型，如何触发，比如鼠标点击(onclick)、鼠标经过、键盘按下等
+- 事件处理程序，处理事件的函数
+
+  ==事件函数中也可以用this，指向的是事件函数的调用者==
+
+```js
+<script>
+  var btn = document.getElementById('btn');	// 获取事件源
+
+	// 绑定/注册事件
+	btn.onclick = function() {
+    alert('点击了按钮');
+    this.disabled = true;
+  }	//  
+</script>
+```
+
+| 鼠标事件    | 触发条件         |
+| ----------- | ---------------- |
+| onclick     | 鼠标点击左键触发 |
+| onmouseover | 鼠标经过触发     |
+| onmouseout  | 鼠标离开触发     |
+| onfocus     | 获得鼠标焦点触发 |
+| onblur      | 失去鼠标焦点触发 |
+| onmouseup   | 鼠标弹起触发     |
+| onmousedown | 鼠标按下触发     |
+
+### 操作元素
+
+> 利用DOM来改变元素的内容、属性等，可以通过事件来修改，也可以直接修改，打开或刷新页面后直接显示修改后的内容。
+
+#### 修改或获取元素内容
+
+- element.innerText，非标准，从起始位置到终止位置到内容，不识别标签，且去掉空格和换行
+- element.innerHTML，W3C标准，从起始位置到终止位置到内容，识别标签，且会包含空格和换行
+
+#### 常用元素的属性操作
+
+- innerText、innerHTML，改变元素内容
+- src、href
+- id、alt、title
+
+#### 表单元素的操作
+
+- type 
+- value
+- checked
+- selected
+- disabled
+
+样式属性操作（自动把修改后的样式设为行内样式，因此优先级比css高，会覆盖css）
+
+- element.style，行内样式操作，如：`this.style.backgroundColor = ''`
+- element.className，类名样式操作
+
+## BOM
