@@ -851,7 +851,67 @@ Document Object Model，文档对象模型，通过DOM接口可以改变网页�
 
 样式属性操作（自动把修改后的样式设为行内样式，因此优先级比css高，会覆盖css）
 
-- element.style，行内样式操作，如：`this.style.backgroundColor = ''`
+- element.style，行内样式操作，适用于样式少或功能简单的场景，如：`this.style.backgroundColor = ''`
+
 - element.className，类名样式操作
 
+  ```html
+  .change {
+    // 别的样式
+  }
+  <div class = "first">文本</div>
+  
+  this.className = 'change';	// 调用函数的元素的类改成change类，覆盖原来的类名
+  this.className = 'first change';	// 多类名选择器，保留了原来的类（原先类种的部分样式还要继续用）
+  ```
+
+#### 操作一组元素
+
+- 利用for循环获取一组元素，然后给每个元素.操作 = function{}
+- 利用排他思想把其他元素的样式设为未点击时的样式，然后当前元素修改样式
+
+### 自定义属性
+
+#### 介绍
+
+- 目的：保存并使用数据，有些数据可以保存到页面中而不用存到数据库中
+- 规范：命名以`data-`开头
+
+#### 操作
+
+> \<div myAttr = 'demo'>文本\</div>，myAttr就是自定义属性
+
+- 获取属性值：element.getAttribute(属性名)
+- 设置属性值：element.setAttribute(属性名，属性值)
+- 移除属性：element.removeAttribute(属性名)
+- 以上函数也可以用来操作内置属性，只不过内置属性的操作还是更常用原本的方法
+- H5新增，只能获取`data-`开头的自定义属性
+  - element.dataset.自定义属性名（去掉`data-`前缀的属性名，且把多个-连接的单词转成小驼峰命名）
+  - element.dataset['属性名']，属性名同上
+
+### 节点
+
+> 利用DOM提供的方法获取元素逻辑性不强且繁琐，常用节点的层级关系获取元素
+
+#### 概述
+
+- 网页中的所有内容都说节点（标签、属性、文本、注释等），在DOM中用node表示
+- 节点至少拥有nodeType、nodeName、node Value三个基本属性
+  - 元素节点的nodeType为1
+  - 属性节点的nodeType为2
+  - 文本节点（包含文字、空格、换行等）的nodeType为3
+
+#### 节点层级
+
+- 利用DOM树可以把节点划分为不同的层级关系，常见的是父子兄层级关系
+- 父节点：element.parentNode，得到的是离元素最近的父节点，找不到父节点就返回null
+- 子节点（比较麻烦，一般不使用）
+  - element.childNodes，得到所有的子节点
+    - 包含元素节点、文本节点等
+    - 如果只想获得元素子节点，则for循环根据nodeType判断来获取
+  - element.children（非标准），获取所有元素子节点，最常用
+  - element.firstChild、element.lastChild、element.firstElementChild、element.lastElementChild，第一个子节点、最后一个子节点、第一个元素子节点、最后一个元素子节点（有兼容性问题）
+
 ## BOM
+
+## jQuery
