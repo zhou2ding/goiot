@@ -1,4 +1,4 @@
-## 简介
+##  简介
 
 ## 是什么
 
@@ -904,13 +904,97 @@ Document Object Model，文档对象模型，通过DOM接口可以改变网页�
 #### 节点层级
 
 - 利用DOM树可以把节点划分为不同的层级关系，常见的是父子兄层级关系
-- 父节点：element.parentNode，得到的是离元素最近的父节点，找不到父节点就返回null
+- 父节点：element.parentNode，得到的是离元素最近的元素父节点，找不到父节点就返回null
 - 子节点（比较麻烦，一般不使用）
   - element.childNodes，得到所有的子节点
     - 包含元素节点、文本节点等
     - 如果只想获得元素子节点，则for循环根据nodeType判断来获取
   - element.children（非标准），获取所有元素子节点，最常用
   - element.firstChild、element.lastChild、element.firstElementChild、element.lastElementChild，第一个子节点、最后一个子节点、第一个元素子节点、最后一个元素子节点（有兼容性问题）
+- 兄弟节点
+  - node.nextSibling，node.previousSibling，下一个和上一个兄弟节点，包含元素、文本等等
+  - node.nextElementSibling，node.previousElementSibling，下一个和上一个兄弟元素节点，有兼容性问题
+  - 避免兼容性问题：用nextSibling和previousSibling，for循环判断nodeType为1的时候返回
+
+#### 节点操作
+
+- 新增节点
+  1. 创建节点：var child = document.cerateElement(标签名)
+  2. 添加节点
+     - 在元素后面添加节点：node.appendChild(child)，node是父级，child是子级，是上一步创建好的节点
+     - 在元素前面添加节点：node.insertBefore(child, 指定元素)，node是父级，child是子级，是上一步创建好的节点，指定元素是通过前面的各种方法获取到的元素
+- 删除节点：node.removeChild(child)，node是父级，child是子级
+- 复制节点
+  1. node.cloneNode()，相当于创建节点
+     - 参数为空或false，则是浅拷贝，只复制标签，不复制内容
+     - 参数为true，则是深拷贝，复制标签和内容
+  2. 添加节点
+
+### 三种动态创建元素的区别
+
+- document.write()，直接将内容写入页面，但是当文档流执行完毕，会导致页面全部重绘（即只留下write进页面的内容）
+
+  ```js
+  document.write('<div>demo</div>')
+  ```
+
+- element.innerHTML，效率较低，如果改成把元素塞进数组，再把数组转换成字符串赋值给innerHTML，则效率比createElement还要高
+
+- document.createElement()，效率比innerHTML直接拼接高很多，但是不如innerHTML数组的方式，不过结构更清晰
+
+## DOM高级
+
+### 注册事件
+
+- 传统方式注册
+  - 利用on开头的事件
+  - 特点：注册事件的唯一性，即同一个元素同一个事件只能设置一个处理函数，最后注册的处理函数会覆盖前面注册的
+- 方法监听注册，推荐方式
+  - eventTarget.addEventListener(type, listener[, useCapture])，将指定的监听器注册到eventTarget上
+    - type：事件类型字符串，不带on，入click，mouseover等
+    - listener：事件处理函数
+    - useCapture：可选参数，默认false
+  - 特点：同一个元素同一个事件可以注册多个监听器，事件触发后，事件处理函数依次执行
+
+### 删除事件
+
+- 传统删除方式：事件处理函数设为null
+
+  ```js
+  element.onclick = null;
+  ```
+
+- 监听方式删除：eventTarget.removeEventListener(type, listener)，listener必须是命名函数，不能匿名，可以在事件处理函数内部进行，eg：
+
+  ```js
+  element.addEventListener('click', fn)
+  function fn() {
+    // do something
+    element.removeEventListener('click', fn);
+  }
+  ```
+
+### DOM事件流
+
+事件流描述的是从页面中接收事件的顺序，事件发生时会在元素节点之间按照特定的顺序传播，这个传播过程即为DOM事件流
+
+DOM事件流分3个阶段
+
+1. 捕获阶段
+2. 当前目标阶段
+3. 冒泡阶段
+
+![image-20240111180420539](./JavaScript笔记.assets/image-20240111180420539.png)
+
+### 事件对象
+
+### 阻止事件冒泡
+
+### 事件委托
+
+### 常用鼠标事件
+
+### 常用键盘事件
 
 ## BOM
 
