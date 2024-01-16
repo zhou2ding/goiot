@@ -953,7 +953,10 @@ Document Object Model，文档对象模型，通过DOM接口可以改变网页�
   - eventTarget.addEventListener(type, listener[, useCapture])，将指定的监听器注册到eventTarget上
     - type：事件类型字符串，不带on，入click，mouseover等
     - listener：事件处理函数
-    - useCapture：可选参数，默认false
+    - useCapture，默认false
+      - true则该事件处于捕获阶段，父元素如果绑定了某个事件，在子元素上进行了该事件的操作时，不管子元素有没有绑定该事件，总是先执行父元素的事件
+      - false则该事件处于冒泡阶段，父元素如果绑定了某个事件，在子元素上进行了该事件的操作时，不管子元素有没有绑定该事件，总是后执行父元素的事件
+      - eg：如冒泡阶段，给父元素绑定了onClick，若子元素绑定了onClick，则点击子元素时，先执行子元素的onClick监听函数，后执行父元素的onClick监听函数；若子元素没有绑定onClick，则直接执行父元素的onClick监听函数
   - 特点：同一个元素同一个事件可以注册多个监听器，事件触发后，事件处理函数依次执行
 
 ### 删除事件
@@ -983,18 +986,82 @@ DOM事件流分3个阶段
 1. 捕获阶段
 2. 当前目标阶段
 3. 冒泡阶段
+   - 实际开发更关注冒泡
+   - 有些事件没有冒泡，如onblur、onfocus、onmouseover、onmouseleave
 
 ![image-20240111180420539](./JavaScript笔记.assets/image-20240111180420539.png)
 
+![image-20240116165940251](./JavaScript笔记.assets/image-20240116165940251.png)
+
 ### 事件对象
 
-### 阻止事件冒泡
+- 事件对象是事件处理函数的形参
+
+- 是系统自动创建的，不需要传递参数；若声明事件处理函数时给了形参，则这个形参就是事件对象
+
+  ```js
+  element.onClick = function(e) {
+    console.log(e)	// e就是事件对象，包含了和该事件相关的信息
+  }
+  ```
+
+- 是事件的一系列和事件相关数据的集合，如鼠标按下事件对象包含了鼠标按下时的坐标、被哪个元素绑定了等等
+
+- 事件对象可以自己命名，有兼容性问题
+
+事件对象的常见属性和方法
+
+| 事件对象属性方法    | 说明                                                         |
+| ------------------- | ------------------------------------------------------------ |
+| e.target            | 触发事件的元素（this是绑定了事件的元素，注意区别，如ul绑定，但是点击时一般都点击的li） |
+| e.type              | 事件的类型，如click、mouseover，不带on                       |
+| e.preventDefault()  | 阻止默认行为，如不让链接跳转、不让提交按钮提交，e.returnValue、return false也可以，但不常用 |
+| e.stopPropagation() | 阻止冒泡，e.cancelBubble也可以，但不常用                     |
 
 ### 事件委托
 
-### 常用鼠标事件
+==不给每个子节点添加事件监听器，而是把事件监听器注册在其父节点上，然后利用冒泡原理影响每个子节点==
 
-### 常用键盘事件
+### 鼠标事件
+
+#### 常用事件
+
+- ![image-20240116174713731](./JavaScript笔记.assets/image-20240116174713731.png)
+
+- contextmenu，用于控制何时显示上下文菜单，一般用法：
+
+  ```js
+  document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();	// 禁用鼠标右键菜单
+  })
+  ```
+
+- selectstart，开始选中，一般用法
+
+  ```js
+  document.addEventListener('selectstart', function(e) {
+    e.preventDefault();	// 禁止选中文字
+  })
+  ```
+
+#### 鼠标事件对象MouseEvent
+
+| 鼠标事件对象 | 说明                                                         |
+| ------------ | ------------------------------------------------------------ |
+| e.clientX    | 鼠标相对于浏览器窗口可视区的X坐标（距离上方的坐标），滚动条不会产生影响 |
+| e.clientY    | 鼠标相对于浏览器窗口可视区的Y坐标（距离左方的坐标），滚动条不会产生影响 |
+| e.pageX      | 鼠标相对于文档页面的X坐标，滚动后坐标会发生变化              |
+| e.pageY      | 鼠标相对于文档页面的Y坐标，滚动后坐标会发生变化              |
+| e.screenX    | 鼠标相对于电脑屏幕的X坐标                                    |
+| e.screenY    | 鼠标相对于电脑屏幕的Y坐标                                    |
+
+### 键盘事件
+
+#### 常用事件
+
+- ![image-20240116181117434](./JavaScript笔记.assets/image-20240116181117434.png)
+
+#### 键盘事件对象
 
 ## BOM
 
