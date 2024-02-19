@@ -1,4 +1,4 @@
-##  简介
+#  简介
 
 ## 是什么
 
@@ -32,8 +32,8 @@
 ## 写法
 
 - 行内式：直接在元素内写
-- 内嵌式：写在<script></script>标签内
-- 外部式：在<script></script>内通过src属性引入
+- 内嵌式：写在\<script>\</script>标签内
+- 外部式：在\<script>\</script>内通过src属性引入
 
 ## 输入输出
 
@@ -63,6 +63,19 @@ js是逐行解释，一行报错时，就不会继续执行后面的
   - 不声明不赋值，直接使用变量 ，会报错
   - 不声明，直接赋值，可以使用（会变成全局变量，不提倡）
   - name这个变量名有特殊含义
+- `var`、`let`和`const`都可以用来声明变量，但它们在作用域、提升（hoisting）和重新赋值方面有所不同。现代JavaScript开发中，推荐使用`let`和`const`来代替`var`，主要是因为`let`和`const`提供了更加清晰和可控的作用域管理。它们之间的一些关键区别：
+  1. 作用域：
+     - `var`声明的变量有函数作用域或全局作用域，不具备块级作用域。
+     - `let`和`const`声明的变量具有块级作用域（即{}内部有效）。
+  2. 提升（Hoisting）：
+     - `var`声明的变量会被提升到函数或全局作用域的顶部，但在初始化之前不能访问其值。
+     - `let`和`const`也会被提升，但是它们在声明之前是不可访问的，这种状态被称为“暂时性死区”。
+  3. 重复声明：
+     - 同一作用域内，`var`允许重复声明同一个变量。
+     - `let`和`const`在同一作用域内禁止重复声明同一个变量。
+  4. 重新赋值：
+     - 使用`var`和`let`声明的变量可以被重新赋值。
+     - 使用`const`声明的变量必须在声明时初始化，并且不能被重新赋值（但如果是对象或数组，其内部状态可以被修改）。
 
 ## 命名规范
 
@@ -356,6 +369,29 @@ arguments展示形式是一个伪数组，有以下特点
 
 函数可以互相调用，可以调用后面声明的函数
 
+## 箭头函数
+
+`=>`操作符用于定义箭头函数。箭头函数是ES6（ECMAScript 2015）中引入的一种新的函数写法，提供了一种更简洁的方式来写函数表达式。箭头函数有几个特点：
+
+1. 更短的函数写法：箭头函数提供了一种更简洁的语法来声明函数。
+2. 没有自己的`this`：箭头函数不绑定自己的`this`，它们会捕获其所在上下文的`this`值作为自己的`this`值，这对于回调函数特别有用。
+3. 没有`arguments`对象：箭头函数没有自己的`arguments`对象，但是可以访问外围函数的`arguments`对象。
+4. 不能作为构造函数：箭头函数不能用作构造函数，即不能使用`new`关键字。
+5. 没有`prototype`属性：箭头函数没有`prototype`属性。
+6. 不能改变`this`：箭头函数的`this`是在定义时绑定的，之后不能被修改。
+
+箭头函数的基本语法如下：
+
+```js
+const functionName = (参数1, 参数2, ..., 参数N) => { 函数体 };
+```
+
+如果箭头函数直接返回一个表达式的结果，可以省略大括号并且自动返回该表达式的结果：
+
+```js
+const functionName = (参数1, 参数2, ..., 参数N) => 表达式;
+```
+
 # 作用域
 
 ## 全局作用域
@@ -366,6 +402,10 @@ arguments展示形式是一个伪数组，有以下特点
 ## 局部作用域
 
 在函数内部就是局部作用域，也叫函数作用域
+
+## 块级作用域
+
+变量仅在其声明所在的块（如`if`语句、`for`循环或任何`{}`中）内部可见，var不具备块级作用域，let和const具备
 
 ## 全局变量和局部变量
 
@@ -411,10 +451,13 @@ js中，对象是一组无序的相关属性和方法的集合
 
 ### 字面量
 
-使用对象字面量{}创建对象，属性或方法采取键值对的形式，之间用逗号隔开
+使用对象字面量{}创建对象，属性或方法采取键值对的形式，之间用逗号隔开（更推荐）
 
 ```js
 var obj = {};	// 空对象
+obj.uname = 'ls';
+obj['age'] = 2;
+
 var obj2 = {
   uname: 'zs',
   age: 10,
@@ -479,7 +522,6 @@ new 构造函数名();
 `for...in` 循环可以遍历对象的可枚举属性，包括对象的原型链上的属性。在遍历时，需要使用 `hasOwnProperty` 方法来确保只获取对象自身的属性，而不包括继承的属性。
 
 ```js
-javascriptCopy code
 var person = {
   name: 'Alice',
   age: 25,
@@ -518,7 +560,6 @@ for (var i = 0; i < keys.length; i++) {
 `Object.values` 方法返回一个包含对象自身可枚举属性值的数组。
 
 ```js
-javascriptCopy code
 var person = {
   name: 'Alice',
   age: 25,
@@ -537,7 +578,6 @@ for (var i = 0; i < values.length; i++) {
 `Object.entries` 方法返回一个包含对象自身可枚举属性键值对的数组。
 
 ```js
-javascriptCopy code
 var person = {
   name: 'Alice',
   age: 25,
@@ -555,10 +595,7 @@ for (var i = 0; i < entries.length; i++) {
 
 ### forEach 方法：
 
-对于数组形式的对象，可以使用 `forEach` 方法来遍历。
-
 ```js
-javascriptCopy code 
 var person = {
   name: 'Alice',
   age: 25,
@@ -568,6 +605,23 @@ var person = {
 Object.keys(person).forEach(function(key) {
   console.log(key + ': ' + person[key]);
 });
+Object.keys(person).forEach(key => {
+  console.log(key + ': ' + person[key]);
+});
+
+Object.values(person).forEach(function(value) {
+  console.log(value);
+});
+Object.values(person).forEach(value => {
+  console.log(value);
+});
+
+// forEach函数是Array对象上的一个方法，允许你为数组中每个元素执行一个回调函数。
+array.forEach(function(currentValue, index, arr), thisValue)
+// currentValue：数组中正在处理的当前元素。
+// index（可选）：数组中正在处理的当前元素的索引。
+// arr（可选）：当前数组。
+// thisValue（可选）：传递给函数的值用作this，默认为undefined。
 ```
 
 # 内置对象
@@ -664,6 +718,8 @@ Object.keys(person).forEach(function(key) {
 
   - instanceof：if (arr instanceof Array) {}
 
+    > `instanceof`用于检查一个对象是否为特定构造函数的实例
+
   - Array.isArray()：if (Array.isArray(arr)) {}
 
     > H5新增的方法 
@@ -696,8 +752,8 @@ Object.keys(person).forEach(function(key) {
 
 - 索引
 
-  - indexof()：查找给定元素的第一个索引，不存在则返回-1
-  - lastIndexOf()：查找给定元素的最后一个索引，不存在则返回-1
+  - indexof(target, [start])：查找给定元素的第一个索引，不存在则返回-1
+  - lastIndexOf(target, [start])：查找给定元素的最后一个索引，不存在则返回-1
 
 - 转换为字符串
 
@@ -862,7 +918,7 @@ Document Object Model，文档对象模型，通过DOM接口可以改变网页�
   <div class = "first">文本</div>
   
   this.className = 'change';	// 调用函数的元素的类改成change类，覆盖原来的类名
-  this.className = 'first change';	// 多类名选择器，保留了原来的类（原先类种的部分样式还要继续用）
+  this.className = 'first change';	// 多类名选择器，保留了原来的类（原先类中的部分样式还要继续用）
   ```
 
 #### 操作一组元素
@@ -1061,8 +1117,111 @@ DOM事件流分3个阶段
 
 - ![image-20240116181117434](./JavaScript笔记.assets/image-20240116181117434.png)
 
+- 若一个对象同时绑定了三个事件，则三个事件的执行顺序：keydown --> keypress --> keyup
+- keyup、keydown不区分大小写，keypress区分
+- 还有一个特点：keydown和keypress事件触发时，文字还没有落入文本框中；而keyup触发时，文字先落入文本框
+
 #### 键盘事件对象
 
+| 鼠标事件对象 | 说明                                                         |
+| ------------ | ------------------------------------------------------------ |
+| e.keyCode    | 按下键的ASCII值，keyup、keydown不区分大小写，keypress区分    |
+| e.clientY    | 鼠标相对于浏览器窗口可视区的Y坐标（距离左方的坐标），滚动条不会产生影响 |
+| e.pageX      | 鼠标相对于文档页面的X坐标，滚动后坐标会发生变化              |
+| e.pageY      | 鼠标相对于文档页面的Y坐标，滚动后坐标会发生变化              |
+| e.screenX    | 鼠标相对于电脑屏幕的X坐标                                    |
+| e.screenY    | 鼠标相对于电脑屏幕的Y坐标                                    |
+
 ## BOM
+
+### 概述
+
+- 浏览器对象模型，提供了独立于内容而与浏览器窗口进行交互的对象，核心对象是window
+
+  ![image-20240216182556051](./JavaScript笔记.assets/image-20240216182556051.png)
+
+- BOM比DOM更大，包含了DOM
+
+  ![image-20240216182656172](./JavaScript笔记.assets/image-20240216182656172.png)
+
+- window对象是浏览器的顶级事件，具有双重角色
+  1. 是JS访问浏览器的一个接口
+  2. 是一个全局对象，定义在全局作用域中的变量和函数都会变成window对象的属性和方法
+- window对象的属性和方法调用时，可以省略window关键字
+- window对象有一个特殊属性name，因此全局变量不要叫这个名字
+
+### window对象常见事件
+
+#### 窗口加载事件
+
+- `window.onload = function() {}`或`window.addEventListener("load", function() {})`，推荐addEventListener
+
+  当文档内容**完全**加载完成会触发该事件
+
+- `document.addEventListener("DOMContentLoaded", function() {})`，仅当DOM元素加载完成
+
+  > 如果页面图片很多的话，用这个事件更合适，否则图片还没加载完成时，交互效果都无法实现
+
+#### 调整窗口大小事件
+
+- `window.onresize = function() {}` 或 `window.addEventListener("resize", function() {})`
+
+  只要窗口大小发生像素变化，就会触发该事件
+
+- `window.innerWidth`获取窗口的宽度
+
+### 定时器
+
+- `window.setTimeout(回调函数, [延迟的毫秒数])`
+
+  - 用于设置一个定时器，在定时器到期后执行调用函数
+  - 延迟的毫秒数可以省略，省略时为0（立即执行）
+  - 调用函数可以直接写函数，也可以写函数名
+  - 页面中可能有多个定时器，使用时一般给定时器加名字：`var timer1 = window.setTimeout(调用函数, [延迟的毫秒数]  `
+
+- window.clearTimeout(定时器的名字)，停止定时器
+
+  > 定时器的名字不用带引号
+
+- `window.setInterval(回调函数, [延迟的毫秒数])`，重复调用一个函数，每隔一个周期就调用一次
+
+- window.clearInterval(定时器的名字)，停止定时器
+
+### this指向
+
+- 全局作用域或普通函数中，this指向window，定时器中this也指向window
+- 方法中，this指向调用方法的对象
+- 构造函数中，this指向构造函数的实例
+
+### JS执行机制
+
+JS是单线程语言，在H5提出的Web Worker标准中，提出了同步和异步的概念
+
+JS的异步是通过回调函数实现的，一般异步任务有三种类型：
+
+- 普通事件，如click、resize等
+- 资源加载，如load、error等
+- 定时器
+
+JS先把同步任务全部执行完，再依次执行任务队列中的异步任务，然后进行事件循环，反复查看任务队列中是否有异步任务可以执行
+
+![image-20240218184816542](./JavaScript笔记.assets/image-20240218184816542.png)
+
+### location对象
+
+window有一个location属性，返回的是一个对象，因此成为location对象，location对象用于获取或设置窗体的url，并且可以解析url
+
+| location对象属性  | 返回值                                |
+| ----------------- | ------------------------------------- |
+| location.href     | 获取或设置整个url                     |
+| location.host     | 返回主机域名                          |
+| location.port     | 返回端口号，如果未写，返回空字符串    |
+| location.pathname | 返回路径                              |
+| location.search   | 返回参数                              |
+| location.hash     | 返回片段，#后面的内容，常见于锚点链接 |
+
+navigator对象
+
+history对象
 
 ## jQuery
