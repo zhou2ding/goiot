@@ -952,7 +952,7 @@ Document Object Model，文档对象模型，通过DOM接口可以改变网页�
 #### 概述
 
 - 网页中的所有内容都说节点（标签、属性、文本、注释等），在DOM中用node表示
-- 节点至少拥有nodeType、nodeName、node Value三个基本属性
+- 节点至少拥有nodeType、nodeName、nodeValue三个基本属性
   - 元素节点的nodeType为1
   - 属性节点的nodeType为2
   - 文本节点（包含文字、空格、换行等）的nodeType为3
