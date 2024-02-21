@@ -392,6 +392,20 @@ const functionName = (参数1, 参数2, ..., 参数N) => { 函数体 };
 const functionName = (参数1, 参数2, ..., 参数N) => 表达式;
 ```
 
+## 立即执行函数
+
+不需要调用，立即执行，写法：
+
+- 无参数
+  - `(function() {})();`
+  - `(function() {}());`
+- 有参数
+  - `(function(形参列表) {})(实参列表);`
+  - `(function(形参列表) {}(实参列表));`
+- 以上都可以在function后面写函数名
+
+作用：创建了一个独立的作用域，避免了变量的命名冲突
+
 # 作用域
 
 ## 全局作用域
@@ -1266,7 +1280,16 @@ window有一个location属性，返回的是一个对象，因此成为location�
 
 ![image-20240220222633498](JavaScript笔记.assets/image-20240220222633498.png)
 
-### client系列 
+### client系列
+
+使用client系列相关属性可以动态的获得元素的边框大小、元素大小等
+
+| client系列属性       | 作用                                                         |
+| -------------------- | ------------------------------------------------------------ |
+| element.clientTop    | 元素上边框的大小                                             |
+| element.clientLeft   | 元素左边框的大小                                             |
+| element.clientWidth  | 返回自身包括padding、内容区的宽度，不含边框，返回数值不带单位 |
+| element.clientHeight | 返回自身包括padding、内容区的高度，不含边框，返回数值不带单位 |
 
 ### scroll系列
 
