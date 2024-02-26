@@ -1172,6 +1172,10 @@ DOM事件流分3个阶段
 
   当文档内容**完全**加载完成会触发该事件
 
+  `window.onPageShow = function() {}`或`window.addEventListener("pageShouw", functino() {})`
+
+  ![image-20240223223354657](./JavaScript笔记.assets/image-20240223223354657.png)
+
 - `document.addEventListener("DOMContentLoaded", function() {})`，仅当DOM元素加载完成
 
   > 如果页面图片很多的话，用这个事件更合适，否则图片还没加载完成时，交互效果都无法实现
