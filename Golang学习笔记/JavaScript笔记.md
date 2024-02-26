@@ -1277,8 +1277,8 @@ window有一个location属性，返回的是一个对象，因此成为location�
 | element.offsetParent | 返回作为该元素带有定位的父元素，如果父级元素都没有定位则返回body |
 | element.offsetTop    | 返回元素相对带有定位父元素上方的偏移                         |
 | element.offsetLeft   | 返回元素相对带有定位父元素左方的偏移                         |
-| element.offsetWidth  | 返回自身包括padding、边框、内容区的宽度，返回数值不带单位    |
-| element.offsetHeight | 返回自身包括padding、边框、内容区的高度，返回数值不带单位    |
+| element.offsetWidth  | 返回自身包括padding、边框、内容区的宽度                      |
+| element.offsetHeight | 返回自身包括padding、边框、内容区的高度                      |
 
 ####  offset和style的区别
 
@@ -1286,15 +1286,26 @@ window有一个location属性，返回的是一个对象，因此成为location�
 
 ### client系列
 
-使用client系列相关属性可以动态的获得元素的边框大小、元素大小等
+使用client系列相关属性可以动态的获得元素的边框大小、元素大小等，不带单位
 
-| client系列属性       | 作用                                                         |
-| -------------------- | ------------------------------------------------------------ |
-| element.clientTop    | 元素上边框的大小                                             |
-| element.clientLeft   | 元素左边框的大小                                             |
-| element.clientWidth  | 返回自身包括padding、内容区的宽度，不含边框，返回数值不带单位 |
-| element.clientHeight | 返回自身包括padding、内容区的高度，不含边框，返回数值不带单位 |
+| client系列属性       | 作用                                        |
+| -------------------- | ------------------------------------------- |
+| element.clientTop    | 元素上边框的大小                            |
+| element.clientLeft   | 元素左边框的大小                            |
+| element.clientWidth  | 返回自身包括padding、内容区的宽度，不含边框 |
+| element.clientHeight | 返回自身包括padding、内容区的高度，不含边框 |
 
 ### scroll系列
+
+动态的获得元素的大小、滚动距离等，常和`scroll`事件结合使用，只要`overflow: auto`等属性设置的滚动条发生变化时，就触发事件
+
+| client系列属性       | 作用                                             |
+| -------------------- | ------------------------------------------------ |
+| element.scrollTop    | 返回被卷去的上侧距离                             |
+| element.scrollLeft   | 返回被卷去的左侧距离                             |
+| element.scrollWidth  | 返回自身实际的宽度，包含内容超出的部分，不含边框 |
+| element.scrollHeight | 返回自身实际的高度，包含内容超出的部分，不含边框 |
+| window.pageYOffset   | 整个页面被卷去的上侧距离                         |
+| window.pageXOffset   | 整个页面被卷去的左侧距离                         |
 
 ### 动画函数封装
