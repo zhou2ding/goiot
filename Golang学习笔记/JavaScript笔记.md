@@ -1,4 +1,4 @@
-#  简介
+#  简介(移动端还没看)
 
 ## 是什么
 
@@ -1284,7 +1284,7 @@ window有一个location属性，返回的是一个对象，因此成为location�
 
 ####  offset和style的区别
 
-![image-20240220222633498](JavaScript笔记.assets/image-20240220222633498.png)
+![image-20240311175852387](./JavaScript笔记.assets/image-20240311175852387.png)
 
 ### client系列
 
@@ -1319,8 +1319,9 @@ window有一个location属性，返回的是一个对象，因此成为location�
 ```js
 // 需要移动的盒子直接调用此函数即可，注意盒子要添加定位
 function animate(obj, target) {
-  clearInterval(obj.timer);
   // 清除上一个定时器，避免重复点击导致重复创建定时器
+  clearInterval(obj.timer);
+  
   obj.timer = setInterval(function() {
     if (obj.offsetLeft >= target) {
       // 停止移动
@@ -1333,3 +1334,30 @@ function animate(obj, target) {
 
 #### 缓动动画
 
+- 公式：(目标值 - 现在的位置) / 10，作为每次移动的距离（步长为正值时需要向上取整，为负值时需要向下取整）
+- 停止条件：当前盒子位置等于目标位置就停止定时器，停止定时器时，还可以调用传进来的回调函数
+
+```js
+function animate(obj, target, callback) {
+  // 清除上一个定时器，避免重复点击导致重复创建定时器
+  clearInterval(obj.timer);
+
+  obj.timer = setInterval(function() {
+  	var step = (target - obj.offsetLeft) / 10;
+  	step = step > 0 ? Math.ceil(step) : Math.floor(step);
+  	if (obj.offsetLeft == target) {
+    	clearInterval(obj.timer);
+   		callback && callback();
+  	}
+    obj.style.left = obj.offsetLeft + step + 'px';
+  }, 15);
+}
+```
+
+#### 节流阀
+
+当上一个函数动画内容执行完毕，再去执行下一个函数动画，让事件无法连续触发。核心思路：利用回调函数，添加一个变量来控制，锁住函数和解锁函数
+
+#### 其他动画
+
+- window.scroll(x, y)，滚动窗口至文档中的指定位置，x、y只写数字
