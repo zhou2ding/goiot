@@ -896,6 +896,10 @@ Document Object Model，文档对象模型，通过DOM接口可以改变网页�
 | onmouseup   | 鼠标弹起触发     |
 | onmousedown | 鼠标按下触发     |
 
+#### input事件
+
+- change，input发生变化
+
 ### 操作元素
 
 > 利用DOM来改变元素的内容、属性等，可以通过事件来修改，也可以直接修改，打开或刷新页面后直接显示修改后的内容。
@@ -919,7 +923,9 @@ Document Object Model，文档对象模型，通过DOM接口可以改变网页�
 - selected
 - disabled
 
-样式属性操作（自动把修改后的样式设为行内样式，因此优先级比css高，会覆盖css）
+#### 样式属性操作
+
+> 自动把修改后的样式设为行内样式，因此优先级比css高，会覆盖css
 
 - element.style，行内样式操作，适用于样式少或功能简单的场景，如：`this.style.backgroundColor = ''`
 
@@ -1361,3 +1367,44 @@ function animate(obj, target, callback) {
 #### 其他动画
 
 - window.scroll(x, y)，滚动窗口至文档中的指定位置，x、y只写数字
+
+## 本地存储
+
+### 介绍
+
+- 数据存储在浏览器中
+- 设置、读取方便，刷新页面不丢失数据
+- 容量较大，sessionStorage为5MB、localStorage为20MB
+- 只能存储字符串，可以将对象JSON.stringify()编码后存储
+
+### sessionStorage
+
+#### 介绍
+
+- 生命周期为关闭浏览器窗口（页面）
+- 在同一个窗口（页面）下数据可以共享
+- 以键值对的形式存储使用
+
+#### 使用
+
+> window省略了
+
+- sessionStorage.setItem(key, value)
+- sessionStorage.getItem(key)
+- sessionStorage.removeItem(key)
+- sessionStorage.clear()，清除所有
+
+### localStorage
+
+### 介绍
+
+- 生命周期永久存在，除非手动删除，否则关闭页面也存在
+- 可以多窗口（页面）共享（同一浏览器共享）
+
+#### 使用
+
+和sessionStorage的函数用法一样
+
+# jQuery
+
+快速方便操作DOM的JS库，其他JS库：Prototype、YUI、Dojo、Ext JS、移动端的zepto
