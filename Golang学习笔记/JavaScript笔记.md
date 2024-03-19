@@ -1154,6 +1154,17 @@ DOM事件流分3个阶段
 | e.screenX    | 鼠标相对于电脑屏幕的X坐标                                    |
 | e.screenY    | 鼠标相对于电脑屏幕的Y坐标                                    |
 
+### 视频
+
+- video标签
+- play方法来播放，chrome的话需要加muted属性才能播放
+
+```js
+<video src="demo.mp4" muted></video>
+var video = document.querySelector('video');
+video.play();
+```
+
 ## BOM
 
 ### 概述
@@ -1408,3 +1419,136 @@ function animate(obj, target, callback) {
 # jQuery
 
 快速方便操作DOM的JS库，其他JS库：Prototype、YUI、Dojo、Ext JS、移动端的zepto
+
+## 基本使用
+
+### 使用步骤
+
+1. 引入jQuery文件
+2. 使用即可
+
+### 入口函数
+
+```js
+// 等着页面加载完毕再去执行js代码，相当于DOMCententLoaded事件
+$(document).ready(function() {
+  // do something
+})
+
+// 作用同上，更简单
+$(function() {
+  // do something
+})
+```
+
+### 顶级对象
+
+- $是jQuery的别称，在代码中可以用jQuery，也可以用$
+- $是jQuery的顶级对象，相当于原生js中的window，把元素用$包装成jQuery对象，就可以调用jQuery方法
+
+### jQuery对象和DOM对象
+
+- 用原生js获取的对象就是DOM对象，只能使用原生的js属性和方法
+
+  ```js
+  var div = document.querySelector('div');
+  ```
+
+- 用jQuery方式获取过来的对象就是jQuery对象，只能使用jQuery方法
+
+  ```js
+  var div = $('div');
+  ```
+
+- jQuery对象的本质：用$对DOM对象包装后产生的对象，用伪数组的形式存储
+
+- 转换
+
+  - DOM对象转换为jQuery对象，直接用$转换，不加引号
+
+    ```js
+    var div = document.querySelector('div');
+    var jqueryDiv = $(div);
+    ```
+
+  - jQuery对象转换为DOM对象
+
+    ```js
+    var div = $('div');
+    var domDiv = div[index];	// index是索引号，需要哪个对象，就用它对应的索引号，常用0
+    // 或
+    var domDiv = div.get(index);
+    ```
+
+### 常用API
+
+#### 选择器
+
+```js
+$('选择器');
+```
+
+![image-20240319191331556](./JavaScript笔记.assets/image-20240319191331556.png)
+
+![image-20240319191456149](./JavaScript笔记.assets/image-20240319191456149.png)
+
+#### 当前元素
+
+```js
+$(this)	// 不加引号
+```
+
+#### 设置样式
+
+jQuery是隐式迭代，即自动遍历获取到的DOM元素，然后给每个元素执行相应的方法
+
+```js
+$('选择器').css('属性','值')
+```
+
+#### 筛选选择器
+
+| 语法       | 用法          | 描述                               |
+| ---------- | ------------- | ---------------------------------- |
+| :first     | $('li:fitst') | 获取第一个li元素                   |
+| :last      | $('li:last')  | 获取最后一个li元素                 |
+| :eq(index) | $("li:eq(2)") | 获取索引为index的li元素            |
+| :odd       | $("li:odd")   | 获取到的li元素中，选择索引为奇数的 |
+| :even      | $("li:even")  | 获取到的li元素中，选择索引为偶数的 |
+
+#### 筛选方法
+
+> 比筛选选择器更好用，因为可以把变量直接作为参数传进去，用筛选选择器的话还需要拼接字符串
+
+| 语法               | 用法                           | 说明                               |
+| ------------------ | ------------------------------ | ---------------------------------- |
+| parent()           | $('li').parent()               | 最近一级的父元素                   |
+| children('选择器') | $('ul').children('li')         | 相当于$('ul>li')，最近一级的子元素 |
+| find('选择器')     | $('ul').find('li')             | 类似于$('ul li')，后代选择器       |
+| siblings('选择器') | $('.first').siblings('li')     | 兄弟节点，不包括自身               |
+| nextAll([expr])    | $('.first').nextAll()          | 当前元素之后的所有同辈元素         |
+| prevAll([expr])    | $('.last').prevAll()           | 当前元素之前的所有同辈元素         |
+| hasClass('class')  | $('div').hasClass('protedted') | 是否含有某个类                     |
+| eq(index)          | $('li').eq(2)                  | 相当于$('li:eq(2)')                |
+
+#### 排他
+
+原生js的排他要用for循环实现，非常麻烦，jQuery的实现如下
+
+```js
+$(function() {
+  $('button').click(function() {
+    $(this).css('属性','值');
+    $(this).siblings('button').css('属性','其他值');
+  })
+})
+```
+
+#### 索引
+
+得到当前元素的索引号
+
+```js
+$(this).index()
+```
+
