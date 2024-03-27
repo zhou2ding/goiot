@@ -1418,7 +1418,7 @@ function animate(obj, target, callback) {
 
 # jQuery
 
-快速方便操作DOM的JS库，其他JS库：Prototype、YUI、Dojo、Ext JS、移动端的zepto
+快速方便操作DOM的JS库，其他JS库：Prototype、YUI、Dojo、Ext JS、移动端的zepto，jQuery都用双引号
 
 ## 基本使用
 
@@ -1570,3 +1570,51 @@ $(this).css('属性','值').siblings().css('属性','其他值');
   - 添加类：`$(div).addClass('类名')`，类名前不加`.`
   - 删除类：`$(div).removeClass('类名')`
   - 切换类：`$(div).toggleClass('类名')`，有则删除类，无则添加类
+
+### 效果
+
+#### 显示隐藏
+
+- 显示`show([speed,[easing],[fn]])`
+  - 参数都省略则无动画，直接显示
+  - speed：值为动画时长的毫秒数（1000）或预定义的字符串`slow`、`normal`、`fast`中的一个
+  - easing：指定切换效果，默认是`swing`（不匀速），可用参数`linear`（匀速）
+  - fn：回调函数，动画完成时执行的函数，每个元素执行一次
+- 隐藏`hide()`，参数和show一模一样
+- 切换`toggle()`，元素显示时则隐藏，隐藏时则显示
+
+#### 滑动
+
+`slideDown()`、`slideUp`、`slideToggle()`，参数和显示隐藏一模一样
+
+#### 事件切换
+
+`hover([overfn],outfn)`，如果只写一个函数，则鼠标经过和离开时都会触发
+
+- over：鼠标移到元素上时触发的函数（相当于mouseenter）
+- out：鼠标移出元素时触发的函数（相当于mouseleave）
+
+#### 动画队列及停止排队
+
+- 动画或效果一旦触发就会执行，如果多次触发，就造成多个动画或者效果排队
+
+- 停止排队`stop()`，必须写在动画的前面，相当于停止上一次的动画
+
+  ```js
+  $(function() {
+    $("div").hover(function() {
+      $(this).stop().slideToggle();
+    })
+  })
+  ```
+
+#### 淡出淡入
+
+- `fadeIn()`、`fadeOut()`、`fadeToggle()`，参数及用法和前面的一模一样
+- `fadeTo([speed],opacity,[easing],[fn])`，渐进方式调整不透明度，opacity是透明度，0-1之间
+
+#### 自定义动画
+
+`animate(params,[speed],[easing],[fn])`
+
+- params：想要更改的样式属性，以对象形式传递，必须写。属性名可以不带引号，如果是复合属性则需小驼峰命名。其余参数可省略。
