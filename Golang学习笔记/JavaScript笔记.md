@@ -134,6 +134,7 @@ typeof：不是函数，是一个关键字，typeof a，返回a的数据类型
   - 如果字符串不是以数字开头，结果是NaN
 - Number(string)强制转换函数
 - js隐式转换（- * /），如'12'-0，'12'*1，'12'/1
+- toFixed(数字)，数字是几就保留几位小数
 
 ### 转成布尔型
 
@@ -898,7 +899,7 @@ Document Object Model，文档对象模型，通过DOM接口可以改变网页�
 
 #### input事件
 
-- change，input发生变化
+- change事件，input发生变化
 
 ### 操作元素
 
@@ -1523,6 +1524,7 @@ $('选择器').css('属性','值')
 | 语法               | 用法                           | 说明                               |
 | ------------------ | ------------------------------ | ---------------------------------- |
 | parent()           | $('li').parent()               | 最近一级的父元素                   |
+| parents()          | $('li').parents('ul')          | 返回指定的祖先元素                 |
 | children('选择器') | $('ul').children('li')         | 相当于$('ul>li')，最近一级的子元素 |
 | find('选择器')     | $('ul').find('li')             | 类似于$('ul li')，后代选择器       |
 | siblings('选择器') | $('.first').siblings('li')     | 兄弟节点，不包括自身               |
@@ -1558,9 +1560,11 @@ $(this).index()
 $(this).css('属性','值').siblings().css('属性','其他值');
 ```
 
-## jQuery样式操作
+## jQuery操作
 
-### 操作css方法
+### jQuery样式操作
+
+#### 操作css方法
 
 - 获取样式：`$(div).css('属性');`
 - 设置样式
@@ -1571,9 +1575,11 @@ $(this).css('属性','值').siblings().css('属性','其他值');
   - 删除类：`$(div).removeClass('类名')`
   - 切换类：`$(div).toggleClass('类名')`，有则删除类，无则添加类
 
-## jQuery效果操作
+### jQuery效果操作
 
-### 显示隐藏
+> 有动画效果的只能是元素，html、body也算元素，但不能是文档（document）
+
+#### 显示隐藏
 
 - 显示`show([speed,[easing],[fn]])`
   - 参数都省略则无动画，直接显示
@@ -1583,18 +1589,18 @@ $(this).css('属性','值').siblings().css('属性','其他值');
 - 隐藏`hide()`，参数和show一模一样
 - 切换`toggle()`，元素显示时则隐藏，隐藏时则显示
 
-### 滑动
+#### 滑动
 
 `slideDown()`、`slideUp`、`slideToggle()`，参数和显示隐藏一模一样
 
-### 事件切换
+#### 事件切换
 
 `hover([overfn],outfn)`，如果只写一个函数，则鼠标经过和离开时都会触发
 
 - over：鼠标移到元素上时触发的函数（相当于mouseenter）
 - out：鼠标移出元素时触发的函数（相当于mouseleave）
 
-### 动画队列及停止排队
+#### 动画队列及停止排队
 
 - 动画或效果一旦触发就会执行，如果多次触发，就造成多个动画或者效果排队
 
@@ -1608,35 +1614,35 @@ $(this).css('属性','值').siblings().css('属性','其他值');
   })
   ```
 
-### 淡出淡入
+#### 淡出淡入
 
 - `fadeIn()`、`fadeOut()`、`fadeToggle()`，参数及用法和前面的一模一样
 - `fadeTo([speed],opacity,[easing],[fn])`，渐进方式调整不透明度，opacity是透明度，0-1之间
 
-### 自定义动画
+#### 自定义动画
 
 `animate(params,[speed],[easing],[fn])`
 
 - params：想要更改的样式属性，以对象形式传递，必须写。属性名可以不带引号，如果是复合属性则需小驼峰命名。
 - 其余参数的用法和前面一模一样。
 
-## jQuery属性操作
+### jQuery属性操作
 
-### 固有属性prop()
+#### 固有属性prop()
 
 > 固有属性是元素本身自带的属性，如\<a>元素里的href，\<input>属性里的type
 
 - 获取属性：`$("div").prop("属性名")`
 - 设置属性：`$("div").prop("属性名","属性值")`
 
-### 自定义属性attr()
+#### 自定义属性attr()
 
 > 也可以获取H5的data-自定义属性 
 
 - 获取属性：`$("div").attr("属性名")`，和原生方法`getAttribute()`类似
 - 设置属性：`$("div").attr("属性名","属性值")`，和原生方法`setAttribute()`类似
 
-### 数据缓存data()
+#### 数据缓存data()
 
 > 可以在指定的元素上存取数据，并不会修改DOM结构。一旦页面刷新，之前存放的数据都将被移除
 
@@ -1644,12 +1650,181 @@ $(this).css('属性','值').siblings().css('属性','其他值');
 - 设置属性：`$("div").data("属性名","属性值")`
 - 也可以操作H5的`data-`自定义属性，只不过不用带`data-`前缀
 
-### 选择器
+#### 选择器
 
 - `:checked`，选择被选中的表单元素，用法：`$("div:checked")`
 
-### 文本内容值
+#### 文本内容值
 
 - `html()`，不带参数为获取内容，带字符串参数为设置内容，相当于原生方法`innerHTML()`
 - `text()`，不带参数为获取文本内容，带字符串参数为设置文本内容，相当于原生方法`innerText()`
 - `val()`，不带参数为获取表单值，带字符串参数为设置表单值，相当于原生属性`value`
+
+### jQuery元素操作
+
+#### 遍历元素
+
+`$("div").each(function(index, domEle) {};)`
+
+- div是要遍历的元素
+- function是回调函数，遍历匹配的每一个元素
+- index是每个元素的索引号，domEle是每个DOM对象，不是jQuery对象
+- 要想使用jQuery方法，需要给这个DOM对象转换为jQuery对象（`$(domEle)`）
+
+`$.each(要遍历的对象, function(index, domEle) {};)`
+
+- 主要用于遍历数据，不仅仅可以遍历jQuery对象
+
+#### 新增元素
+
+1. 创建元素
+
+`var div = $("<div>文字</div>")`
+
+2. 添加元素
+   - 内部添加，父子关系
+     - `$("div").append(div)`，内部添加并放到元素所有子元素的最后面，类似原生的`appendChild`
+     - `$("div").prepend(div)`，内部添加并放到元素所有子元素的最前面
+   - 外部添加，兄弟关系
+     - `$("div").after(div)`，放到目标元素的后面
+     - `$("div").before(div)`，放到目标元素的前面
+
+#### 删除元素
+
+- `$("div").remove()`，删除元素本身
+- `$("div").empty()`，删除元素所有的子节点
+- `$("div").html("")`，清空元素中的内容，和empty效果一样
+
+### jQuery尺寸操作
+
+| 语法                               | 用法                                                         |
+| ---------------------------------- | ------------------------------------------------------------ |
+| width()/height()                   | 参数为空则是获取匹配元素的宽度和高度，参数是数字则是设置，只算width和height |
+| innerWidth()/innerHeight()         | 参数为空则是获取匹配元素的宽度和高度，参数是数字则是设置，包含padding |
+| outerWidth()/outerHeight()         | 参数为空则是获取匹配元素的宽度和高度，参数是数字则是设置，包含padding、border |
+| outerWidth(true)/outerHeight(true) | 参数为空则是获取匹配元素的宽度和高度，参数是数字则是设置，包含padding、border、margin |
+
+### jQuery位置操作
+
+- `offset()`，获取或设置元素距离文档的位置（偏移），有`top`和`left`属性，修改时，用对象的形式传参
+- `position()`，获取元素相对于带有定位的父级的位置，没有父级则是相对于文档的位置，不能设置
+- `scrollTop()`/`scrollLeft()`，获取或设置元素被卷去的头部或左侧，常和`window.scroll()`事件搭配使用
+
+## jQuery事件
+
+### 事件注册
+
+单个事件注册
+
+`element.事件(fucntio() {})`，比如：`$("div").click(function() {})`
+
+### 事件处理on
+
+- 语法：`element.on(events,[selector],fn)`
+  - events：一个或多个用空格分隔的事件，如`click`、`keydown`，事件
+  - selector：元素的子元素选择器
+  - fn：回调函数
+
+- 多个事件的回调函数相同
+
+  ```js
+  element.on(event1 event2，fn)
+  ```
+
+- 多个事件的回调函数不同
+
+  ```js
+  element.on({
+      event1: fn1,
+      event2: fn2
+  })
+  ```
+
+- 事件委托
+
+  ```js
+  // element是父元素，selector是子元素的选择器，把子元素的事件委派给父元素
+  element.on(event，selector ,fn)
+  ```
+
+- 给动态生成的元素绑定事件
+
+  ```js
+  element.on(event，selector ,fn)
+  element.append(child)
+  ```
+
+### 事件解绑off
+
+- 语法：`element.off(event,[selector])`
+- 移除所有事件：`element.off()`
+- 移除指定事件：`element.off(event)`
+- 移除事件委托：`element.off(event,selector)`
+
+### 只触发一次事件
+
+语法：`element.one(events,[selector],fn)`
+
+### 自动触发事件
+
+- on绑定事件后，直接调用触发事件
+
+  ```js
+  $(function() {
+      $("div").on("click", function() {
+          // do something
+      });
+      $("div").click();
+  })
+  ```
+
+- on绑定事件后，trigger触发：`element.trigger(event)`
+
+  ```js
+  $(function() {
+      $("div").on("click", function() {
+          // do something
+      });
+      $("div").trigger("click");
+  })
+  ```
+
+- triggerHandler，用法和trigger一样，区别是不会触发元素的默认行为，比如`input`标签获得焦点后，有光标闪烁，这就是默认行为
+
+## jQuery事件对象
+
+`element.on(events, [selector], function(e) {})`
+
+- 阻止默认行为：e.prefentDefault()或者return false
+- 阻止冒泡：e.stopPropagation()
+- 其他事件对象的操作也参考原生的用法
+
+## jQuery其他方法
+
+### 拷贝对象
+
+把某个对象拷贝给另一个对象使用
+
+`$.extend([deep], target, obj1, [objN])`
+
+- deep为true则是深拷贝，反之浅拷贝，默认false
+
+  > 浅拷贝是拷贝原对象中复杂数据类型（比如对象）的地址，修改目标对象，会影响原属性
+
+- target：要拷贝到的目标对象，原来的属性会被拷贝来的属性覆盖
+
+- obj1-objN：被拷贝的对象
+
+### 多库共存
+
+让jQuery和其他的js库的关键字等不冲突（主要是`$`），可以同时存在，这就叫多库共存
+
+解决方法：
+
+1. 不用`$`符号，用`jQuery`代替
+2. 自定义`$`符号的别名：`var myjQuery = $.noConflict()`
+
+### jQuery插件
+
+- 著名插件：瀑布流、图片懒加载、全屏滚动
+- 使用时最好从demo中复制代码
