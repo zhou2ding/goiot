@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c3adc4e0-9fe4-40ac-b4cf-45ffbb21f2f8" name="Changes" comment="新增音乐格式转换python脚本">
-      <change beforePath="$PROJECT_DIR$/algorithm/practice.go" beforeDir="false" afterPath="$PROJECT_DIR$/algorithm/practice.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Golang学习笔记/JavaScript笔记.md" beforeDir="false" afterPath="$PROJECT_DIR$/Golang学习笔记/JavaScript笔记.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -12,9 +12,15 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GoLibraries">
+    <option name="indexEntireGoPath" value="true" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 2
+}]]></component>
   <component name="ProjectId" id="2QCFLtaDEA5v8M3bHuMUtVOZrRG" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -24,9 +30,20 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master"
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/Users/zhoud",
+    "nodejs_package_manager_path": "npm"
   }
 }]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-gosdk-33c477a475b1-b97fc8a1e17c-org.jetbrains.plugins.go.sharedIndexes.bundled-GO-241.14494.238" />
+        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-GO-241.14494.238" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -49,5 +66,9 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="新增音乐格式转换python脚本" />
     <option name="LAST_COMMIT_MESSAGE" value="新增音乐格式转换python脚本" />
+  </component>
+  <component name="VgoProject">
+    <integration-enabled>false</integration-enabled>
+    <settings-migrated>true</settings-migrated>
   </component>
 </project>

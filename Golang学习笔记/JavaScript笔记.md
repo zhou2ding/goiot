@@ -321,6 +321,13 @@ for (var i = 0; i < arr.length; i++) {
 }
 ```
 
+## 删除元素
+
+`arr.splice(i,n)`
+
+- i是从什么位置开始删
+- n是删除几个元素
+
 # 函数
 
 ## 声明
@@ -799,6 +806,11 @@ array.forEach(function(currentValue, index, arr), thisValue)
   - substring(start,end)，基本和slice相同，不接受负值
   - replace('被替换的字符', '替换为的字符')，替换字符，只替换第一个出现的字符
   - split，把字符串转换为数组
+
+## JSON对象
+
+- JSON.stringify(对象)，把对象转成json字符串
+- JSON.parse(字符串)，把json格式的字符串转成对象
 
 # 数据类型总结
 
@@ -1387,7 +1399,7 @@ function animate(obj, target, callback) {
 - 数据存储在浏览器中
 - 设置、读取方便，刷新页面不丢失数据
 - 容量较大，sessionStorage为5MB、localStorage为20MB
-- 只能存储字符串，可以将对象JSON.stringify()编码后存储
+- ==只能存储字符串，可以将对象JSON.stringify()编码后存储==
 
 ### sessionStorage
 
@@ -1828,3 +1840,6 @@ $(this).css('属性','值').siblings().css('属性','其他值');
 
 - 著名插件：瀑布流、图片懒加载、全屏滚动
 - 使用时最好从demo中复制代码
+
+
+
