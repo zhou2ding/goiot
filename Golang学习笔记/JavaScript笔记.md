@@ -1838,8 +1838,83 @@ $(this).css('属性','值').siblings().css('属性','其他值');
 
 ### jQuery插件
 
-- 著名插件：瀑布流、图片懒加载、全屏滚动
+- 著名插件：瀑布流、图片懒加载、全屏滚动、表单校验
 - 使用时最好从demo中复制代码
+
+#### 表单校验插件
+
+> rules的使用和gin差不多
+
+```js
+$(function() {
+  $("form表单选择器").validate({
+  rules: {
+    input标签的name值: 校验规则,
+    input标签的name值: 校验规则
+  },
+  messages: {
+    input标签name值: 错误信息提示,
+    input标签name值: 错误信息提示
+  }
+})
+})
+```
+
+- 单个规则时是基本数据类型，多个规则时是对象
+
+## Echarts
+
+```js
+var myCharts = echarts.init(document.querySelector("div"));
+var options = {};
+myCharts.setOption(options);
+```
+
+options：图表的属性，包含
+
+- title
+- legend
+- grid
+- series
+- tooltip
+- toolbox
+- xAxias
+- yAxias
+
+# Ajax
+
+> Asynchronous Javascript And XML，异步JavaScript+XML，通过在后台与服务器进行少量数据交换，Ajax可以使网页实现异步更新，在不重新加载整个网页的情况下，对网页的某部分进行更新
+
+## 同步异步
+
+- 同步：发送一个请求，需要等待响应返回，然后才能发送下一个请求，如果该请求没有响应，不能发送下一个请求，客户端会一直处于等待过程中。
+- 异步：发送一个请求，不需要等待响应返回，随时可以再发送下一个请求，不需要等待。
+  - 浏览器都有内置的ajax引擎对象XMLHttpRequest
+  - 异步请求中，浏览器把数据给ajax请求对象，再由它发给服务器
+
+## js原生ajax
+
+1. 创建ajax引擎对象，`new XMLHttpRequest`
+2. 为ajax引擎对象绑定监听对象状态变化的事件并设置回调函数，`onreadystatechange`
+3. 绑定提交地址，`xmlhttp.open(method, url, async)`
+4. 发送请求，`xmlhttp.send()`，可以带string参数，带的话只能是post请求
+5. 接收响应数据，`responseText`、`responseXML`
+
+```js
+var xmlHttp = new XMLHttpRequest();
+xmlHttp.onreadystatechange = function() {
+  // async，true为同步，false为异步
+  xmlhttp.open("get", "/demo", false);
+  xmlhttp.send();
+  // readystate的值：0 请求未初始化；1 服务器连接已建立；2 请求已接收；3 请求处理中；4 请求已完成且响应已就绪
+  if (xmlHttp.readystate == 4 && xmlHttp.status == 200) {
+    // 服务器的响应结果：responseText 字符串形式的响应数据；responseXML XML形式的响应数据
+    document.getElementById("mydiv").innerHTML=xmlhttp.responseText;
+  }
+}
+```
+
+## jQuery ajax
 
 
 
