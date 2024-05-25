@@ -1914,7 +1914,175 @@ xmlHttp.onreadystatechange = function() {
 }
 ```
 
-## jQuery ajax
+## jQuery ajax	
 
+| 请求方式 | 语法                                 |
+| -------- | ------------------------------------ |
+| GET请求  | $.get(url,[data],[callback],[type])  |
+| POST请求 | $.post(url,[data],[callback],[type]) |
+| AJAX请求 | $.ajax([settings])                   |
 
+- url：请求服务器的路径
 
+- data：发送到服务器的数据，格式用键值对，`key1=val1&key2=val2`
+
+- callback：回调函数，参数可以接收服务器的响应数据，服务器响应成功时，ajax会自动执行回调函数
+
+- type：返回内容的格式，常用text或json
+
+- settings是一个js字面量形式的对象，格式是`{name1:val1,name2:val2...}`，常用的name属性如下：
+
+  | 属性     | 解释                                                         |
+  | -------- | ------------------------------------------------------------ |
+  | url      | 请求的服务器地址                                             |
+  | async    | 默认true，异步请求；false同步请求                            |
+  | data     | 发送到服务器的数据，格式用键值对，`key1=val1&key2=val2`      |
+  | type     | 请求方式，"GET"或"POST"，默认"GET"，可小写                   |
+  | dataType | 预设服务器的返回类型的数据，可以是xml、html、json、script、text、_deafult等 |
+  | success  | 请求成功后的回调函数                                         |
+  | error    | 请求失败时的回调函数                                         |
+
+  ```js
+  $(function () {
+      $("input").on("click", function (event) {
+          $.ajax({
+              url:"http://localhost:8080/temp",
+              async: true,
+              type: "post",
+              data:"uname=123&pass=456",
+              dataType: "text",
+              success: function (data) {
+                  $("#temp").html(data);
+              },
+              error: function () {
+                  $("#temp").html("失败");
+              }
+          })
+      })
+  })
+  ```
+
+## 跨域
+
+- 前端和后端不在一个服务器上，算跨域：前端访问了不同源的后端，浏览器会禁止
+- 前端和后端在一个服务器A上，前端除了调用后端接口，还通过JS脚本向服务器B发送ajax请求，算跨域
+- 只有XHR（XMLHttpRequest）/fetch的跨域会被浏览器拦截，script、image、video、href之类的src不属于跨域
+- 解决方法：CORS（跨域资源共享）
+  - 返回响应时，加`access-control-allow-origin`头，值为被允许的源（发起请求的ip或域名）或`*`，可以避免跨域
+  - 浏览器有时候会通过OPTIONS等方法预检查要访问的前端，所也也设置一下`access-control-allow-method`
+  - 此外还可设置 `Access-Control-Allow-Headers` 来控制允许的头部，或使用 `Access-Control-Allow-Credentials` 允许带有凭证的请求。
+  - 使用`jsonp`：利用 `<script>` 标签没有跨域限制的特性，通过动态创建 `<script>` 标签的方式来获得跨域的数据。需要服务器支持输出 JSONP 格式。这种方法只支持 GET 请求。
+
+# promise
+
+## 回调地狱
+
+ajax是异步执行的，下一个请求如果想获取上一个请求结果中的值，只能嵌套进上一个请求的success回调中。
+
+即在回调中嵌套回调
+
+```js
+$.ajax({
+    type: 'GET',
+    url: './data1.json',
+    success: function(res) {
+        const {id} = res;	// 对象的解构赋值
+        $.ajax({
+            type: 'GET',
+            url: './data2.json',
+// 相当于id: id，要获取data1.json的id，只能把当前请求嵌入data1.json的success回调函数中
+            data: {id},	
+            success: function(res) {
+                const {username} = res;
+                $.ajax({
+                    type: 'GET',
+                    url: './data3.json',
+                    data: {username},
+                    success: function(res) {
+                        // ... 无限嵌套下去
+                    }
+                })
+            }
+        })
+    }
+})
+```
+
+## 基本使用
+
+Promise是一个构造函数，通过new关键字实例化对象
+
+```js
+new Promise((resolve, reject)=>{})
+```
+
+- 接收一个函数作为参数
+- 在参数函数中，接收两个参数resolve和reject
+
+```js
+Promise.All([])
+```
+
+# fecth api
+
+ajax太麻烦，axios虽然精简不少，但底层仍然是基于XMLHttpRequest实现的，本质不变，只是进行了promise封装
+
+## 语法
+
+```js
+fetch(url)	// get请求
+fetch(url, {
+    method: 'post',
+    headers: {
+        'Content-type': 'application/json',
+    },
+    body: '请求体数据'	// JSON.stringify()得到
+})	// post请求
+```
+
+- fetch通常集合async和await使用
+
+- 返回一个Response对象
+
+  - 有ok、status、statusText、url等属性
+  - 有json、text、blob、formData、arrayBuffer等方法（也要用await）
+
+- 实际项目中会进行二次封装
+
+  ```js
+  async function http(obj) {
+      let { method, url, params, data } = obj
+      if (params) {
+          let str = new URLSearchParams(params).toSring()
+          url += '?' + str
+      }
+      let res
+      if (data) {
+          res = await fetch(url, {
+              method: method,
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(data)
+          })
+      } else {
+          res = await fetch(url)
+      }
+      return res.json()
+  }
+  
+  async () => {
+    let result = await http({
+        method: '',
+        url: '',
+        params: {
+            // queryString
+        },
+        data: {
+            
+        }
+    })  
+  }()
+  ```
+
+  
