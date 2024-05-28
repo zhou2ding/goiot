@@ -646,6 +646,24 @@ array.forEach(function(currentValue, index, arr), thisValue)
 // thisValue（可选）：传递给函数的值用作this，默认为undefined。
 ```
 
+### 对象添加属性
+
+```js
+let temp = xxx
+Object.defineProperty('对象名','属性名', {
+  value: 属性值,
+  enumerable: true, // 属性是否可以被遍历到，默认false
+  writable: true,	// 属性值是否可以被修改，默认false
+  configurable: true,	// 属性是否可以被删除，默认false
+  get() {	// 当有人读取通过defineProperty添加的属性时，getter就会被调用，属性的值就是getter的返回值
+  	return temp
+	},
+	set(value) {	// 当有人修改通过defineProperty添加的属性时，setter就会被调用，且会收到修改的值
+    temp = value
+  } 
+})
+```
+
 # 内置对象
 
 > js中的对象分3种：自定义对象，内置对象，浏览器对象
