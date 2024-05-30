@@ -658,7 +658,7 @@ Object.defineProperty('对象名','属性名', {
   get() {	// 当有人读取通过defineProperty添加的属性时，getter就会被调用，属性的值就是getter的返回值
   	return temp
 	},
-	set(value) {	// 当有人修改通过defineProperty添加的属性时，setter就会被调用，且会收到修改的值
+	set(value) {	// 当有人修改通过defineProperty添加的属性时，setter就会被调用，且会收到修改的值，只接收一个参数
     temp = value
   } 
 })

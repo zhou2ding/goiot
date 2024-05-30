@@ -121,6 +121,7 @@ const v = new Vue({
 - 只能传一个参数，要么是普通形参，要么是event
 - 如果既需要普通形参和event，就写成`$event`，且普通形参只能有一个
 - 如果只需要event参数，则调用的地方可以不用传参，定义的地方需要写event形参
+- 事件绑定的函数名，可以直接写函数体，且不需要{{}}就能直接得到vm中的属性，但是表达式只能是vm中的属性（只有函数体是一行时再这么写）
 
 ```html
 <button v-on:click="clickFunc1">点击</button>
@@ -177,4 +178,108 @@ vue未提供的别名，可以使用按下键位的名称（即e.key的值）去
 几个特殊的键：系统修饰键，tab、ctrl、shift、alt、win/commadn键，需要用keydown绑定
 
 Vue.config.keyCodes.自定义键名 = 键码（keycode），可以自定义别名
+
+### 计算属性
+
+`computed`，和data类似，只不过getter和setter（如果需要修改数据的话）需要显式地写出来（data的getter和setter是自带的 ）
+
+![image-20240530212046520](vue教程.assets/image-20240530212046520.png)
+
+```js
+new Vue({
+    ...
+    data: {
+        key1: val1,
+        key2: val2
+    },
+    computed: {
+        key3: {
+            get() {
+                retutn this.key1 + this.val2 
+            }
+        }
+    }
+})
+```
+
+- computed中属性的getter只有两种情况会被调用：
+  - 该属性**首次**被调用时
+  - getter所依赖的数据发生变化时
+  - 注意：==data和computed中属性的setter都是只能接受一个参数==
+
+#### 简写
+
+如果只读取计算属性而无需修改，则getter可以去掉，把该属性作为get函数
+
+```js
+new Vue({
+    ...
+    data: {
+        key1: val1,
+        key2: val2
+    },
+    computed: {
+        key3() {
+            retutn this.key1 + this.val2 
+        }
+    }
+})
+```
+
+### 监视属性
+
+`watch`，监视属性（data和计算属性都可以监视）是否发生变化，如果发生变化，则调用`handler`，`handler`有两个形参，分别是变化后的值和变化前的值
+
+![image-20240530215031944](vue教程.assets/image-20240530215031944.png)
+
+```js
+new Vue({
+    ...
+    data: {
+        key1: val1,
+        key2: val2
+    },
+    computed: {
+        key3: {
+            get() {
+                retutn this.key1 + this.val2 
+            }
+        }
+    },
+    watch: {
+        key1: {	// 监视key1是否发生变化，也可以监视计算属性key3
+            handler(newValue,oldValue) {
+                // do something
+            }
+        }
+    }
+})
+```
+
+#### 另外一种写法
+
+```js
+const vm = new Vue({
+    ...
+    data: {
+        key1: val1,
+        key2: val2
+    },
+    computed: {
+        key3: {
+            get() {
+                retutn this.key1 + this.val2 
+            }
+        }
+    }
+})
+// key1外面的引号必须有
+vm.$watch('key1',{
+        key3: {
+            get() {
+                retutn this.key1 + this.val2 
+            }
+        }
+    })
+```
 
