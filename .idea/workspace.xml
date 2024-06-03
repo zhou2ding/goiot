@@ -5,28 +5,42 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c3adc4e0-9fe4-40ac-b4cf-45ffbb21f2f8" name="Changes" comment="新增音乐格式转换python脚本">
-      <change beforePath="$PROJECT_DIR$/.idea/studygo.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/studygo.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Golang学习笔记/JavaScript笔记.md" beforeDir="false" afterPath="$PROJECT_DIR$/Golang学习笔记/JavaScript笔记.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demos/grpc/client/go.mod" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demos/grpc/client/go.sum" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demos/grpc/client/main.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demos/grpc/client/pb/hello.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demos/grpc/client/pb/hello.proto" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demos/grpc/client/pb/hello_grpc.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demos/grpc/server/go.mod" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demos/grpc/server/go.sum" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demos/grpc/server/main.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demos/grpc/server/pb/hello.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demos/grpc/server/pb/hello.proto" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demos/grpc/server/pb/hello_grpc.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/music.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="GOROOT" url="file://D:/Software/Go" />
+  <component name="GOROOT" url="file:///usr/local/go" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "zhou2ding"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;zhou2ding&quot;
   }
-}]]></component>
+}</component>
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
-    "url": "https://github.com/zhou2ding/studygo.git",
-    "accountId": "ff6a4e3f-75da-4964-a21a-7fe9ad2a7a3f"
+    "url": "https://github.com/zhou2ding/goiot.git",
+    "accountId": "cdd3c854-24b6-4107-9942-59a5cd639c94"
   }
 }]]></component>
   <component name="GoLibraries">
@@ -53,17 +67,23 @@
     "git-widget-placeholder": "master",
     "go.import.settings.migrated": "true",
     "go.sdk.automatically.set": "true",
-    "last_opened_file_path": "E:/workspace/code/practice",
+    "last_opened_file_path": "/Users/zhoudongbin/Desktop/study/goiot",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm"
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "go.sdk"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/internal/pkg" />
+      <recent name="$PROJECT_DIR$/internal" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-gosdk-33c477a475b1-e0158606a674-org.jetbrains.plugins.go.sharedIndexes.bundled-GO-241.15989.157" />
-        <option value="bundled-js-predefined-1d06a55b98c1-91d5c284f522-JavaScript-GO-241.15989.157" />
+        <option value="bundled-gosdk-33c477a475b1-e0158606a674-org.jetbrains.plugins.go.sharedIndexes.bundled-GO-241.17011.92" />
       </set>
     </attachedChunks>
   </component>
