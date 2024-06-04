@@ -247,6 +247,7 @@ new Vue({
         }
     },
     watch: {
+      	immediate: true,	//默认false，true的话则是初始化时记忆调用一下handler
         key1: {	// 监视key1是否发生变化，也可以监视计算属性key3
             handler(newValue,oldValue) {
                 // do something
@@ -275,11 +276,127 @@ const vm = new Vue({
 })
 // key1外面的引号必须有
 vm.$watch('key1',{
+  			immediate: true,
+        handler(newValue,oldValue) {
+            // do something
+        }
+    })
+```
+
+#### 深度监视
+
+![image-20240604190942145](./vue教程.assets/image-20240604190942145.png)
+
+如果监视的属性是对象中的属性，则需要deep配置
+
+```js
+new Vue({
+    ...
+    data: {
+        key1: val1,
+        key2: val2,
+      	keyObj1: {
+          subKey1: subVal1,
+          subKey2: subVal2
+        }
+    },
+    computed: {
         key3: {
             get() {
                 retutn this.key1 + this.val2 
             }
         }
-    })
+    },
+    watch: {
+        key1: {	// 监视key1是否发生变化，也可以监视计算属性key3
+            handler(newValue,oldValue) {
+                // do something
+            }
+        },
+      	keyObj1: {
+          	deep: true,
+          	handler() {
+              // do something，keyObj1中的任何属性发生变化时，都会触发此handler
+            }
+        }
+    }
+})
 ```
 
+#### 简写
+
+当只有handler时，可以用简写形式，直接把简写的属性当成handler函数
+
+```js
+// 写法1
+new Vue({
+    ...
+    data: {
+        key1: val1,
+        key2: val2
+    },
+    computed: {
+        key3: {
+            get() {
+                retutn this.key1 + this.val2 
+            }
+        }
+    },
+    watch: {
+        key1(newVal,oldVal): {
+           // do something
+        }
+    }
+})
+
+// 写法2
+const vm = new Vue({
+    ...
+    data: {
+        key1: val1,
+        key2: val2
+    },
+    computed: {
+        key3: {
+            get() {
+                retutn this.key1 + this.val2 
+            }
+        }
+    }
+})
+vm.$watch('key1', function() {
+  // do something
+})
+```
+
+### 计算属性和监视属性比较
+
+![image-20240604193555936](./vue教程.assets/image-20240604193555936.png)
+
+### 绑定样式
+
+#### 绑定class样式
+
+用`v-bind`去绑定类名，vue会自动把绑定的类名附加到已有的类名后面
+
+```js
+<div class='class1' :class="bindClass" @click="clickFunc">{{demo}}</div>
+<script type="text/javascript">
+  new Vue({
+  	//...
+  	data:{
+      bindClass: 'class2'
+    }
+})
+</script>
+```
+
+当需要绑定的样式的名称和数量不确定时，可以绑定一个数组类型的属性，然后用push、shift等方式修改数组 
+
+当需要绑定的样式的名称和数量确定，但需要动态决定用不用，可以绑定一个对象类型的属性，然后对象的属性是类名，值为布尔值（true的时候就会应用此样式）
+
+#### 绑定style样式（不常用）
+
+思路和绑定class类似，只不过style对象的属性必须是css中存在的属性，且使用vue要求的小驼峰命名
+
+![image-20240604200535176](./vue教程.assets/image-20240604200535176.png)
