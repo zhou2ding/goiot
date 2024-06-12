@@ -161,6 +161,9 @@ const v = new Vue({
 - capture，使用事件的捕获模式
 - self，只有event.targe是当前操作的元素时才触发
 - passive，事件的默认行为立即执行，无需等待事件回调即可执行完毕（移动端可能会用）
+- number，控制输入的内容强转成数字
+- lazy，输入框失去焦点后，绑定是属性才会进行数据代理
+- trim，去除输入内容两边的空格
 
 ### 键盘事件对象的别名
 
@@ -400,3 +403,74 @@ vm.$watch('key1', function() {
 思路和绑定class类似，只不过style对象的属性必须是css中存在的属性，且使用vue要求的小驼峰命名
 
 ![image-20240604200535176](./vue教程.assets/image-20240604200535176.png)
+
+### 条件渲染
+
+![image-20240605200411381](./vue教程.assets/image-20240605200411381.png)
+
+条件渲染的值可以是布尔值、表达式或vm的属性（常用vm的属性）
+
+- `v-show="布尔值"`，底层通过控制`dislpay`属性来控制元素的显示和隐藏
+- `v-if="布尔值"`，通过删除元素来控制元素的隐藏
+- `v-else-if="布尔值"`，和`v-if`一起使用，逻辑和`if...else if`的逻辑一样
+- `v-else`，和`v-if`一起使用，逻辑和`if...else`的逻辑一样
+- ==v-if、v-else-if、v-else之间不能有其他元素，必须是连贯的==
+- `<template></template>`标签，不影响css渲染的结构，只能和`v-if`结合使用，用于包裹几个元素，然后在`template`标签中写`v-if`同时让这几个元素进行显示隐藏，避免在每个元素中都写`v-if`或`v-show`
+
+### 列表渲染
+
+- `v-for` 
+
+  ![image-20240605204134625](./vue教程.assets/image-20240605204134625.png)
+
+- `v-for`中的key
+
+![image-20240605204110972](./vue教程.assets/image-20240605204110972.png)
+
+### 列表过滤
+
+用计算属性和监视属性都可以实现，优先用计算属性实现
+
+![image-20240610161504422](./vue教程.assets/image-20240610161504422.png)
+
+### 列表排序
+
+也用计算属性
+
+![image-20240610162211576](./vue教程.assets/image-20240610162211576.png)
+
+### Vue.set
+
+![image-20240610173331505](./vue教程.assets/image-20240610173331505.png)
+
+给vue对象添加属性：`Vue.set(target,key,val)`，也可以用`vm.$set(target,key,val)`
+
+- target是要添加新属性的属性，==key可以是对象的属性，也可以是数组的索引==
+- vm是vue实例对象，在new Vue的代码里面，就是this
+- ==不能给vue对象或vue对象的根对象(data)添加属性，只能给data中是对象类型的属性添加属性==
+
+### 收集表单属性
+
+![image-20240611220525345](./vue教程.assets/image-20240611220525345.png)
+
+### 过滤器
+
+`filters`，对数据进行单向的格式化，不改变原数据
+
+```js
+<div>{{demo | filterName}}</div>
+<script type="text/javascript">
+  new Vue({
+  	//...
+    data: {
+      demo: 'demoValue'
+    }
+  	filters:{
+      filterName(value) {
+        return 处理后的value
+      }
+    }
+})
+</script>
+```
+

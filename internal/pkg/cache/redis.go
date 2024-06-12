@@ -1,9 +1,8 @@
 package cache
 
 import (
-	"AoniMAIOT/internal/pkg/conf"
-	"AoniMAIOT/internal/pkg/logger"
 	"github.com/go-redis/redis"
+	"goiot/internal/pkg/conf"
 )
 
 var gRedis *redis.Client

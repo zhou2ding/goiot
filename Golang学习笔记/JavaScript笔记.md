@@ -326,7 +326,22 @@ for (var i = 0; i < arr.length; i++) {
 `arr.splice(i,n)`
 
 - i是从什么位置开始删
-- n是删除几个元素
+- n是删除几个元素，可以是0
+- n后面还可以传参数，就是从i开始添加的元素
+
+## 筛选元素
+
+`arr.filter`，参数是一个函数，函数需要返回筛选条件
+
+```js
+const arr = [
+  {id: '001', age: 1},
+  {id: '002', age: 2}
+]
+arr.filter((p)=>{
+  return p.age > 1	// 把age大于1的元素筛选出来
+})
+```
 
 # 函数
 
@@ -353,8 +368,20 @@ fun()
 ## 参数
 
 - 如果实参的个数和形参的个数相等，则正常输出结果
+
 - 如果实参的个数多于形参的个数，则多出的实参忽略
+
 - 如果实参的个数少于形参的个数，则缺的参数是undefined
+
+- 形参默认值：定义函数的时候，可以给形参指定默认值，使用时如果传了参数，则用传来的，如果没传，使用默认值
+
+  ```js
+  function(val='default') {
+    
+  }
+  ```
+
+  
 
 ## 返回值
 
@@ -813,6 +840,7 @@ Object.defineProperty('对象名','属性名', {
 - 根据字符返回索引：indexof(target, [start])和lastIndexof(target, [start])
   - str.indexOf('a'); 默认从0开始查找，lastIndexof一样
   - str.indexOf('a', 3); 从索引3的位置开始查找，lastIndexof一样
+  - str.indexOf('')的结果是0，不是-1，是包含空字符串的
 - 根据索引返回字符
   - charAt(index)，返回index位置的字符
   - charCodeAt(index)，返回index位置的字符的ASCII码，作用：**判断用户按了哪个键**
