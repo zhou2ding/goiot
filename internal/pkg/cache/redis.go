@@ -3,6 +3,7 @@ package cache
 import (
 	"github.com/go-redis/redis"
 	"goiot/internal/pkg/conf"
+	"goiot/internal/pkg/logger"
 )
 
 var gRedis *redis.Client

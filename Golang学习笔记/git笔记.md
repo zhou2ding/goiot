@@ -1,3 +1,12 @@
+# 个人总结
+
+1. github上新建一个仓库
+2. 本地git init
+3. 创建并修改文件
+4. 如果后悔，则git restore 文件名；不后悔，则git add 文件名
+5. 此时文件在索引区（暂存区）
+6. 
+
 # 常用命令
 
 - `git config -l`：查看所有配置
@@ -15,22 +24,22 @@
 
 > Git本地有三个工作区域：工作目录(Working Directory)、暂存区(Stage/Index)、资源库(Repository / Git Directory)。如果再加上远程的git仓库(Remote Directory)就是四个工作其区域。
 
-![image-20210427204517039](D:\资料\Go\src\studygo\Golang学习笔记\git笔记.assets\image-20210427204517039.png)
+![image-20210427204517039](./git笔记.assets/image-20210427204517039.png)
 
 - Working Directory：工作区，就是平时放代码的地方
 - Index/Stage：暂存区，临时存放你的改动，事实上只是一个文件，保存即将体积到文件列表信息
 - Repository：仓库区（本地仓库），就是安全存放数据的位置，有提交的所有版本的数据。其中`HEAD`指向最新放入仓库的版本
 - Remote Directory：远程仓库，托管代码的服务器
 
-![image-20210427205623091](D:\资料\Go\src\studygo\Golang学习笔记\git笔记.assets\image-20210427205623091.png)
+![image-20210427205623091](./git笔记.assets/image-20210427205623091.png)
 
 ## 文件状态
 
-![image-20210427210738343](D:\资料\Go\src\studygo\Golang学习笔记\git笔记.assets\image-20210427210738343.png)
+![image-20210427210738343](./git笔记.assets/image-20210427210738343.png)
 
 ## 忽略文件
 
-![image-20210427212238555](D:\资料\Go\src\studygo\Golang学习笔记\git笔记.assets\image-20210427212238555.png)
+![image-20210427212238555](./git笔记.assets/image-20210427212238555.png)
 
 # 撤销修改
 

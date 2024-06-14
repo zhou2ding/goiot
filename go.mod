@@ -7,7 +7,9 @@ require (
 	github.com/fsnotify/fsnotify v1.7.0
 	github.com/go-redis/redis v6.15.9+incompatible
 	github.com/spf13/viper v1.19.0
+	go.uber.org/zap v1.21.0
 	golang.org/x/sys v0.19.0
+	gopkg.in/natefinch/lumberjack.v2 v2.2.1
 )
 
 require (
@@ -29,5 +31,6 @@ require (
 	golang.org/x/exp v0.0.0-20230905200255-921286631fa9 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
+	gopkg.in/yaml.v2 v2.3.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
