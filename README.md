@@ -1,1 +1,1 @@
-goIOT backed framework
+goIOT backed packages
