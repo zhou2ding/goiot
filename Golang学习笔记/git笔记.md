@@ -1,11 +1,278 @@
 # 个人总结
 
-1. github上新建一个仓库
-2. 本地git init
-3. 创建并修改文件
-4. 如果后悔，则git restore 文件名；不后悔，则git add 文件名
-5. 此时文件在索引区（暂存区）
-6. 
+### 一、完整的 Git 工作流程（包括后悔过程）
+
+1. **初始化和设置**
+
+   - 初始化一个新的 Git 仓库：
+
+     ```shell
+     git init
+     ```
+
+   - 设置用户信息：
+
+     ```shell
+     git config --global user.name "Your Name"
+     git config --global user.email "your.email@example.com"
+     ```
+
+   - 添加远程仓库：
+
+     ```shell
+     git remote add origin https://github.com/username/repo.git
+     ```
+
+2. **创建和切换分支**
+
+   - 创建新的分支：
+
+     ```shell
+     git branch feature-branch
+     ```
+
+   - 切换到新的分支：
+
+     ```shell
+     git checkout feature-branch
+     ```
+
+3. **修改文件**
+
+   - 编辑文件并保存更改。
+
+4. **查看状态**
+
+   - 查看文件的更改状态：
+
+     ```shell
+     git status
+     ```
+
+5. **撤销文件更改（后悔修改）**
+
+   - 撤销工作目录中的更改：
+
+     ```shell
+     git restore <file>
+     ```
+
+6. **添加文件到索引**
+
+   - 将文件添加到索引（暂存区）：
+
+     ```shell
+     git add <file>
+     ```
+
+7. **撤销添加到索引（后悔 add）**
+
+   - 从索引中移除文件（恢复到工作目录）：
+
+     ```shell
+     git restore --staged <file>
+     ```
+
+8. **提交更改**
+
+   - 提交更改到本地仓库：
+
+     ```shell
+     git commit -m "Commit message"
+     ```
+
+9. **撤销提交（后悔 commit）**
+
+   - 仅撤销提交，保留文件更改在索引中：
+
+     ```shell
+     git reset --soft HEAD~
+     ```
+
+   - 撤销提交和索引中的更改，保留文件更改在工作目录中：
+
+     ```shell
+     git reset --mixed HEAD~
+     ```
+
+10. **合并多个提交（保持历史干净）**
+
+    - 使用交互式变基合并提交：
+
+      ```shell
+      git rebase -i HEAD~3
+      ```
+
+11. **推送到远程仓库**
+
+    - 首次推送并设置跟踪关系：
+
+      ```shell
+      git push -u origin feature-branch
+      ```
+
+    - 推送更新到远程：
+
+      ```shell
+      git push
+      ```
+
+12. **从远程仓库拉取更新**
+
+    - 获取远程更新并合并到当前分支：
+
+      ```shell
+      git pull origin master
+      ```
+
+13. **合并远程分支**
+
+    - 获取远程更新：
+
+      ```shell
+      git fetch origin
+      ```
+
+    - 合并远程跟踪分支的更新到当前分支：
+
+      ```shell
+      git merge origin/master
+      ```
+
+14. **解决冲突**
+
+    - 解决合并冲突，编辑冲突文件并添加解决冲突的文件：
+
+      ```shell
+      git add <resolved-file>
+      git commit
+      ```
+
+15. **删除本地和远程分支**
+
+    - 删除本地分支：
+
+      ```shell
+      git branch -d <branch-name>
+      ```
+
+    - 删除远程分支：
+
+      ```shell
+      git push origin --delete <branch-name>
+      ```
+
+16. **删除本地和远程标签**
+
+    - 删除本地标签：
+
+      ```shell
+      git tag -d <tag-name>
+      ```
+
+    - 删除远程标签：
+
+      ```shell
+      git push origin --delete tag <tag-name>
+      ```
+
+### 二、补充的 Git 知识点
+
+1. **本地分支、远程分支和远程跟踪分支**
+
+   - **本地分支**：你在本地创建和操作的分支（`refs/heads/`）。
+   - **远程分支**：远程仓库中的分支（`refs/remotes/`）。
+   - **远程跟踪分支**：本地对远程分支状态的引用和跟踪（`refs/remotes/origin/`）。
+
+2. **`refs/heads` 和 `refs/remotes`**
+
+   - **`refs/heads`**：用于本地分支，如 `refs/heads/master`。
+   - **`refs/remotes`**：用于远程跟踪分支，如 `refs/remotes/origin/master`。
+
+3. **`git push -u` 的作用**
+
+   - **设置跟踪关系**：`-u` 选项设置本地分支与远程分支的跟踪关系。
+   - **简化操作**：设置跟踪关系后，可以省略远程仓库和分支名称。
+
+4. **推送和删除标签与分支**
+
+   - **推送标签**：`git push origin --tags` 推送所有标签。
+   - **删除标签**：`git push origin --delete tag <tag-name>` 删除远程标签。
+   - **删除分支**：`git push origin --delete <branch-name>` 删除远程分支。
+
+5. **使用简化和完整的分支引用**
+
+   - **简化引用**：如 `git push origin master`。
+   - **完整引用**：如 `git push origin refs/heads/master`，通常不需要，简化引用就足够。
+
+6. **远程仓库的添加和推送**
+
+   - **添加远程仓库**：
+
+     ```shell
+     git remote add origin <repository-url>
+     ```
+
+   - **推送到远程仓库**：
+
+     ```shell
+     git push origin <branch-name>
+     ```
+
+7. **拉取和合并远程分支**
+
+   - **获取更新**：
+
+     ```shell
+     git fetch origin
+     ```
+
+   - **合并远程分支**：
+
+     ```shell
+     git merge origin/master
+     ```
+
+8. **删除远程仓库**
+
+   - 删除远程仓库引用：
+
+     ```shell
+     git remote remove origin
+     ```
+
+9. **查看和管理分支跟踪关系**
+
+   - 查看分支的跟踪关系：
+
+     ```shell
+     git branch -vv
+     ```
+
+   - 更改跟踪关系：
+
+     ```shell
+     git branch --set-upstream-to=origin/new-branch
+     ```
+
+   - 移除跟踪关系：
+
+     ```shell
+     git branch --unset-upstream
+     ```
+
+   - 更改远程仓库url
+
+     ```shell
+     git remote set-url origin <newurl>
+     ```
+
+   - #### 使用场景
+
+     - **`git remote set-url`**：适用于远程仓库迁移、更改访问协议或修正 URL。
+       - **示例**：将仓库从 GitHub 迁移到 GitLab。
+     - **`git branch --set-upstream-to`**：适用于设置或更改本地分支与远程分支的跟踪关系。
+       - **示例**：推送新分支并设置其跟踪关系，以便后续同步（更多用git push -u）；或者已经有一个分支，并且想设置或更改它的跟踪关系
 
 # 常用命令
 

@@ -457,6 +457,13 @@ vm.$watch('key1', function() {
 
 `filters`，对数据进行单向的格式化，不改变原数据
 
+- 管道左边作为过滤器的参数
+- 过滤器可以继续加参数，使用时只用传后来加的参数，管道左边已经作为第一个参数传进去了
+- 可以多个过滤器一起使用`{{demo | filter1 | filter2}}`，左边永远是作为右边的第一个参数
+- 在插值语法和v-bind的地方可以用过滤器，其他地方不行
+- vm实例中设置的过滤器是局部过滤器，只能给所属的vm实例使用
+- 全局过滤器：`Vue.filter(name, callback)`
+
 ```js
 <div>{{demo | filterName}}</div>
 <script type="text/javascript">
@@ -468,9 +475,17 @@ vm.$watch('key1', function() {
   	filters:{
       filterName(value) {
         return 处理后的value
+      }，
+      filterName2(value, str='default') {
+        return 处理后的value
       }
     }
 })
 </script>
 ```
 
+![image-20240619220718888](./vue教程.assets/image-20240619220718888.png)
+
+### 内置过滤器
+
+v-text、v-html，基本不用，有xss攻击的风险
