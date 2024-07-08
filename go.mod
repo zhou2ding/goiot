@@ -10,6 +10,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/ses v1.24.0
 	github.com/aws/aws-sdk-go-v2/service/sns v1.31.0
 	github.com/aws/aws-sdk-go-v2/service/sqs v1.33.1
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/eiannone/keyboard v0.0.0-20220611211555-0d226195f203
 	github.com/fsnotify/fsnotify v1.7.0
 	github.com/gin-gonic/gin v1.10.0
