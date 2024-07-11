@@ -5,6 +5,7 @@ import (
 	"goiot/internal/global"
 	"goiot/internal/pkg/errcode"
 	"golang.org/x/time/rate"
+	"net/http"
 	"time"
 )
 
@@ -30,5 +31,12 @@ func RateLimit() gin.HandlerFunc {
 			return
 		}
 		c.Next()
+	}
+}
+
+func NotFound() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.AbortWithStatus(http.StatusNotFound)
+		return
 	}
 }
