@@ -18,12 +18,18 @@ type ErrCode int
 //go:generate stringer -type ErrCode -linecomment
 
 const (
-	// ServerError 内部错误
 	ServerError      ErrCode = iota + 10001 // 服务内部错误
 	ParamError                              // 参数信息有误
 	FileError                               // 上传的文件有误
 	TooMandyRequests                        // 请求频率超出限制
 	APIKeyAuthFail                          // API Key校验失败
+)
+
+const (
+	TokenAuthFail ErrCode = iota + 20001 // Token鉴权失败
+	TokenIsNotExist
+	AccessTokenExpiredError
+	RefreshTokenExpiredError
 )
 
 // NewCustomError 新建自定义error实例化
