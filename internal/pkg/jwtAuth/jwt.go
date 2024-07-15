@@ -37,7 +37,6 @@ func InitJWT() error {
 
 type UserClaims struct {
 	UserId         string `json:"userId"`
-	UserRole       string `json:"userRole"`
 	TokenType      string `json:"tokenType"`
 	StandardClaims jwt.StandardClaims
 }
@@ -53,7 +52,7 @@ func (u *UserClaims) Valid() error {
 	return u.StandardClaims.Valid()
 }
 
-func GenToken(userID, role string) (*TokenInfo, error) {
+func GenToken(userID string) (*TokenInfo, error) {
 	rtExpire, err := time.ParseDuration(jwtConfig.RTokenExpire)
 	if err != nil {
 		return nil, err
@@ -66,7 +65,6 @@ func GenToken(userID, role string) (*TokenInfo, error) {
 	now := time.Now()
 	ac := &UserClaims{
 		UserId:    userID,
-		UserRole:  role,
 		TokenType: "access",
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: now.Add(atExpire).Unix(),
@@ -76,7 +74,6 @@ func GenToken(userID, role string) (*TokenInfo, error) {
 	}
 	rc := &UserClaims{
 		UserId:    userID,
-		UserRole:  role,
 		TokenType: "refresh",
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: now.Add(rtExpire).Unix(),
@@ -124,11 +121,11 @@ func RefreshToken(aToken, rToken string) (*TokenInfo, error) {
 	parse, err := jwt.ParseWithClaims(aToken, uc, keyFunc)
 	var v *jwt.ValidationError
 	if errors.As(err, &v) && v.Errors&jwt.ValidationErrorExpired != 0 || !parse.Valid {
-		return GenToken(uc.UserId, uc.UserRole)
+		return GenToken(uc.UserId)
 	}
 
 	logger.Logger.Debugf("access token %s has nor expired, but still refresh", aToken)
-	return GenToken(uc.UserId, uc.UserRole)
+	return GenToken(uc.UserId)
 }
 
 func AddTokenToBlacklist(tokenId string, duration time.Duration) error {

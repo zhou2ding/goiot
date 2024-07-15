@@ -48,8 +48,7 @@ func CommonResponse() gin.HandlerFunc {
 			ec := err.(errcode.ErrCode)
 			resp.Code, resp.Message = int(ec), ec.String()
 
-			// fixme 改成大于等于和小于等于
-			if ec == errcode.TokenAuthFail || ec == errcode.TokenIsNotExist || ec == errcode.AccessTokenExpiredError || ec == errcode.RefreshTokenExpiredError {
+			if ec >= errcode.TokenAuthFail || ec <= errcode.RefreshTokenExpiredError {
 				c.JSON(http.StatusUnauthorized, resp)
 			} else {
 				errMsg, _ := c.Get(global.ErrMsgCtx)

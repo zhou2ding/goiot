@@ -6,4 +6,5 @@ const (
 	ErrMsgCtx    = "errorMsg"
 	DataCtx      = "data"
 	RequestIdCtx = "requestId"
+	UserIDCtx    = "userId"
 )
