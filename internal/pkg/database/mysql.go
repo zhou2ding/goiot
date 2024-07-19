@@ -11,20 +11,26 @@ import (
 	"time"
 )
 
-func InitIotDB() *gorm.DB {
+var gDB *gorm.DB
+
+func init() {
 	logger.Logger.Infof("linke %s", conf.Conf.GetString("database.link"))
-	if db, err := gorm.Open(mysql.Open(conf.Conf.GetString("database.link")), &gorm.Config{}); err != nil {
+	db, err := gorm.Open(mysql.Open(conf.Conf.GetString("database.link")), &gorm.Config{})
+	if err != nil {
 		logger.Logger.Fatalf("init database err %s", err)
-		return nil
-	} else {
-		if conf.Conf.GetBool("log.stdout") {
-			db.Logger = gormLogger.New(log.New(os.Stdout, "\r\n", log.LstdFlags), gormLogger.Config{
-				SlowThreshold:             time.Second,
-				LogLevel:                  gormLogger.Info,
-				IgnoreRecordNotFoundError: false,
-				Colorful:                  true,
-			})
-		}
-		return db
 	}
+	if conf.Conf.GetBool("log.stdout") {
+		db.Logger = gormLogger.New(log.New(os.Stdout, "\r\n", log.LstdFlags), gormLogger.Config{
+			SlowThreshold:             time.Second,
+			LogLevel:                  gormLogger.Info,
+			IgnoreRecordNotFoundError: false,
+			Colorful:                  true,
+		})
+	}
+
+	gDB = db
+}
+
+func GetDB() *gorm.DB {
+	return gDB
 }
