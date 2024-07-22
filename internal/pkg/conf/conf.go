@@ -4,10 +4,24 @@ import (
 	"fmt"
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/viper"
+	"github.com/zeromicro/go-zero/core/conf"
+	"github.com/zeromicro/go-zero/rest"
+	"github.com/zeromicro/go-zero/zrpc"
 	"goiot/internal/pkg/utils"
 )
 
 var Conf *viper.Viper
+
+var RpcConf = new(Config)
+
+type Config struct {
+	zrpc.RpcServerConf
+	Gateway rest.RestConf
+}
+
+func InitRpcConf(path string) {
+	conf.MustLoad(path, RpcConf)
+}
 
 func InitConf(configPath string) {
 	Conf = viper.New()
