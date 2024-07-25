@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package pb;
+option go_package = "./pb";
+
+import "google/api/annotations.proto";
+
+message UploadFileRequest {
+  string user_id = 1;
+  string bucket = 2;
+}
+
+message UploadFileResponse {
+  string message = 1;
+}
+
+service Rpc {
+  rpc UploadFile (UploadFileRequest) returns (UploadFileResponse) {
+    option (google.api.http) = {
+      post: "/v1/upload"
+      body: "*"
+    };
+  }
+}
