@@ -8,7 +8,7 @@ import (
 
 var gRedis *redis.Client
 
-func InitRedis() error {
+func init() {
 	sentinelAddrs := conf.Conf.GetStringSlice("redis.sentinel.addrs")
 	masterName := conf.Conf.GetString("redis.sentinel.master")
 	pwd := conf.Conf.GetString("redis.password")
@@ -22,11 +22,10 @@ func InitRedis() error {
 	})
 	if _, err := cli.Ping().Result(); err != nil {
 		logger.Logger.Errorf("connect to redis error: %v", err)
-		return err
+		return
 	}
 
 	gRedis = cli
-	return nil
 }
 
 func GetRedis() *redis.Client {

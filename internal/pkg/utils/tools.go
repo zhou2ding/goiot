@@ -1,6 +1,9 @@
 package utils
 
-import "time"
+import (
+	"net"
+	"time"
+)
 
 func Contains[T comparable](slice []T, item T) bool {
 	for _, v := range slice {
@@ -21,4 +24,19 @@ func SliceToMap[T comparable](slice []T) map[T]bool {
 		result[elem] = true
 	}
 	return result
+}
+
+func GetLocalIP() string {
+	addrs, err := net.InterfaceAddrs()
+	if err != nil {
+		return ""
+	}
+	for _, addr := range addrs {
+		if ipnet, ok := addr.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
+			if ipnet.IP.To4() != nil {
+				return ipnet.IP.String()
+			}
+		}
+	}
+	return ""
 }
