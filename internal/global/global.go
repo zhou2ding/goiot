@@ -7,4 +7,6 @@ const (
 	DataCtx      = "data"
 	RequestIdCtx = "requestId"
 	UserIDCtx    = "userId"
+	RemoteIpCtx  = "remoteIP"
+	StartTimeCtx = "startTime"
 )

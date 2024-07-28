@@ -1,11 +1,17 @@
 package middleware
 
 import (
+	"context"
+	"errors"
+	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"goiot/internal/global"
 	"goiot/internal/pkg/errcode"
+	"goiot/internal/pkg/jwtAuth"
+	"goiot/internal/pkg/logger"
 	"goiot/internal/pkg/utils"
 	"golang.org/x/time/rate"
+	"google.golang.org/grpc/metadata"
 	"net/http"
 	"time"
 )
@@ -83,5 +89,63 @@ func NotFound() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.AbortWithStatus(http.StatusNotFound)
 		return
+	}
+}
+
+type ProcessReqRespMiddleware struct {
+	localIP string
+}
+
+func NewProcessReqRespMiddleware() *ProcessReqRespMiddleware {
+	return &ProcessReqRespMiddleware{utils.GetLocalIP()}
+}
+
+func (m *ProcessReqRespMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		requestId := utils.GetUUIDFull()
+		logger.Logger.Infof("get requeest from %s, requestId: %s", r.RemoteAddr, requestId)
+		// 传递给rpc服务的上下文
+		ctx := metadata.AppendToOutgoingContext(r.Context(),
+			global.RequestIdCtx, requestId,
+			global.RemoteIpCtx, m.localIP,
+		)
+		// api层内部传递的上下文
+		ctx = context.WithValue(ctx, global.RequestIdCtx, requestId)
+		ctx = context.WithValue(ctx, global.StartTimeCtx, time.Now())
+		next(w, r.WithContext(ctx))
+	}
+}
+
+type AuthMiddleware struct {
+	secret string
+}
+
+func NewAuthMiddleware(secret string) *AuthMiddleware {
+	return &AuthMiddleware{secret}
+}
+
+func (m *AuthMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		tokenString := r.Header.Get("Authorization")
+		uc := new(jwtAuth.UserClaims)
+		_, err := jwt.ParseWithClaims(tokenString, uc, func(token *jwt.Token) (any, error) {
+			return []byte(m.secret), nil
+		})
+		if err != nil {
+			var validErr *jwt.ValidationError
+			if errors.As(err, &validErr) && validErr.Errors&jwt.ValidationErrorExpired != 0 {
+				// todo 共用返回逻辑
+			} else {
+				// todo 共用返回逻辑
+			}
+			return
+		}
+		// 传递给rpc服务的上下文
+		ctx := metadata.AppendToOutgoingContext(r.Context(),
+			global.UserIDCtx, uc.UserId,
+		)
+		// api层内部传递的上下文
+		ctx = context.WithValue(ctx, global.UserIDCtx, uc.UserId)
+		next(w, r.WithContext(ctx))
 	}
 }
