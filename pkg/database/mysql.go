@@ -1,8 +1,8 @@
 package database
 
 import (
-	"goiot/internal/pkg/conf"
-	"goiot/internal/pkg/logger"
+	"goiot/pkg/conf"
+	"goiot/pkg/logger"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	gormLogger "gorm.io/gorm/logger"

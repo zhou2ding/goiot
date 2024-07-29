@@ -7,7 +7,7 @@ import (
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/zrpc"
-	"goiot/internal/pkg/utils"
+	"goiot/pkg/utils"
 )
 
 var Conf *viper.Viper

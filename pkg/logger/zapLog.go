@@ -4,7 +4,7 @@ import (
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
-	"goiot/internal/pkg/conf"
+	"goiot/pkg/conf"
 	"gopkg.in/natefinch/lumberjack.v2"
 	"os"
 	"strings"

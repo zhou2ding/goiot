@@ -1,7 +1,7 @@
 CURRENT_DIR = $(shell pwd)
 BUILD_DIR=$(CURRENT_DIR)/build/bin
 GIT_TAG=$(shell git describe --tags --abbrev=0  2>/dev/null)
-GO_BUILD_CMD_BASE=go build -ldflags "-s -w -X 'goiot/internal/pkg/version.TagVersion=$(GIT_TAG)'" -o
+GO_BUILD_CMD_BASE=go build -ldflags "-s -w -X 'goiot/pkg/version.TagVersion=$(GIT_TAG)'" -o
 OS=$(os)
 OUTPUT := $(BUILD_DIR)/$(OS)
 ECHO = echo

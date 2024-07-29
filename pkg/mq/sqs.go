@@ -10,8 +10,8 @@ import (
 	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/aws/aws-sdk-go-v2/service/sqs"
 	"github.com/aws/aws-sdk-go-v2/service/sqs/types"
-	"goiot/internal/pkg/conf"
-	"goiot/internal/pkg/logger"
+	"goiot/pkg/conf"
+	"goiot/pkg/logger"
 )
 
 type SqsConfig struct {

@@ -9,8 +9,8 @@ import (
 	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/aws/aws-sdk-go-v2/service/s3/types"
-	"goiot/internal/pkg/conf"
-	"goiot/internal/pkg/logger"
+	"goiot/pkg/conf"
+	"goiot/pkg/logger"
 )
 
 type S3Config struct {

@@ -1,14 +1,22 @@
 package main
 
 import (
-	_ "goiot/internal/pkg/cache"
-	_ "goiot/internal/pkg/database"
-	"goiot/internal/pkg/logger"
-	"goiot/internal/pkg/mq"
-	"goiot/internal/pkg/oss"
-	"goiot/internal/pkg/push"
-	"goiot/internal/pkg/service"
-	"goiot/internal/pkg/trans"
+	microSvc "github.com/zeromicro/go-zero/core/service"
+	"github.com/zeromicro/go-zero/zrpc"
+	"goiot/cmd/iotcore/rpc/internal/config"
+	"goiot/cmd/iotcore/rpc/internal/server"
+	"goiot/cmd/iotcore/rpc/internal/svc"
+	"goiot/cmd/iotcore/rpc/pb"
+	_ "goiot/pkg/cache"
+	_ "goiot/pkg/database"
+	"goiot/pkg/logger"
+	"goiot/pkg/mq"
+	"goiot/pkg/oss"
+	"goiot/pkg/push"
+	"goiot/pkg/service"
+	"goiot/pkg/trans"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 )
 
 type Program struct {
@@ -16,6 +24,21 @@ type Program struct {
 
 func (p *Program) Start(s service.Service) error {
 	logger.Logger.Warnf("starting programme...")
+
+	logger.Logger.Warnf("start programme...")
+
+	c := *config.RpcConf
+	ctx := svc.NewServiceContext(c)
+
+	rpcSvc := zrpc.MustNewServer(c.RpcServerConf, func(grpcServer *grpc.Server) {
+		pb.RegisterRpcServer(grpcServer, server.NewRpcServer(ctx))
+		if c.Mode == microSvc.DevMode || c.Mode == microSvc.TestMode {
+			reflection.Register(grpcServer)
+		}
+	})
+	defer rpcSvc.Stop()
+
+	rpcSvc.AddUnaryInterceptors(interceptor.PreProcess)
 
 	if err := oss.InitS3Client(); err != nil {
 		logger.Logger.Warnf("init s3 client error: %v", err)

@@ -3,10 +3,10 @@ package jwtAuth
 import (
 	"errors"
 	"github.com/dgrijalva/jwt-go"
-	"goiot/internal/pkg/cache"
-	"goiot/internal/pkg/conf"
-	"goiot/internal/pkg/logger"
-	"goiot/internal/pkg/utils"
+	"goiot/pkg/cache"
+	"goiot/pkg/conf"
+	"goiot/pkg/logger"
+	"goiot/pkg/utils"
 	"time"
 )
 

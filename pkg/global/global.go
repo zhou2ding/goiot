@@ -9,4 +9,5 @@ const (
 	UserIDCtx    = "userId"
 	RemoteIpCtx  = "remoteIP"
 	StartTimeCtx = "startTime"
+	TokenCtx     = "token"
 )

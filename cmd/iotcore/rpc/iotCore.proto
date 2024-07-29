@@ -6,8 +6,7 @@ option go_package = "./pb";
 import "google/api/annotations.proto";
 
 message UploadFileRequest {
-  string user_id = 1;
-  string bucket = 2;
+  string bucket = 1;
 }
 
 message UploadFileResponse {

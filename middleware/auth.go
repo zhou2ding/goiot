@@ -4,9 +4,9 @@ import (
 	"errors"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
-	"goiot/internal/global"
-	"goiot/internal/pkg/errcode"
-	"goiot/internal/pkg/jwtAuth"
+	"goiot/pkg/errcode"
+	"goiot/pkg/global"
+	"goiot/pkg/jwtAuth"
 	"strings"
 )
 

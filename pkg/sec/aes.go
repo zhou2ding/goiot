@@ -4,7 +4,7 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"github.com/gogf/gf/v2/crypto/gaes"
-	"goiot/internal/pkg/logger"
+	"goiot/pkg/logger"
 )
 
 var aesKey = []byte("Linkview2024")

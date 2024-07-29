@@ -3,8 +3,8 @@ package main
 import (
 	"github.com/common-nighthawk/go-figure"
 	"github.com/gogf/gf/v2/os/gcmd"
-	"goiot/internal/pkg/conf"
-	"goiot/internal/pkg/version"
+	"goiot/pkg/conf"
+	"goiot/pkg/version"
 )
 
 func main() {
