@@ -2,7 +2,7 @@ package interceptor
 
 import (
 	"context"
-	"goiot/pkg/global"
+	"goiot/pkg/defs"
 	"goiot/pkg/logger"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
@@ -10,7 +10,7 @@ import (
 )
 
 func PreProcess(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (any, error) {
-	logger.Logger.Infof("request %s from %s", GetMetadata(ctx, strings.ToLower(global.RequestIdCtx)), GetMetadata(ctx, strings.ToLower(global.RemoteIpCtx)))
+	logger.Logger.Infof("request %s from %s", GetMetadata(ctx, strings.ToLower(defs.RequestIdCtx)), GetMetadata(ctx, strings.ToLower(defs.RemoteIpCtx)))
 	return handler(ctx, req)
 }
 
@@ -28,7 +28,7 @@ func GetTokenFromMetadata(ctx context.Context) string {
 	var token string
 	md, ok := metadata.FromIncomingContext(ctx)
 	if ok {
-		tokenSlice, ok := md[strings.ToLower(global.TokenCtx)]
+		tokenSlice, ok := md[strings.ToLower(defs.TokenCtx)]
 		if ok && len(tokenSlice) != 0 {
 			tokenStr := tokenSlice[0]
 			parts := strings.SplitN(tokenStr, " ", 2)

@@ -5,8 +5,8 @@ import (
 	"errors"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	"goiot/pkg/defs"
 	"goiot/pkg/errcode"
-	"goiot/pkg/global"
 	"goiot/pkg/jwtAuth"
 	"goiot/pkg/logger"
 	"goiot/pkg/utils"
@@ -29,13 +29,13 @@ func StatCost() gin.HandlerFunc {
 		start := time.Now()
 		c.Next()
 		cost := time.Since(start).Milliseconds()
-		c.Set(global.CostCtx, cost)
+		c.Set(defs.CostCtx, cost)
 	}
 }
 
 func CommonResponse() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		c.Set(global.RequestIdCtx, utils.GetUUIDFull())
+		c.Set(defs.RequestIdCtx, utils.GetUUIDFull())
 		c.Next()
 
 		if c.Writer.Written() {
@@ -43,21 +43,21 @@ func CommonResponse() gin.HandlerFunc {
 		}
 
 		var (
-			cost  = c.GetInt64(global.CostCtx)
-			reqId = c.GetString(global.RequestIdCtx)
+			cost  = c.GetInt64(defs.CostCtx)
+			reqId = c.GetString(defs.RequestIdCtx)
 			resp  = response{
 				RequestId: reqId,
 				Duration:  cost,
 			}
 		)
-		if err, ok := c.Get(global.ErrCtx); ok {
+		if err, ok := c.Get(defs.ErrCtx); ok {
 			ec := err.(errcode.ErrCode)
 			resp.Code, resp.Message = int(ec), ec.String()
 
 			if ec >= errcode.TokenAuthFail || ec <= errcode.RefreshTokenExpiredError {
 				c.JSON(http.StatusUnauthorized, resp)
 			} else {
-				errMsg, _ := c.Get(global.ErrMsgCtx)
+				errMsg, _ := c.Get(defs.ErrMsgCtx)
 				if errMsg != nil {
 					resp.Message = errMsg
 					c.JSON(http.StatusBadRequest, resp)
@@ -66,7 +66,7 @@ func CommonResponse() gin.HandlerFunc {
 				}
 			}
 		} else {
-			data, _ := c.Get(global.DataCtx)
+			data, _ := c.Get(defs.DataCtx)
 			resp.Code, resp.Data = http.StatusOK, data
 			c.JSON(http.StatusOK, resp)
 		}
@@ -77,7 +77,7 @@ var limiter = rate.NewLimiter(rate.Limit(1.667), 10) // 每秒允许1.667个请�
 func RateLimit() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if !limiter.Allow() {
-			c.Set(global.ErrCtx, errcode.TooMandyRequests)
+			c.Set(defs.ErrCtx, errcode.TooMandyRequests)
 			c.Abort()
 			return
 		}
@@ -106,12 +106,12 @@ func (m *ProcessReqRespMiddleware) Handle(next http.HandlerFunc) http.HandlerFun
 		logger.Logger.Infof("get requeest from %s, requestId: %s", r.RemoteAddr, requestId)
 		// 传递给rpc服务的上下文
 		ctx := metadata.AppendToOutgoingContext(r.Context(),
-			global.RequestIdCtx, requestId,
-			global.RemoteIpCtx, m.localIP,
+			defs.RequestIdCtx, requestId,
+			defs.RemoteIpCtx, m.localIP,
 		)
 		// api层内部传递的上下文
-		ctx = context.WithValue(ctx, global.RequestIdCtx, requestId)
-		ctx = context.WithValue(ctx, global.StartTimeCtx, time.Now())
+		ctx = context.WithValue(ctx, defs.RequestIdCtx, requestId)
+		ctx = context.WithValue(ctx, defs.StartTimeCtx, time.Now())
 		next(w, r.WithContext(ctx))
 	}
 }
@@ -142,10 +142,10 @@ func (m *AuthMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 		}
 		// 传递给rpc服务的上下文
 		ctx := metadata.AppendToOutgoingContext(r.Context(),
-			global.UserIDCtx, uc.UserId,
+			defs.UserIDCtx, uc.UserId,
 		)
 		// api层内部传递的上下文
-		ctx = context.WithValue(ctx, global.UserIDCtx, uc.UserId)
+		ctx = context.WithValue(ctx, defs.UserIDCtx, uc.UserId)
 		next(w, r.WithContext(ctx))
 	}
 }

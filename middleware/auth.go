@@ -4,8 +4,8 @@ import (
 	"errors"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	"goiot/pkg/defs"
 	"goiot/pkg/errcode"
-	"goiot/pkg/global"
 	"goiot/pkg/jwtAuth"
 	"strings"
 )
@@ -14,7 +14,7 @@ func JWTAuth() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		tokenString := GetTokenFromHeader(c)
 		if tokenString == "" {
-			c.Set(global.ErrCtx, errcode.TokenAuthFail)
+			c.Set(defs.ErrCtx, errcode.TokenAuthFail)
 			c.Abort()
 			return
 		}
@@ -23,14 +23,14 @@ func JWTAuth() gin.HandlerFunc {
 		if err != nil {
 			var validErr *jwt.ValidationError
 			if errors.As(err, &validErr) && validErr.Errors&jwt.ValidationErrorExpired != 0 {
-				c.Set(global.ErrCtx, errcode.AccessTokenExpiredError)
+				c.Set(defs.ErrCtx, errcode.AccessTokenExpiredError)
 			} else {
-				c.Set(global.ErrCtx, errcode.TokenAuthFail)
+				c.Set(defs.ErrCtx, errcode.TokenAuthFail)
 			}
 			c.Abort()
 			return
 		}
-		c.Set(global.UserIDCtx, uc.UserId)
+		c.Set(defs.UserIDCtx, uc.UserId)
 		c.Next()
 	}
 }
