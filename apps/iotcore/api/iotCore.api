@@ -1,0 +1,16 @@
+syntax = "v1"
+
+type FileInfo {
+    name string
+    body []byte
+}
+
+type (
+    UploadFileRequest {
+        Bucket string `form:"bucket"`
+        file *FileInfo `form:"file,optional"`
+    }
+    UserUploadFileResponse {
+        FileId string `json:"fileId"`
+    }
+)
