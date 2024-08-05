@@ -1,28 +1,28 @@
 syntax = "v1"
 
 type FileInfo {
-    name string
-    body []byte
+	name string
+	body []byte
 }
 
 type (
-    UploadFileRequest {
-        UserId string `path:"userId"`
-        Bucket string `form:"bucket"`
-        file *FileInfo `form:"file,optional"`
-    }
-    UserUploadFileResponse {
-        FileId string `json:"fileId"`
-    }
+	UploadFileRequest {
+		UserId string    `path:"userId"`
+		Bucket string    `form:"bucket"`
+		file   *FileInfo `form:"file,optional"`
+	}
+	UserUploadFileResponse {
+		FileId string `json:"fileId"`
+	}
 )
 
-@server(
-    prefix: v1/file
-    middleware: ProcessReqRespMiddleware
-    jwt: JwtAuth
+@server (
+	prefix:     v1/file
+	middleware: ProcessReqRespMiddleware
+	jwt:        JwtAuth
 )
-
 service iot-api {
-    @handler uploadFile
-    post /upload/:userId (UploadFileRequest) returns (UserUploadFileResponse)
+	@handler uploadFile
+	post /upload/:userId (UploadFileRequest) returns (UserUploadFileResponse)
 }
+
