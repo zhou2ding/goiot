@@ -1,19 +1,24 @@
 package middleware
 
-import "net/http"
+import (
+	"context"
+	"goiot/pkg/defs"
+	"goiot/pkg/utils"
+	"net/http"
+)
 
 type ProcessReqRespMiddleware struct {
+	localIp string
 }
 
 func NewProcessReqRespMiddleware() *ProcessReqRespMiddleware {
-	return &ProcessReqRespMiddleware{}
+	return &ProcessReqRespMiddleware{utils.GetLocalIP()}
 }
 
 func (m *ProcessReqRespMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		// TODO generate middleware implement function, delete after code implementation
-
-		// Passthrough to next handler if need
-		next(w, r)
+		ctx := context.WithValue(r.Context(), defs.RequestIdCtx, utils.GetUUIDFull())
+		ctx = context.WithValue(ctx, defs.RemoteIpCtx, m.localIp)
+		next(w, r.WithContext(ctx))
 	}
 }
