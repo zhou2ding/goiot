@@ -5,10 +5,12 @@ import (
 	"errors"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	"goiot/pkg/cache"
 	"goiot/pkg/defs"
 	"goiot/pkg/errcode"
 	"goiot/pkg/jwtAuth"
 	"goiot/pkg/logger"
+	"goiot/pkg/result"
 	"goiot/pkg/utils"
 	"golang.org/x/time/rate"
 	"google.golang.org/grpc/metadata"
@@ -134,9 +136,9 @@ func (m *AuthMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 		if err != nil {
 			var validErr *jwt.ValidationError
 			if errors.As(err, &validErr) && validErr.Errors&jwt.ValidationErrorExpired != 0 {
-				// todo 共用返回逻辑
+				result.ErrorResultWithCode(r.Context(), w, http.StatusUnauthorized, errcode.AccessTokenExpiredError)
 			} else {
-				// todo 共用返回逻辑
+				result.ErrorResultWithCode(r.Context(), w, http.StatusUnauthorized, errcode.TokenAuthFail)
 			}
 			return
 		}
@@ -148,4 +150,26 @@ func (m *AuthMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 		ctx = context.WithValue(ctx, defs.UserIDCtx, uc.UserId)
 		next(w, r.WithContext(ctx))
 	}
+}
+
+type ApiKeyMiddleware struct {
+}
+
+func NewApiKeyMiddleware() *ApiKeyMiddleware {
+	return &ApiKeyMiddleware{}
+}
+
+func (m *ApiKeyMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		apiKey := r.Header.Get("x-api-key")
+		if apiKey == "" || !isValidApiKey(apiKey) {
+			result.ErrorResultWithCode(r.Context(), w, http.StatusForbidden, errcode.APIKeyAuthFail)
+			return
+		}
+		next(w, r)
+	}
+}
+
+func isValidApiKey(apiKey string) bool {
+	return cache.GetRedis(cache.PermissionDB).Exists(cache.APIKeyKey+apiKey).Val() > 0
 }

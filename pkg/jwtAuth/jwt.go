@@ -42,7 +42,7 @@ type UserClaims struct {
 }
 
 func (u *UserClaims) Valid() error {
-	exist, err := cache.GetRedis().Exists(cache.BlackListKey + u.StandardClaims.Id).Result()
+	exist, err := cache.GetRedis(cache.PermissionDB).Exists(cache.BlackListKey + u.StandardClaims.Id).Result()
 	if err != nil {
 		return err
 	}
@@ -129,7 +129,7 @@ func RefreshToken(aToken, rToken string) (*TokenInfo, error) {
 }
 
 func AddTokenToBlacklist(tokenId string, duration time.Duration) error {
-	return cache.GetRedis().Set(cache.BlackListKey+tokenId, "invalid", duration).Err()
+	return cache.GetRedis(cache.PermissionDB).Set(cache.BlackListKey+tokenId, "invalid", duration).Err()
 }
 
 func keyFunc(token *jwt.Token) (any, error) {
