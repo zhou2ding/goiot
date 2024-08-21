@@ -3,7 +3,7 @@ package middleware
 import (
 	"context"
 	"errors"
-	"github.com/dgrijalva/jwt-go"
+	"github.com/golang-jwt/jwt/v4"
 	"goiot/pkg/defs"
 	"goiot/pkg/errcode"
 	"goiot/pkg/jwtAuth"

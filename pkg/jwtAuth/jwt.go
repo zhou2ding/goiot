@@ -2,7 +2,7 @@ package jwtAuth
 
 import (
 	"errors"
-	"github.com/dgrijalva/jwt-go"
+	"github.com/golang-jwt/jwt/v5"
 	"goiot/pkg/cache"
 	"goiot/pkg/conf"
 	"goiot/pkg/logger"
@@ -36,20 +36,20 @@ func InitJWT() error {
 }
 
 type UserClaims struct {
-	UserId         string `json:"userId"`
-	TokenType      string `json:"tokenType"`
-	StandardClaims jwt.StandardClaims
+	UserId    string `json:"userId"`
+	TokenType string `json:"tokenType"`
+	jwt.RegisteredClaims
 }
 
 func (u *UserClaims) Valid() error {
-	exist, err := cache.GetRedis(cache.PermissionDB).Exists(cache.BlackListKey + u.StandardClaims.Id).Result()
+	exist, err := cache.GetRedis(cache.PermissionDB).Exists(cache.BlackListKey + u.RegisteredClaims.ID).Result()
 	if err != nil {
 		return err
 	}
 	if exist > 0 {
 		return errors.New("token is in the blacklist")
 	}
-	return u.StandardClaims.Valid()
+	return nil
 }
 
 func GenToken(userID string) (*TokenInfo, error) {
@@ -66,19 +66,19 @@ func GenToken(userID string) (*TokenInfo, error) {
 	ac := &UserClaims{
 		UserId:    userID,
 		TokenType: "access",
-		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: now.Add(atExpire).Unix(),
+		RegisteredClaims: jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(now.Add(atExpire)),
 			Issuer:    jwtConfig.Issuer,
-			Id:        utils.GetUUIDFull(),
+			ID:        utils.GetUUIDFull(),
 		},
 	}
 	rc := &UserClaims{
 		UserId:    userID,
 		TokenType: "refresh",
-		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: now.Add(rtExpire).Unix(),
+		RegisteredClaims: jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(now.Add(rtExpire)),
 			Issuer:    jwtConfig.Issuer,
-			Id:        utils.GetUUIDFull(),
+			ID:        utils.GetUUIDFull(),
 		},
 	}
 
@@ -86,18 +86,17 @@ func GenToken(userID string) (*TokenInfo, error) {
 	aToken, err := jwt.NewWithClaims(jwt.SigningMethodHS256, ac).SignedString(secret)
 	if err != nil {
 		return nil, err
-
 	}
 	rToken, err := jwt.NewWithClaims(jwt.SigningMethodHS256, rc).SignedString(secret)
 	if err != nil {
 		return nil, err
-
 	}
+
 	return &TokenInfo{
 		AccessToken:      aToken,
-		AccessExpiresAt:  now.Add(atExpire).Unix(),
+		AccessExpiresAt:  ac.ExpiresAt.Time.Unix(),
 		RefreshToken:     rToken,
-		RefreshExpiresAt: now.Add(rtExpire).Unix(),
+		RefreshExpiresAt: rc.ExpiresAt.Time.Unix(),
 	}, nil
 }
 
@@ -119,12 +118,14 @@ func RefreshToken(aToken, rToken string) (*TokenInfo, error) {
 
 	uc := new(UserClaims)
 	parse, err := jwt.ParseWithClaims(aToken, uc, keyFunc)
-	var v *jwt.ValidationError
-	if errors.As(err, &v) && v.Errors&jwt.ValidationErrorExpired != 0 || !parse.Valid {
-		return GenToken(uc.UserId)
+	if err != nil {
+		if errors.Is(err, jwt.ErrTokenExpired) || !parse.Valid {
+			return GenToken(uc.UserId)
+		}
+		return nil, err
 	}
 
-	logger.Logger.Debugf("access token %s has nor expired, but still refresh", aToken)
+	logger.Logger.Debugf("access token %s has not expired, but still refresh", aToken)
 	return GenToken(uc.UserId)
 }
 
@@ -145,7 +146,7 @@ func GetTokenRemainDuration(tokenStr string) (time.Duration, string, error) {
 	}
 
 	now := time.Now()
-	expiresAt := time.Unix(uc.StandardClaims.ExpiresAt, 0)
+	expiresAt := uc.RegisteredClaims.ExpiresAt
 	remainDuration := expiresAt.Sub(now)
 
 	if remainDuration <= 0 {
@@ -153,5 +154,5 @@ func GetTokenRemainDuration(tokenStr string) (time.Duration, string, error) {
 		return 0, "", nil
 	}
 
-	return remainDuration, uc.StandardClaims.Id, nil
+	return remainDuration, uc.RegisteredClaims.ID, nil
 }
