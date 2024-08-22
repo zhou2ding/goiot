@@ -11,3 +11,7 @@ const (
 	StartTimeCtx = "startTime"
 	TokenCtx     = "token"
 )
+
+const (
+	PoolMaxSize = 1000
+)

@@ -8,11 +8,12 @@ ENV TZ=Asia/Shanghai
 RUN apt-get update && apt-get install -y tzdata
 
 COPY go.mod go.sum ./
-
 RUN go mod download
 
 COPY . .
 
-RUN go build -o simulator .
+RUN go build -o goiot .
+
+VOLUME ["/app/logs"]
 
 ENTRYPOINT ["./iot"]

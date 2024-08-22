@@ -81,6 +81,7 @@ endif
 all: date goiot
 goiot: date goiot
 date:
-	@$(ECHO) "package version \n\nconst (Date = \"`date +%y%m%d.%H.%M.%S`\")" > ./internal/pkg/version/versionDate.go
+	@$(ECHO) "package version \n\nconst (Date = \"`date +%y%m%d.%H.%M.%S`\")" > ./pkg/version/versionDate.go
 goiot:
-	cc=$(CC) $(GO_BUILD_CMD) $(OUTPUT)/$@ $(GO_BUILD_FLAG) ./cmd/*.go
+	cc=$(CC) $(GO_BUILD_CMD) $(OUTPUT)/$@-api $(GO_BUILD_FLAG) ./apps/iotcore/api/*.go
+	cc=$(CC) $(GO_BUILD_CMD) $(OUTPUT)/$@-rpc $(GO_BUILD_FLAG) ./apps/iotcore/rpc/*.go
