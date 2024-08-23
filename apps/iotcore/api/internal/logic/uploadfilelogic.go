@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"goiot/apps/iotcore/rpc/pb"
 
 	"goiot/apps/iotcore/api/internal/svc"
 	"goiot/apps/iotcore/api/internal/types"
@@ -24,6 +25,11 @@ func NewUploadFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upload
 }
 
 func (l *UploadFileLogic) UploadFile(req *types.UploadFileRequest) (resp *types.UserUploadFileResponse, err error) {
-
+	rpcResp, err := l.svcCtx.RPC.UploadFile(l.ctx, &pb.UploadFileRequest{
+		Bucket: req.Bucket,
+	})
+	resp = &types.UserUploadFileResponse{
+		FileId: rpcResp.GetFileId(),
+	}
 	return
 }

@@ -24,7 +24,5 @@ func NewUploadFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upload
 }
 
 func (l *UploadFileLogic) UploadFile(in *pb.UploadFileRequest) (*pb.UploadFileResponse, error) {
-	// todo: add your logic here and delete this line
-
 	return &pb.UploadFileResponse{}, nil
 }

@@ -10,7 +10,7 @@ message UploadFileRequest {
 }
 
 message UploadFileResponse {
-  string message = 1;
+  string file_id = 1;
 }
 
 service Rpc {
