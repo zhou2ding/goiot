@@ -3,10 +3,8 @@ syntax = "proto3";
 package pb;
 option go_package = "./pb";
 
-import "google/api/annotations.proto";
-
 message UploadFileRequest {
-  string bucket = 1;
+  bytes chunk = 1;
 }
 
 message UploadFileResponse {
@@ -14,10 +12,5 @@ message UploadFileResponse {
 }
 
 service Rpc {
-  rpc UploadFile (UploadFileRequest) returns (UploadFileResponse) {
-    option (google.api.http) = {
-      post: "/v1/upload"
-      body: "*"
-    };
-  }
+  rpc UploadFile (stream UploadFileRequest) returns (UploadFileResponse);
 }

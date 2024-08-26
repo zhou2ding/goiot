@@ -17,7 +17,7 @@ type (
 	UploadFileResponse = pb.UploadFileResponse
 
 	Rpc interface {
-		UploadFile(ctx context.Context, in *UploadFileRequest, opts ...grpc.CallOption) (*UploadFileResponse, error)
+		UploadFile(ctx context.Context, opts ...grpc.CallOption) (pb.Rpc_UploadFileClient, error)
 	}
 
 	defaultRpc struct {
@@ -31,7 +31,7 @@ func NewRpc(cli zrpc.Client) Rpc {
 	}
 }
 
-func (m *defaultRpc) UploadFile(ctx context.Context, in *UploadFileRequest, opts ...grpc.CallOption) (*UploadFileResponse, error) {
+func (m *defaultRpc) UploadFile(ctx context.Context, opts ...grpc.CallOption) (pb.Rpc_UploadFileClient, error) {
 	client := pb.NewRpcClient(m.cli.Conn())
-	return client.UploadFile(ctx, in, opts...)
+	return client.UploadFile(ctx, opts...)
 }

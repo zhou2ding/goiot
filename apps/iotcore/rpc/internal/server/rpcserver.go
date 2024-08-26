@@ -4,8 +4,6 @@
 package server
 
 import (
-	"context"
-
 	"goiot/apps/iotcore/rpc/internal/logic"
 	"goiot/apps/iotcore/rpc/internal/svc"
 	"goiot/apps/iotcore/rpc/pb"
@@ -22,7 +20,7 @@ func NewRpcServer(svcCtx *svc.ServiceContext) *RpcServer {
 	}
 }
 
-func (s *RpcServer) UploadFile(ctx context.Context, in *pb.UploadFileRequest) (*pb.UploadFileResponse, error) {
-	l := logic.NewUploadFileLogic(ctx, s.svcCtx)
-	return l.UploadFile(in)
+func (s *RpcServer) UploadFile(stream pb.Rpc_UploadFileServer) error {
+	l := logic.NewUploadFileLogic(stream.Context(), s.svcCtx)
+	return l.UploadFile(stream)
 }

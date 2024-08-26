@@ -26,7 +26,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type RpcClient interface {
-	UploadFile(ctx context.Context, in *UploadFileRequest, opts ...grpc.CallOption) (*UploadFileResponse, error)
+	UploadFile(ctx context.Context, opts ...grpc.CallOption) (Rpc_UploadFileClient, error)
 }
 
 type rpcClient struct {
@@ -37,21 +37,46 @@ func NewRpcClient(cc grpc.ClientConnInterface) RpcClient {
 	return &rpcClient{cc}
 }
 
-func (c *rpcClient) UploadFile(ctx context.Context, in *UploadFileRequest, opts ...grpc.CallOption) (*UploadFileResponse, error) {
+func (c *rpcClient) UploadFile(ctx context.Context, opts ...grpc.CallOption) (Rpc_UploadFileClient, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UploadFileResponse)
-	err := c.cc.Invoke(ctx, Rpc_UploadFile_FullMethodName, in, out, cOpts...)
+	stream, err := c.cc.NewStream(ctx, &Rpc_ServiceDesc.Streams[0], Rpc_UploadFile_FullMethodName, cOpts...)
 	if err != nil {
 		return nil, err
 	}
-	return out, nil
+	x := &rpcUploadFileClient{ClientStream: stream}
+	return x, nil
+}
+
+type Rpc_UploadFileClient interface {
+	Send(*UploadFileRequest) error
+	CloseAndRecv() (*UploadFileResponse, error)
+	grpc.ClientStream
+}
+
+type rpcUploadFileClient struct {
+	grpc.ClientStream
+}
+
+func (x *rpcUploadFileClient) Send(m *UploadFileRequest) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *rpcUploadFileClient) CloseAndRecv() (*UploadFileResponse, error) {
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	m := new(UploadFileResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
 }
 
 // RpcServer is the server API for Rpc service.
 // All implementations must embed UnimplementedRpcServer
 // for forward compatibility
 type RpcServer interface {
-	UploadFile(context.Context, *UploadFileRequest) (*UploadFileResponse, error)
+	UploadFile(Rpc_UploadFileServer) error
 	mustEmbedUnimplementedRpcServer()
 }
 
@@ -59,8 +84,8 @@ type RpcServer interface {
 type UnimplementedRpcServer struct {
 }
 
-func (UnimplementedRpcServer) UploadFile(context.Context, *UploadFileRequest) (*UploadFileResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UploadFile not implemented")
+func (UnimplementedRpcServer) UploadFile(Rpc_UploadFileServer) error {
+	return status.Errorf(codes.Unimplemented, "method UploadFile not implemented")
 }
 func (UnimplementedRpcServer) mustEmbedUnimplementedRpcServer() {}
 
@@ -75,22 +100,30 @@ func RegisterRpcServer(s grpc.ServiceRegistrar, srv RpcServer) {
 	s.RegisterService(&Rpc_ServiceDesc, srv)
 }
 
-func _Rpc_UploadFile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UploadFileRequest)
-	if err := dec(in); err != nil {
+func _Rpc_UploadFile_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(RpcServer).UploadFile(&rpcUploadFileServer{ServerStream: stream})
+}
+
+type Rpc_UploadFileServer interface {
+	SendAndClose(*UploadFileResponse) error
+	Recv() (*UploadFileRequest, error)
+	grpc.ServerStream
+}
+
+type rpcUploadFileServer struct {
+	grpc.ServerStream
+}
+
+func (x *rpcUploadFileServer) SendAndClose(m *UploadFileResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func (x *rpcUploadFileServer) Recv() (*UploadFileRequest, error) {
+	m := new(UploadFileRequest)
+	if err := x.ServerStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
-	if interceptor == nil {
-		return srv.(RpcServer).UploadFile(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Rpc_UploadFile_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RpcServer).UploadFile(ctx, req.(*UploadFileRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+	return m, nil
 }
 
 // Rpc_ServiceDesc is the grpc.ServiceDesc for Rpc service.
@@ -99,12 +132,13 @@ func _Rpc_UploadFile_Handler(srv interface{}, ctx context.Context, dec func(inte
 var Rpc_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "pb.Rpc",
 	HandlerType: (*RpcServer)(nil),
-	Methods: []grpc.MethodDesc{
+	Methods:     []grpc.MethodDesc{},
+	Streams: []grpc.StreamDesc{
 		{
-			MethodName: "UploadFile",
-			Handler:    _Rpc_UploadFile_Handler,
+			StreamName:    "UploadFile",
+			Handler:       _Rpc_UploadFile_Handler,
+			ClientStreams: true,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
 	Metadata: "iotCore.proto",
 }
