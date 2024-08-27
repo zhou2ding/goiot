@@ -8,6 +8,7 @@ import (
 	"goiot/apps/iotcore/rpc/internal/svc"
 	"goiot/apps/iotcore/rpc/pb"
 	"goiot/interceptor"
+	"goiot/pkg/cache"
 	_ "goiot/pkg/cache"
 	_ "goiot/pkg/database"
 	"goiot/pkg/logger"
@@ -15,7 +16,6 @@ import (
 	"goiot/pkg/oss"
 	"goiot/pkg/push"
 	"goiot/pkg/service"
-	"goiot/pkg/trans"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
@@ -41,6 +41,12 @@ func (p *Program) Start(s service.Service) error {
 
 	rpcSvc.AddUnaryInterceptors(interceptor.PreProcess)
 
+	if err := cache.InitRedis(); err != nil {
+		logger.Logger.Errorf("init redis error %s", err)
+		_ = p.Stop(s)
+		return err
+	}
+
 	if err := oss.InitS3Client(); err != nil {
 		logger.Logger.Warnf("init s3 client error: %v", err)
 		_ = p.Stop(s)
@@ -61,12 +67,6 @@ func (p *Program) Start(s service.Service) error {
 
 	if err := mq.InitSqsClient(); err != nil {
 		logger.Logger.Warnf("init sqs client error: %v", err)
-		_ = p.Stop(s)
-		return err
-	}
-
-	if err := trans.InitTranslatorOfValidator("en"); err != nil {
-		logger.Logger.Warnf("init translator of validator error: %v", err)
 		_ = p.Stop(s)
 		return err
 	}
